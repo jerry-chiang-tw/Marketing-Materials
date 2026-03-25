@@ -78,6 +78,7 @@
       padding:6px 10px;
       border-radius:999px;
       margin-bottom:12px;
+      color:#fff;
     }
 
     .hero h1{
@@ -328,6 +329,70 @@
       display:none !important;
     }
 
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.45);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:1000;
+    }
+
+    .modal.show{
+      display:flex;
+    }
+
+    .modal-card{
+      width:min(760px,100%);
+      max-height:85vh;
+      overflow:auto;
+      background:#fff;
+      border-radius:24px;
+      padding:24px;
+      box-shadow:0 20px 50px rgba(0,0,0,.2);
+    }
+
+    .modal-title{
+      margin:0 0 10px;
+      font-size:24px;
+      font-weight:800;
+    }
+
+    .modal-desc{
+      margin:0 0 18px;
+      color:#666;
+      font-size:14px;
+      line-height:1.7;
+    }
+
+    .summary-list{
+      display:grid;
+      gap:10px;
+      margin-bottom:20px;
+    }
+
+    .summary-item{
+      background:#fafafa;
+      border:1px solid #ececec;
+      border-radius:14px;
+      padding:12px 14px;
+      font-size:14px;
+    }
+
+    .summary-item strong{
+      display:block;
+      margin-bottom:4px;
+      color:#222;
+    }
+
+    .modal-actions{
+      display:flex;
+      gap:12px;
+      justify-content:flex-end;
+    }
+
     @media (max-width:720px){
       .container{
         padding:18px 12px 116px;
@@ -348,6 +413,14 @@
         padding:22px 18px;
         border-radius:20px;
         min-height:380px;
+      }
+
+      .modal-actions{
+        flex-direction:column;
+      }
+
+      .modal-actions .btn{
+        width:100%;
       }
     }
   </style>
@@ -391,7 +464,6 @@
           <section class="step" data-step="3">
             <div class="step-kicker">STEP 3</div>
             <h2 class="step-title">請填寫你的 Email</h2>
-            <p class="step-desc">系統會同步寄送填寫副本至此信箱。</p>
             <div class="field">
               <label class="required" for="email">Email</label>
               <input id="email" type="email" required>
@@ -517,7 +589,7 @@
           <section class="step" data-step="14">
             <div class="step-kicker">FINAL STEP</div>
             <h2 class="step-title">授權與同意</h2>
-            <p class="step-desc">請確認後送出。</p>
+            <p class="step-desc">請確認後進入最後資料確認。</p>
             <div class="field">
               <div style="padding:16px;border:1px solid #e1e1e1;border-radius:16px;background:#fafafa;font-size:14px;color:#444;white-space:pre-line;">本人同意參與拍攝活動，並同意公司使用拍攝過程中產出之所有影像素材（包含照片、影片等），
 用於品牌行銷、社群媒體、官方網站及店鋪展示等相關用途。
@@ -547,7 +619,7 @@
         <div class="actions">
           <button type="button" id="prevBtn" class="btn btn-secondary">上一頁</button>
           <button type="button" id="nextBtn" class="btn btn-primary">下一頁</button>
-          <button type="submit" id="submitBtn" class="btn btn-primary hidden">送出表單</button>
+          <button type="button" id="reviewBtn" class="btn btn-primary hidden">確認資料</button>
         </div>
 
         <div id="status" class="status"></div>
@@ -563,6 +635,18 @@
         <div class="progress">
           <div id="progressBar" class="progress-bar"></div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="reviewModal" class="modal">
+    <div class="modal-card">
+      <h3 class="modal-title">請再次確認填寫內容</h3>
+      <p class="modal-desc">確認無誤後，按下「確認送出」才會正式送出表單。</p>
+      <div id="summaryList" class="summary-list"></div>
+      <div class="modal-actions">
+        <button type="button" id="editBtn" class="btn btn-secondary">返回修改</button>
+        <button type="button" id="confirmSubmitBtn" class="btn btn-primary">確認送出</button>
       </div>
     </div>
   </div>
@@ -651,15 +735,39 @@
 
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
-    const submitBtn = document.getElementById("submitBtn");
+    const reviewBtn = document.getElementById("reviewBtn");
     const progressText = document.getElementById("progressText");
     const progressBar = document.getElementById("progressBar");
     const statusEl = document.getElementById("status");
     const form = document.getElementById("form");
 
+    const reviewModal = document.getElementById("reviewModal");
+    const summaryList = document.getElementById("summaryList");
+    const editBtn = document.getElementById("editBtn");
+    const confirmSubmitBtn = document.getElementById("confirmSubmitBtn");
+
     function setStatus(message, type = "") {
       statusEl.textContent = message;
       statusEl.className = "status " + type;
+    }
+
+    function getPayload() {
+      return {
+        name: document.getElementById("name").value.trim(),
+        employeeId: document.getElementById("employeeId").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        store: document.getElementById("store").value.trim(),
+        contact: document.getElementById("contact").value.trim(),
+        ig: document.getElementById("ig").value.trim(),
+        types: [...document.querySelectorAll('input[name="types"]:checked')].map(el => el.value),
+        face: document.getElementById("face").value,
+        outfit: document.getElementById("outfit").value,
+        experience: document.getElementById("experience").value,
+        expDetail: document.getElementById("expDetail").value.trim(),
+        portfolio: document.getElementById("portfolio").value.trim(),
+        priority: document.getElementById("priority").value,
+        authorized: document.getElementById("authorized").checked
+      };
     }
 
     function showStep(index) {
@@ -672,7 +780,7 @@
 
       prevBtn.classList.toggle("hidden", index === 0 || isThankYou);
       nextBtn.classList.toggle("hidden", isLastQuestion || isThankYou);
-      submitBtn.classList.toggle("hidden", !isLastQuestion);
+      reviewBtn.classList.toggle("hidden", !isLastQuestion || isThankYou);
 
       const progressStep = Math.min(index + 1, totalQuestionSteps);
       progressText.textContent = `${progressStep} / ${totalQuestionSteps}`;
@@ -681,7 +789,7 @@
       if (isThankYou) {
         prevBtn.classList.add("hidden");
         nextBtn.classList.add("hidden");
-        submitBtn.classList.add("hidden");
+        reviewBtn.classList.add("hidden");
       }
 
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -754,6 +862,42 @@
       return true;
     }
 
+    function renderSummary(payload) {
+      const summary = {
+        "姓名": payload.name,
+        "員編": payload.employeeId,
+        "Email": payload.email,
+        "門市": payload.store,
+        "聯絡方式": payload.contact,
+        "IG": payload.ig || "未填寫",
+        "拍攝形式": payload.types.join("、"),
+        "是否可露臉": payload.face,
+        "是否可配合穿搭拍攝": payload.outfit,
+        "是否有拍攝經驗": payload.experience,
+        "拍攝經驗補充": payload.expDetail || "未填寫",
+        "IG 或作品連結": payload.portfolio || "未填寫",
+        "是否願意優先參與未來拍攝": payload.priority || "未填寫",
+        "授權同意": payload.authorized ? "同意" : "不同意"
+      };
+
+      summaryList.innerHTML = "";
+      Object.entries(summary).forEach(([key, value]) => {
+        const item = document.createElement("div");
+        item.className = "summary-item";
+        item.innerHTML = `<strong>${key}</strong><span>${value}</span>`;
+        summaryList.appendChild(item);
+      });
+    }
+
+    function openReviewModal() {
+      renderSummary(getPayload());
+      reviewModal.classList.add("show");
+    }
+
+    function closeReviewModal() {
+      reviewModal.classList.remove("show");
+    }
+
     nextBtn.addEventListener("click", () => {
       if (!validateStep(currentStep)) return;
       currentStep += 1;
@@ -764,6 +908,51 @@
       setStatus("");
       currentStep -= 1;
       showStep(currentStep);
+    });
+
+    reviewBtn.addEventListener("click", () => {
+      if (!validateStep(13)) return;
+      openReviewModal();
+    });
+
+    editBtn.addEventListener("click", () => {
+      closeReviewModal();
+    });
+
+    confirmSubmitBtn.addEventListener("click", async () => {
+      const payload = getPayload();
+
+      confirmSubmitBtn.disabled = true;
+      confirmSubmitBtn.textContent = "送出中...";
+      setStatus("送出中...");
+
+      try {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await res.json();
+
+        if (result.ok) {
+          closeReviewModal();
+          setStatus("送出成功。", "success");
+          currentStep = 14;
+          showStep(currentStep);
+        } else {
+          closeReviewModal();
+          setStatus("送出失敗：" + (result.message || "請稍後再試。"), "error");
+        }
+      } catch (err) {
+        closeReviewModal();
+        setStatus("送出失敗，請稍後再試。", "error");
+      } finally {
+        confirmSubmitBtn.disabled = false;
+        confirmSubmitBtn.textContent = "確認送出";
+      }
     });
 
     document.getElementById("name").addEventListener("keydown", e => {
@@ -815,58 +1004,6 @@
           currentStep = 7;
           showStep(currentStep);
         }
-      }
-    });
-
-    form.addEventListener("submit", async function(e) {
-      e.preventDefault();
-
-      if (!validateStep(13)) return;
-
-      const payload = {
-        name: document.getElementById("name").value.trim(),
-        employeeId: document.getElementById("employeeId").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        store: document.getElementById("store").value.trim(),
-        contact: document.getElementById("contact").value.trim(),
-        ig: document.getElementById("ig").value.trim(),
-        types: [...document.querySelectorAll('input[name="types"]:checked')].map(el => el.value),
-        face: document.getElementById("face").value,
-        outfit: document.getElementById("outfit").value,
-        experience: document.getElementById("experience").value,
-        expDetail: document.getElementById("expDetail").value.trim(),
-        portfolio: document.getElementById("portfolio").value.trim(),
-        priority: document.getElementById("priority").value,
-        authorized: document.getElementById("authorized").checked
-      };
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = "送出中...";
-      setStatus("送出中...");
-
-      try {
-        const res = await fetch(API_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8"
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const result = await res.json();
-
-        if (result.ok) {
-          setStatus("送出成功，系統已同步寄送填寫副本至您的 Email。", "success");
-          currentStep = 14;
-          showStep(currentStep);
-        } else {
-          setStatus("送出失敗：" + (result.message || "請稍後再試。"), "error");
-        }
-      } catch (err) {
-        setStatus("送出失敗，請稍後再試。", "error");
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "送出表單";
       }
     });
 
