@@ -4,113 +4,551 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>門市拍攝協助意願調查表</title>
+  <style>
+    :root{
+      --red:#d71920;
+      --black:#111111;
+      --white:#ffffff;
+      --gray-01:#f5f5f5;
+      --gray-02:#e7e7e7;
+      --gray-03:#bdbdbd;
+      --gray-04:#666666;
+      --success:#157347;
+      --error:#c62828;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+
+    *{
+      box-sizing:border-box;
+    }
+
+    body{
+      margin:0;
+      font-family: Arial, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      background:linear-gradient(180deg,#f2f2f2 0%, #fafafa 100%);
+      color:var(--black);
+      line-height:1.6;
+    }
+
+    .page{
+      max-width:880px;
+      margin:0 auto;
+      padding:32px 16px 56px;
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(135deg,#111 0%, #1d1d1d 58%, #2a2a2a 100%);
+      color:#fff;
+      border-radius:24px;
+      padding:28px 24px;
+      box-shadow:var(--shadow);
+      margin-bottom:20px;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      top:0;
+      right:0;
+      width:120px;
+      height:100%;
+      background:var(--red);
+      clip-path:polygon(40% 0,100% 0,100% 100%,0 100%);
+      opacity:.95;
+    }
+
+    .hero-inner{
+      position:relative;
+      z-index:1;
+      max-width:720px;
+    }
+
+    .brand-tag{
+      display:inline-block;
+      background:var(--red);
+      color:#fff;
+      font-size:12px;
+      font-weight:700;
+      padding:6px 10px;
+      border-radius:999px;
+      letter-spacing:.5px;
+      margin-bottom:14px;
+    }
+
+    .hero h1{
+      margin:0 0 10px;
+      font-size:30px;
+      line-height:1.2;
+      letter-spacing:.5px;
+    }
+
+    .hero p{
+      margin:0;
+      font-size:14px;
+      color:rgba(255,255,255,.88);
+      white-space:pre-line;
+    }
+
+    .form-card{
+      background:var(--white);
+      border-radius:24px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      border:1px solid #ececec;
+    }
+
+    .section{
+      padding:28px 24px;
+      border-bottom:1px solid var(--gray-02);
+    }
+
+    .section:last-of-type{
+      border-bottom:none;
+    }
+
+    .section-title{
+      margin:0 0 14px;
+      font-size:20px;
+      font-weight:800;
+      letter-spacing:.3px;
+    }
+
+    .section-desc{
+      margin:0 0 18px;
+      color:var(--gray-04);
+      font-size:14px;
+      white-space:pre-line;
+    }
+
+    .note-box{
+      background:#fafafa;
+      border:1px solid var(--gray-02);
+      border-left:5px solid var(--red);
+      border-radius:14px;
+      padding:16px;
+      color:#444;
+      font-size:14px;
+      white-space:pre-line;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .field.full{
+      grid-column:1 / -1;
+    }
+
+    label{
+      font-size:14px;
+      font-weight:700;
+      color:var(--black);
+    }
+
+    .required::after{
+      content:" *";
+      color:var(--red);
+    }
+
+    input[type="text"],
+    input[type="url"],
+    select,
+    textarea{
+      width:100%;
+      border:1px solid #d8d8d8;
+      background:#fff;
+      border-radius:12px;
+      padding:12px 14px;
+      font-size:15px;
+      color:var(--black);
+      outline:none;
+      transition:.2s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="url"]:focus,
+    select:focus,
+    textarea:focus{
+      border-color:var(--red);
+      box-shadow:0 0 0 4px rgba(215,25,32,.08);
+    }
+
+    textarea{
+      resize:vertical;
+      min-height:110px;
+    }
+
+    .help{
+      font-size:12px;
+      color:var(--gray-04);
+      margin-top:-2px;
+    }
+
+    .check-group{
+      display:grid;
+      gap:10px;
+      padding:14px;
+      border:1px solid #d8d8d8;
+      border-radius:12px;
+      background:#fff;
+    }
+
+    .check-item{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      font-size:15px;
+      color:#222;
+    }
+
+    .check-item input{
+      margin-top:3px;
+      accent-color:var(--red);
+      transform:scale(1.05);
+    }
+
+    .policy-box{
+      background:var(--gray-01);
+      border-radius:14px;
+      padding:18px;
+      border:1px solid var(--gray-02);
+      color:#444;
+      font-size:14px;
+      white-space:pre-line;
+    }
+
+    .submit-area{
+      padding:24px;
+      background:#fff;
+      position:sticky;
+      bottom:0;
+      border-top:1px solid var(--gray-02);
+    }
+
+    .submit-btn{
+      width:100%;
+      border:none;
+      border-radius:999px;
+      background:var(--black);
+      color:#fff;
+      font-size:16px;
+      font-weight:800;
+      padding:15px 18px;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .submit-btn:hover{
+      transform:translateY(-1px);
+      opacity:.96;
+    }
+
+    .submit-btn:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    .status{
+      margin:12px 2px 0;
+      font-size:14px;
+      font-weight:700;
+      min-height:22px;
+    }
+
+    .status.success{
+      color:var(--success);
+    }
+
+    .status.error{
+      color:var(--error);
+    }
+
+    .footer-note{
+      margin-top:16px;
+      text-align:center;
+      color:var(--gray-04);
+      font-size:12px;
+    }
+
+    @media (max-width: 720px){
+      .page{
+        padding:20px 12px 40px;
+      }
+
+      .hero{
+        padding:22px 18px;
+        border-radius:20px;
+      }
+
+      .hero h1{
+        font-size:24px;
+      }
+
+      .section,
+      .submit-area{
+        padding:20px 18px;
+      }
+
+      .grid{
+        grid-template-columns:1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>門市拍攝協助意願調查表</h1>
+  <div class="page">
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="brand-tag">ABC-MART INTERNAL FORM</div>
+        <h1>門市拍攝協助意願調查表</h1>
+        <p>本表單僅提供有意願之同仁填寫，並不代表一定會安排拍攝。
+拍攝時間將依每次內容需求及門市營運狀況彈性安排，且不影響既有工作規劃。
+請依自身狀況與配合度審慎評估是否參與。
 
-  <form id="form">
-    <div>
-      <label>姓名</label><br>
-      <input id="name" type="text" required>
-    </div>
-    <br>
+本表單開放全體門市同仁填寫，包含正職、兼職及工讀人員。</p>
+      </div>
+    </section>
 
-    <div>
-      <label>門市</label><br>
-      <input id="store" type="text" required>
-    </div>
-    <br>
+    <form id="form" class="form-card">
+      <section class="section">
+        <h2 class="section-title">拍攝安排說明</h2>
+        <div class="note-box">1. 上班日拍攝
+於上班時間進行，須事前與 SV 或店長確認拍攝時段，並以不影響門市營運及店務為原則。
+視專案內容及複雜程度，提供適當回饋（非薪資性質）。
 
-    <div>
-      <label>聯絡方式</label><br>
-      <input id="contact" type="text" required>
-    </div>
-    <br>
+2. 休假日拍攝
+採自願參與（非工作指派），不影響既有排班制度。
+視專案內容提供適當回饋（非薪資性質）。
 
-    <div>
-      <label>IG</label><br>
-      <input id="ig" type="text">
-    </div>
-    <br>
+【個人資料使用說明】
+本表單所蒐集之個人資料，僅供行銷部內部進行拍攝安排、名單管理及相關業務使用。
+所蒐集之資料將依公司相關規範妥善保管，並於合理且必要之範圍內使用，不另作其他用途，亦不對外提供。</div>
+      </section>
 
-    <div>
-      <label>拍攝形式</label><br>
-      <label><input type="checkbox" name="types" value="平面照片">平面照片</label><br>
-      <label><input type="checkbox" name="types" value="動態影片（無口播）">動態影片（無口播）</label><br>
-      <label><input type="checkbox" name="types" value="動態影片（含口播）">動態影片（含口播）</label>
-    </div>
-    <br>
+      <section class="section">
+        <h2 class="section-title">一、基本資料</h2>
+        <div class="grid">
+          <div class="field">
+            <label class="required" for="name">姓名</label>
+            <input id="name" type="text" required>
+          </div>
 
-    <div>
-      <label>是否可露臉</label><br>
-      <select id="face">
-        <option value="">請選擇</option>
-        <option value="可以露臉">可以露臉</option>
-        <option value="不露臉（手 / 腳 / 背影）">不露臉（手 / 腳 / 背影）</option>
-      </select>
-    </div>
-    <br>
+          <div class="field">
+            <label class="required" for="contact">聯絡方式</label>
+            <input id="contact" type="text" placeholder="LINE 或電話" required>
+          </div>
 
-    <div>
-      <label>是否可配合穿搭拍攝</label><br>
-      <select id="outfit">
-        <option value="">請選擇</option>
-        <option value="可以（自備穿搭）">可以（自備穿搭）</option>
-        <option value="可以（需提供服裝）">可以（需提供服裝）</option>
-        <option value="不方便">不方便</option>
-      </select>
-    </div>
-    <br>
+          <div class="field full">
+            <label class="required" for="store">所屬門市</label>
+            <select id="store" required>
+              <option value="">請選擇門市</option>
+            </select>
+            <div class="help">請直接從清單中選擇所屬門市</div>
+          </div>
 
-    <div>
-      <label>是否有拍攝經驗</label><br>
-      <select id="experience">
-        <option value="">請選擇</option>
-        <option value="有（請補充）">有（請補充）</option>
-        <option value="沒有">沒有</option>
-      </select>
-    </div>
-    <br>
+          <div class="field full">
+            <label for="ig">IG 帳號</label>
+            <input id="ig" type="text">
+          </div>
+        </div>
+      </section>
 
-    <div>
-      <label>拍攝經驗補充</label><br>
-      <textarea id="expDetail"></textarea>
-    </div>
-    <br>
+      <section class="section">
+        <h2 class="section-title">二、拍攝意願</h2>
+        <div class="grid">
+          <div class="field full">
+            <label class="required">可接受的拍攝形式</label>
+            <div class="check-group">
+              <label class="check-item"><input type="checkbox" name="types" value="平面照片">平面照片</label>
+              <label class="check-item"><input type="checkbox" name="types" value="動態影片（無口播）">動態影片（無口播）</label>
+              <label class="check-item"><input type="checkbox" name="types" value="動態影片（含口播）">動態影片（含口播）</label>
+              <label class="check-item"><input type="checkbox" name="types" value="鞋款穿搭展示">鞋款穿搭展示</label>
+              <label class="check-item"><input type="checkbox" name="types" value="門市情境拍攝">門市情境拍攝</label>
+            </div>
+          </div>
 
-    <div>
-      <label>IG或作品連結</label><br>
-      <input id="portfolio" type="text">
-    </div>
-    <br>
+          <div class="field">
+            <label class="required" for="face">是否可露臉</label>
+            <select id="face" required>
+              <option value="">請選擇</option>
+              <option value="可以露臉">可以露臉</option>
+              <option value="不露臉（手 / 腳 / 背影）">不露臉（手 / 腳 / 背影）</option>
+            </select>
+          </div>
 
-    <div>
-      <label>是否願意優先參與未來拍攝</label><br>
-      <select id="priority">
-        <option value="">請選擇</option>
-        <option value="願意">願意</option>
-        <option value="視情況">視情況</option>
-      </select>
-    </div>
-    <br>
+          <div class="field">
+            <label class="required" for="outfit">是否可配合穿搭拍攝</label>
+            <select id="outfit" required>
+              <option value="">請選擇</option>
+              <option value="可以（自備穿搭）">可以（自備穿搭）</option>
+              <option value="可以（需提供服裝）">可以（需提供服裝）</option>
+              <option value="不方便">不方便</option>
+            </select>
+          </div>
+        </div>
+      </section>
 
-    <div>
-      <label>
-        <input id="authorized" type="checkbox">
-        我已閱讀並同意授權內容
-      </label>
-    </div>
-    <br>
+      <section class="section">
+        <h2 class="section-title">三、經驗與補充</h2>
+        <div class="grid">
+          <div class="field">
+            <label class="required" for="experience">是否有拍攝經驗</label>
+            <select id="experience" required>
+              <option value="">請選擇</option>
+              <option value="有（請補充）">有（請補充）</option>
+              <option value="沒有">沒有</option>
+            </select>
+          </div>
 
-    <button type="submit">送出</button>
-  </form>
+          <div class="field">
+            <label for="priority">是否願意優先參與未來拍攝</label>
+            <select id="priority">
+              <option value="">請選擇</option>
+              <option value="願意">願意</option>
+              <option value="視情況">視情況</option>
+            </select>
+          </div>
 
-  <p id="status"></p>
+          <div class="field full">
+            <label for="expDetail">拍攝經驗補充</label>
+            <textarea id="expDetail"></textarea>
+          </div>
+
+          <div class="field full">
+            <label for="portfolio">IG 或作品連結</label>
+            <input id="portfolio" type="url" placeholder="https://">
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">四、授權與同意聲明</h2>
+        <div class="policy-box">本人同意參與拍攝活動，並同意公司使用拍攝過程中產出之所有影像素材（包含照片、影片等），
+用於品牌行銷、社群媒體、官方網站及店鋪展示等相關用途。
+
+公司得就素材進行剪輯、調整及重製。
+
+本授權為無償授權，且不受時間、地區及媒體形式限制。
+
+本人已閱讀並理解上述內容，並同意授權使用。</div>
+
+        <div class="field" style="margin-top:16px;">
+          <label class="check-item" style="font-weight:700;">
+            <input id="authorized" type="checkbox">
+            我已閱讀並同意上述授權內容
+          </label>
+        </div>
+      </section>
+
+      <div class="submit-area">
+        <button id="submitBtn" class="submit-btn" type="submit">送出表單</button>
+        <p id="status" class="status"></p>
+      </div>
+    </form>
+
+    <div class="footer-note">本表單僅供行銷部內部進行拍攝安排、名單管理及相關業務使用。</div>
+  </div>
 
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbwjZcrfwO95ZmRqTLanOC71sAp7VMoHrg4ClOMggKhdn7OeyVYCc46z0yami_quwMFF/exec";
 
-    document.getElementById("form").addEventListener("submit", async function(e) {
+    const stores = [
+      "ABC-GS 漢中（221125）",
+      "ABC-敦南（221426）",
+      "ABC-基隆中正（221427）",
+      "ABC-西門（221428）",
+      "ABC-西寧（221530）",
+      "ABC-板橋環球（221531）",
+      "ABC-中和環球（221532）",
+      "OUTLET林口三井（221634）",
+      "ABC-A11（221837）",
+      "ABC-內湖潤泰（221838）",
+      "ABC-樹喜秀泰（221839）",
+      "ABC-永和比漾（221941）",
+      "ABC-GS 新莊宏匯（222044）",
+      "ABC-汐科遠雄廣場（222201）",
+      "ABC-淡新家樂福（222301）",
+      "ABC-峨眉（222302）",
+      "ABC-新店裕隆城（222303）",
+      "ABC-重新家樂福（222401）",
+      "ABC-GS 南港LaLaport（222501）",
+      "ABC-GS 信義微風（222502）",
+      "ABC-新竹巨城（231201）",
+      "ABC-苗栗尚順（231502）",
+      "ABC-新竹林森（231705）",
+      "ABC-桃園統領（231807）",
+      "ABC-中壢（231908）",
+      "ABC-宜蘭新月（231942）",
+      "ABC-桃園台茂（232009）",
+      "ABC-花蓮遠百（232101）",
+      "ABC-新竹大遠百（232102）",
+      "ABC-竹北遠百（232201）",
+      "ABC-桃園八德（232202）",
+      "ABC-桃園遠百（232203）",
+      "ABC-內壢家樂福（232204）",
+      "ABC-新竹湳雅廣場（232301）",
+      "ABC-桃園愛買（232401）",
+      "ABC-經國家樂福（232501）",
+      "ABC-桃園青埔（232502）",
+      "OUTLET台中麗寶（241603）",
+      "ABC-台中文華（241804）",
+      "ABC-文心秀泰（241805）",
+      "OUTLET台中三井（241806）",
+      "ABC-台中新時代（241907）",
+      "ABC-GS 台中大遠百（242008）",
+      "ABC-豐原太平洋（242009）",
+      "ABC-廣三SOGO（242010）",
+      "ABC-台中中友（242101）",
+      "ABC-台中LaLaport（242301）",
+      "ABC-嘉義耐斯（251401）",
+      "ABC-嘉義秀泰（252401）",
+      "ABC-台南小西門（261601）",
+      "ABC-台南南紡（261602）",
+      "ABC-台南FOCUS（261903）",
+      "OUTLET台南三井（262201）",
+      "ABC-仁德家樂福（262301）",
+      "ABC-誠品碳佐麻里（262501）",
+      "ABC-高雄統一（271201）",
+      "ABC-左營彩虹市集（271302）",
+      "ABC-高雄草衙道（271806）",
+      "ABC-高雄大遠百（271907）",
+      "OUTLET高雄義大（272101）",
+      "ABC-岡山秀泰（272201）",
+      "ABC-高雄義享（272301）",
+      "ABC-屏東太平洋（281704）",
+      "ABC-台東（282201）"
+    ];
+
+    const storeSelect = document.getElementById("store");
+    stores.forEach(store => {
+      const option = document.createElement("option");
+      option.value = store;
+      option.textContent = store;
+      storeSelect.appendChild(option);
+    });
+
+    const form = document.getElementById("form");
+    const statusEl = document.getElementById("status");
+    const submitBtn = document.getElementById("submitBtn");
+
+    function setStatus(message, type = "") {
+      statusEl.textContent = message;
+      statusEl.className = "status " + type;
+    }
+
+    form.addEventListener("submit", async function(e) {
       e.preventDefault();
 
       const types = [...document.querySelectorAll('input[name="types"]:checked')].map(el => el.value);
@@ -130,8 +568,34 @@
         authorized: document.getElementById("authorized").checked
       };
 
-      const status = document.getElementById("status");
-      status.textContent = "送出中...";
+      if (!payload.name || !payload.store || !payload.contact) {
+        setStatus("請填寫姓名、門市與聯絡方式。", "error");
+        return;
+      }
+
+      if (!stores.includes(payload.store)) {
+        setStatus("請從下拉選單中選擇正確門市。", "error");
+        return;
+      }
+
+      if (!payload.types.length) {
+        setStatus("請至少選擇一種可接受的拍攝形式。", "error");
+        return;
+      }
+
+      if (!payload.face || !payload.outfit || !payload.experience) {
+        setStatus("請完成拍攝意願與經驗相關欄位。", "error");
+        return;
+      }
+
+      if (!payload.authorized) {
+        setStatus("請先勾選同意授權內容。", "error");
+        return;
+      }
+
+      setStatus("送出中...");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "送出中...";
 
       try {
         const res = await fetch(API_URL, {
@@ -145,13 +609,17 @@
         const result = await res.json();
 
         if (result.ok) {
-          status.textContent = "送出成功";
-          document.getElementById("form").reset();
+          setStatus("送出成功，感謝您的填寫。", "success");
+          form.reset();
+          window.scrollTo({ top: 0, behavior: "smooth" });
         } else {
-          status.textContent = "送出失敗：" + (result.message || "");
+          setStatus("送出失敗：" + (result.message || "請稍後再試。"), "error");
         }
       } catch (err) {
-        status.textContent = "送出失敗，請稍後再試";
+        setStatus("送出失敗，請稍後再試。", "error");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "送出表單";
       }
     });
   </script>
