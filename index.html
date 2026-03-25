@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>門市拍攝協助意願調查表</title>
+</head>
+<body>
+  <h1>門市拍攝協助意願調查表</h1>
+
+  <form id="form">
+    <div>
+      <label>姓名</label><br>
+      <input id="name" type="text" required>
+    </div>
+    <br>
+
+    <div>
+      <label>門市</label><br>
+      <input id="store" type="text" required>
+    </div>
+    <br>
+
+    <div>
+      <label>聯絡方式</label><br>
+      <input id="contact" type="text" required>
+    </div>
+    <br>
+
+    <div>
+      <label>IG</label><br>
+      <input id="ig" type="text">
+    </div>
+    <br>
+
+    <div>
+      <label>拍攝形式</label><br>
+      <label><input type="checkbox" name="types" value="平面照片">平面照片</label><br>
+      <label><input type="checkbox" name="types" value="動態影片（無口播）">動態影片（無口播）</label><br>
+      <label><input type="checkbox" name="types" value="動態影片（含口播）">動態影片（含口播）</label>
+    </div>
+    <br>
+
+    <div>
+      <label>是否可露臉</label><br>
+      <select id="face">
+        <option value="">請選擇</option>
+        <option value="可以露臉">可以露臉</option>
+        <option value="不露臉（手 / 腳 / 背影）">不露臉（手 / 腳 / 背影）</option>
+      </select>
+    </div>
+    <br>
+
+    <div>
+      <label>是否可配合穿搭拍攝</label><br>
+      <select id="outfit">
+        <option value="">請選擇</option>
+        <option value="可以（自備穿搭）">可以（自備穿搭）</option>
+        <option value="可以（需提供服裝）">可以（需提供服裝）</option>
+        <option value="不方便">不方便</option>
+      </select>
+    </div>
+    <br>
+
+    <div>
+      <label>是否有拍攝經驗</label><br>
+      <select id="experience">
+        <option value="">請選擇</option>
+        <option value="有（請補充）">有（請補充）</option>
+        <option value="沒有">沒有</option>
+      </select>
+    </div>
+    <br>
+
+    <div>
+      <label>拍攝經驗補充</label><br>
+      <textarea id="expDetail"></textarea>
+    </div>
+    <br>
+
+    <div>
+      <label>IG或作品連結</label><br>
+      <input id="portfolio" type="text">
+    </div>
+    <br>
+
+    <div>
+      <label>是否願意優先參與未來拍攝</label><br>
+      <select id="priority">
+        <option value="">請選擇</option>
+        <option value="願意">願意</option>
+        <option value="視情況">視情況</option>
+      </select>
+    </div>
+    <br>
+
+    <div>
+      <label>
+        <input id="authorized" type="checkbox">
+        我已閱讀並同意授權內容
+      </label>
+    </div>
+    <br>
+
+    <button type="submit">送出</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbwjZcrfwO95ZmRqTLanOC71sAp7VMoHrg4ClOMggKhdn7OeyVYCc46z0yami_quwMFF/exec";
+
+    document.getElementById("form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const types = [...document.querySelectorAll('input[name="types"]:checked')].map(el => el.value);
+
+      const payload = {
+        name: document.getElementById("name").value.trim(),
+        store: document.getElementById("store").value.trim(),
+        contact: document.getElementById("contact").value.trim(),
+        ig: document.getElementById("ig").value.trim(),
+        types: types,
+        face: document.getElementById("face").value,
+        outfit: document.getElementById("outfit").value,
+        experience: document.getElementById("experience").value,
+        expDetail: document.getElementById("expDetail").value.trim(),
+        portfolio: document.getElementById("portfolio").value.trim(),
+        priority: document.getElementById("priority").value,
+        authorized: document.getElementById("authorized").checked
+      };
+
+      const status = document.getElementById("status");
+      status.textContent = "送出中...";
+
+      try {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await res.json();
+
+        if (result.ok) {
+          status.textContent = "送出成功";
+          document.getElementById("form").reset();
+        } else {
+          status.textContent = "送出失敗：" + (result.message || "");
+        }
+      } catch (err) {
+        status.textContent = "送出失敗，請稍後再試";
+      }
+    });
+  </script>
+</body>
+</html>
