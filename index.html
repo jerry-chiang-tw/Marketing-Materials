@@ -7,128 +7,139 @@
   <style>
     :root{
       --red:#d71920;
-      --black:#111111;
-      --white:#ffffff;
-      --gray-01:#f5f5f5;
-      --gray-02:#e7e7e7;
-      --gray-03:#bdbdbd;
-      --gray-04:#666666;
+      --black:#111;
+      --white:#fff;
+      --gray-01:#f6f6f6;
+      --gray-02:#e8e8e8;
+      --gray-03:#666;
       --success:#157347;
       --error:#c62828;
-      --shadow:0 10px 30px rgba(0,0,0,.08);
     }
 
-    *{
-      box-sizing:border-box;
-    }
+    *{box-sizing:border-box}
 
     body{
       margin:0;
-      font-family:Arial,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
-      background:linear-gradient(180deg,#f2f2f2 0%, #fafafa 100%);
+      font-family:Arial,"Noto Sans TC","Microsoft JhengHei",sans-serif;
+      background:#f3f3f3;
       color:var(--black);
-      line-height:1.6;
     }
 
-    .page{
-      max-width:880px;
+    .app{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+    }
+
+    .topbar{
+      height:8px;
+      background:var(--red);
+    }
+
+    .container{
+      width:min(760px, 100%);
       margin:0 auto;
-      padding:32px 16px 56px;
+      padding:24px 16px 120px;
+      flex:1;
     }
 
     .hero{
-      position:relative;
-      overflow:hidden;
-      background:linear-gradient(135deg,#111 0%, #1d1d1d 58%, #2a2a2a 100%);
+      background:linear-gradient(135deg,#111 0%, #202020 100%);
       color:#fff;
       border-radius:24px;
-      padding:28px 24px;
-      box-shadow:var(--shadow);
-      margin-bottom:20px;
+      padding:24px 22px;
+      margin-bottom:18px;
+      position:relative;
+      overflow:hidden;
     }
 
     .hero::after{
       content:"";
       position:absolute;
+      right:-40px;
       top:0;
-      right:0;
-      width:120px;
+      width:140px;
       height:100%;
       background:var(--red);
-      clip-path:polygon(40% 0,100% 0,100% 100%,0 100%);
-      opacity:.95;
+      transform:skewX(-20deg);
     }
 
     .hero-inner{
       position:relative;
       z-index:1;
-      max-width:720px;
+      max-width:560px;
     }
 
-    .brand-tag{
+    .hero-tag{
       display:inline-block;
       background:var(--red);
-      color:#fff;
       font-size:12px;
       font-weight:700;
       padding:6px 10px;
       border-radius:999px;
-      margin-bottom:14px;
-      letter-spacing:.4px;
+      margin-bottom:12px;
     }
 
     .hero h1{
-      margin:0 0 10px;
-      font-size:30px;
+      margin:0 0 8px;
+      font-size:28px;
       line-height:1.2;
     }
 
     .hero p{
       margin:0;
       font-size:14px;
+      line-height:1.7;
       color:rgba(255,255,255,.88);
       white-space:pre-line;
     }
 
-    .form-card{
-      background:var(--white);
+    .card{
+      background:#fff;
       border-radius:24px;
-      box-shadow:var(--shadow);
-      overflow:hidden;
-      border:1px solid #ececec;
+      padding:28px 22px;
+      box-shadow:0 10px 30px rgba(0,0,0,.08);
+      min-height:420px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
     }
 
-    .section{
-      padding:28px 24px;
-      border-bottom:1px solid var(--gray-02);
+    .step{
+      display:none;
+      animation:fade .2s ease;
     }
 
-    .section:last-of-type{
-      border-bottom:none;
+    .step.active{
+      display:block;
     }
 
-    .section-title{
-      margin:0 0 14px;
-      font-size:20px;
+    @keyframes fade{
+      from{opacity:0;transform:translateY(4px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .step-kicker{
+      color:var(--red);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.5px;
+      margin-bottom:10px;
+    }
+
+    .step-title{
+      margin:0 0 10px;
+      font-size:30px;
+      line-height:1.2;
       font-weight:800;
     }
 
-    .note-box,
-    .policy-box{
-      background:#fafafa;
-      border:1px solid var(--gray-02);
-      border-left:5px solid var(--red);
-      border-radius:14px;
-      padding:16px;
-      color:#444;
+    .step-desc{
+      margin:0 0 24px;
       font-size:14px;
+      color:var(--gray-03);
+      line-height:1.7;
       white-space:pre-line;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:18px;
     }
 
     .field{
@@ -137,11 +148,7 @@
       gap:8px;
     }
 
-    .field.full{
-      grid-column:1 / -1;
-    }
-
-    label{
+    .field label{
       font-size:14px;
       font-weight:700;
     }
@@ -155,361 +162,364 @@
     input[type="email"],
     input[type="url"],
     select,
-    textarea,
-    input[type="file"]{
+    textarea{
       width:100%;
-      border:1px solid #d8d8d8;
-      background:#fff;
-      border-radius:12px;
-      padding:12px 14px;
-      font-size:15px;
-      color:var(--black);
+      border:1px solid #d9d9d9;
+      border-radius:14px;
+      padding:14px 16px;
+      font-size:16px;
       outline:none;
-      transition:.2s ease;
+      background:#fff;
     }
 
-    input[type="text"]:focus,
-    input[type="email"]:focus,
-    input[type="url"]:focus,
+    textarea{
+      min-height:140px;
+      resize:vertical;
+    }
+
+    input:focus,
     select:focus,
-    textarea:focus,
-    input[type="file"]:focus{
+    textarea:focus{
       border-color:var(--red);
       box-shadow:0 0 0 4px rgba(215,25,32,.08);
     }
 
-    textarea{
-      resize:vertical;
-      min-height:110px;
-    }
-
-    .help{
-      font-size:12px;
-      color:var(--gray-04);
-      margin-top:-2px;
-    }
-
-    .check-group{
+    .choice-list{
       display:grid;
-      gap:10px;
-      padding:14px;
-      border:1px solid #d8d8d8;
-      border-radius:12px;
-      background:#fff;
+      gap:12px;
     }
 
-    .check-item{
+    .choice-item{
       display:flex;
+      gap:12px;
       align-items:flex-start;
-      gap:10px;
-      font-size:15px;
-      font-weight:400;
-      color:#222;
-    }
-
-    .check-item input{
-      margin-top:3px;
-      accent-color:var(--red);
-      transform:scale(1.05);
-    }
-
-    .submit-area{
-      padding:24px;
-      background:#fff;
-      border-top:1px solid var(--gray-02);
-      position:sticky;
-      bottom:0;
-    }
-
-    .submit-btn{
-      width:100%;
-      border:none;
-      border-radius:999px;
-      background:var(--black);
-      color:#fff;
-      font-size:16px;
-      font-weight:800;
-      padding:15px 18px;
+      padding:14px 16px;
+      border:1px solid #ddd;
+      border-radius:16px;
       cursor:pointer;
-      transition:.2s ease;
+      transition:.15s ease;
+      background:#fff;
     }
 
-    .submit-btn:hover{
-      opacity:.96;
+    .choice-item:hover{
+      border-color:#bbb;
       transform:translateY(-1px);
     }
 
-    .submit-btn:disabled{
-      opacity:.6;
-      cursor:not-allowed;
-      transform:none;
+    .choice-item input{
+      margin-top:3px;
+      accent-color:var(--red);
+      transform:scale(1.1);
     }
 
-    .status{
-      margin:12px 2px 0;
-      font-size:14px;
-      font-weight:700;
-      min-height:22px;
+    .choice-text{
+      font-size:16px;
+      line-height:1.5;
     }
 
-    .status.success{
-      color:var(--success);
-    }
-
-    .status.error{
-      color:var(--error);
-    }
-
-    .footer-note{
-      margin-top:16px;
-      text-align:center;
-      color:var(--gray-04);
-      font-size:12px;
-    }
-
-    .modal{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.45);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-      z-index:1000;
-    }
-
-    .modal.show{
+    .actions{
       display:flex;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:28px;
     }
 
-    .modal-card{
-      width:min(720px,100%);
-      max-height:85vh;
-      overflow:auto;
-      background:#fff;
-      border-radius:20px;
-      padding:24px;
-      box-shadow:0 20px 50px rgba(0,0,0,.2);
+    .btn{
+      border:none;
+      border-radius:999px;
+      padding:14px 20px;
+      font-size:15px;
+      font-weight:800;
+      cursor:pointer;
+      transition:.15s ease;
     }
 
-    .modal-card h3{
-      margin:0 0 14px;
-      font-size:22px;
+    .btn:disabled{
+      opacity:.5;
+      cursor:not-allowed;
     }
 
-    .summary-list{
-      display:grid;
-      gap:10px;
-      margin:0 0 18px;
-    }
-
-    .summary-item{
-      background:#fafafa;
-      border:1px solid #ececec;
-      border-radius:12px;
-      padding:12px 14px;
-      font-size:14px;
-    }
-
-    .summary-item strong{
-      display:block;
-      margin-bottom:4px;
+    .btn-secondary{
+      background:#ececec;
       color:#222;
     }
 
-    .modal-actions{
-      display:flex;
-      gap:12px;
-      justify-content:flex-end;
-    }
-
     .btn-primary{
-      border:none;
-      border-radius:999px;
-      padding:12px 18px;
-      font-size:14px;
-      font-weight:700;
-      cursor:pointer;
       background:#111;
       color:#fff;
+      margin-left:auto;
+    }
+
+    .btn-primary:hover,
+    .btn-secondary:hover{
+      transform:translateY(-1px);
+    }
+
+    .footer{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      background:#fff;
+      border-top:1px solid #e6e6e6;
+      padding:14px 16px 18px;
+    }
+
+    .footer-inner{
+      width:min(760px, 100%);
+      margin:0 auto;
+    }
+
+    .progress-meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:12px;
+      color:#666;
+      margin-bottom:8px;
+      font-weight:700;
+    }
+
+    .progress{
+      width:100%;
+      height:8px;
+      background:#eee;
+      border-radius:999px;
+      overflow:hidden;
+    }
+
+    .progress-bar{
+      height:100%;
+      width:0%;
+      background:var(--red);
+      transition:width .2s ease;
+    }
+
+    .status{
+      margin-top:12px;
+      font-size:14px;
+      font-weight:700;
+      min-height:20px;
+    }
+
+    .status.success{ color:var(--success); }
+    .status.error{ color:var(--error); }
+
+    .thankyou{
+      text-align:center;
+      padding:28px 8px 8px;
+    }
+
+    .thankyou h2{
+      margin:0 0 12px;
+      font-size:32px;
+      line-height:1.2;
+    }
+
+    .thankyou p{
+      margin:0;
+      color:#555;
+      font-size:16px;
+      line-height:1.8;
+      white-space:pre-line;
+    }
+
+    .hidden{
+      display:none !important;
     }
 
     @media (max-width:720px){
-      .page{
-        padding:20px 12px 40px;
+      .container{
+        padding:18px 12px 116px;
       }
 
       .hero{
-        padding:22px 18px;
+        padding:20px 18px;
+        border-radius:20px;
       }
 
-      .hero h1{
+      .hero h1,
+      .step-title,
+      .thankyou h2{
         font-size:24px;
       }
 
-      .section,
-      .submit-area{
-        padding:20px 18px;
-      }
-
-      .grid{
-        grid-template-columns:1fr;
-      }
-
-      .modal-actions{
-        flex-direction:column;
-      }
-
-      .btn-primary{
-        width:100%;
+      .card{
+        padding:22px 18px;
+        border-radius:20px;
+        min-height:380px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <section class="hero">
-      <div class="hero-inner">
-        <div class="brand-tag">ABC-MART INTERNAL FORM</div>
-        <h1>門市拍攝協助意願調查表</h1>
-        <p>本表單僅提供有意願之同仁填寫，並不代表一定會安排拍攝。
+  <div class="app">
+    <div class="topbar"></div>
+
+    <div class="container">
+      <section class="hero">
+        <div class="hero-inner">
+          <div class="hero-tag">ABC-MART INTERNAL FORM</div>
+          <h1>門市拍攝協助意願調查表</h1>
+          <p>本表單僅提供有意願之同仁填寫，並不代表一定會安排拍攝。
 拍攝時間將依每次內容需求及門市營運狀況彈性安排，且不影響既有工作規劃。
-請依自身狀況與配合度審慎評估是否參與。
-
-本表單開放全體門市同仁填寫，包含正職、兼職及工讀人員。</p>
-      </div>
-    </section>
-
-    <form id="form" class="form-card">
-      <section class="section">
-        <h2 class="section-title">拍攝安排說明</h2>
-        <div class="note-box">1. 上班日拍攝
-於上班時間進行，須事前與 SV 或店長確認拍攝時段，並以不影響門市營運及店務為原則。
-視專案內容及複雜程度，提供適當回饋（非薪資性質）。
-
-2. 休假日拍攝
-採自願參與（非工作指派），不影響既有排班制度。
-視專案內容提供適當回饋（非薪資性質）。
-
-【個人資料使用說明】
-本表單所蒐集之個人資料，僅供行銷部內部進行拍攝安排、名單管理及相關業務使用。
-所蒐集之資料將依公司相關規範妥善保管，並於合理且必要之範圍內使用，不另作其他用途，亦不對外提供。</div>
-      </section>
-
-      <section class="section">
-        <h2 class="section-title">一、基本資料</h2>
-        <div class="grid">
-          <div class="field">
-            <label class="required" for="name">姓名</label>
-            <input id="name" type="text" required>
-          </div>
-
-          <div class="field">
-            <label class="required" for="employeeId">員編</label>
-            <input id="employeeId" type="text" required>
-          </div>
-
-          <div class="field">
-            <label class="required" for="email">Email</label>
-            <input id="email" type="email" required>
-          </div>
-
-          <div class="field">
-            <label class="required" for="contact">聯絡方式</label>
-            <input id="contact" type="text" placeholder="LINE 或電話" required>
-          </div>
-
-          <div class="field full">
-            <label class="required" for="store">所屬門市</label>
-            <select id="store" required>
-              <option value="">請選擇門市</option>
-            </select>
-          </div>
-
-          <div class="field full">
-            <label for="ig">IG 帳號</label>
-            <input id="ig" type="text">
-          </div>
+請依自身狀況與配合度審慎評估是否參與。</p>
         </div>
       </section>
 
-      <section class="section">
-        <h2 class="section-title">二、拍攝意願</h2>
-        <div class="grid">
-          <div class="field full">
-            <label class="required">可接受的拍攝形式</label>
-            <div class="check-group">
-              <label class="check-item"><input type="checkbox" name="types" value="平面照片">平面照片</label>
-              <label class="check-item"><input type="checkbox" name="types" value="動態影片（無口播）">動態影片（無口播）</label>
-              <label class="check-item"><input type="checkbox" name="types" value="動態影片（含口播）">動態影片（含口播）</label>
-              <label class="check-item"><input type="checkbox" name="types" value="鞋款穿搭展示">鞋款穿搭展示</label>
-              <label class="check-item"><input type="checkbox" name="types" value="門市情境拍攝">門市情境拍攝</label>
+      <form id="form" class="card">
+        <div>
+          <section class="step active" data-step="1">
+            <div class="step-kicker">STEP 1</div>
+            <h2 class="step-title">請先告訴我們你的姓名</h2>
+            <p class="step-desc">此表單開放全體門市同仁填寫，包含正職、兼職及工讀人員。</p>
+            <div class="field">
+              <label class="required" for="name">姓名</label>
+              <input id="name" type="text" required>
             </div>
-          </div>
+          </section>
 
-          <div class="field">
-            <label class="required" for="face">是否可露臉</label>
-            <select id="face" required>
-              <option value="">請選擇</option>
-              <option value="可以露臉">可以露臉</option>
-              <option value="不露臉（手 / 腳 / 背影）">不露臉（手 / 腳 / 背影）</option>
-            </select>
-          </div>
+          <section class="step" data-step="2">
+            <div class="step-kicker">STEP 2</div>
+            <h2 class="step-title">你的員編是？</h2>
+            <div class="field">
+              <label class="required" for="employeeId">員編</label>
+              <input id="employeeId" type="text" required>
+            </div>
+          </section>
 
-          <div class="field">
-            <label class="required" for="outfit">是否可配合穿搭拍攝</label>
-            <select id="outfit" required>
-              <option value="">請選擇</option>
-              <option value="可以（自備穿搭）">可以（自備穿搭）</option>
-              <option value="可以（需提供服裝）">可以（需提供服裝）</option>
-              <option value="不方便">不方便</option>
-            </select>
-          </div>
-        </div>
-      </section>
+          <section class="step" data-step="3">
+            <div class="step-kicker">STEP 3</div>
+            <h2 class="step-title">請填寫你的 Email</h2>
+            <p class="step-desc">系統會同步寄送填寫副本至此信箱。</p>
+            <div class="field">
+              <label class="required" for="email">Email</label>
+              <input id="email" type="email" required>
+            </div>
+          </section>
 
-      <section class="section">
-        <h2 class="section-title">三、經驗與補充</h2>
-        <div class="grid">
-          <div class="field">
-            <label class="required" for="experience">是否有拍攝經驗</label>
-            <select id="experience" required>
-              <option value="">請選擇</option>
-              <option value="有（請補充）">有（請補充）</option>
-              <option value="沒有">沒有</option>
-            </select>
-          </div>
+          <section class="step" data-step="4">
+            <div class="step-kicker">STEP 4</div>
+            <h2 class="step-title">你的所屬門市</h2>
+            <div class="field">
+              <label class="required" for="store">所屬門市</label>
+              <select id="store" required>
+                <option value="">請選擇門市</option>
+              </select>
+            </div>
+          </section>
 
-          <div class="field">
-            <label for="priority">是否願意優先參與未來拍攝</label>
-            <select id="priority">
-              <option value="">請選擇</option>
-              <option value="願意">願意</option>
-              <option value="視情況">視情況</option>
-            </select>
-          </div>
+          <section class="step" data-step="5">
+            <div class="step-kicker">STEP 5</div>
+            <h2 class="step-title">聯絡方式</h2>
+            <div class="field">
+              <label class="required" for="contact">LINE 或電話</label>
+              <input id="contact" type="text" required>
+            </div>
+          </section>
 
-          <div class="field full">
-            <label for="expDetail">拍攝經驗補充</label>
-            <textarea id="expDetail"></textarea>
-          </div>
+          <section class="step" data-step="6">
+            <div class="step-kicker">STEP 6</div>
+            <h2 class="step-title">IG 帳號</h2>
+            <p class="step-desc">若沒有可略過。</p>
+            <div class="field">
+              <label for="ig">IG 帳號</label>
+              <input id="ig" type="text">
+            </div>
+          </section>
 
-          <div class="field full">
-            <label for="photo">拍攝經驗補充照片</label>
-            <input id="photo" type="file" accept="image/*">
-            <div class="help">如有相關拍攝經驗，可上傳照片作為補充參考。</div>
-          </div>
+          <section class="step" data-step="7">
+            <div class="step-kicker">STEP 7</div>
+            <h2 class="step-title">你可接受的拍攝形式</h2>
+            <p class="step-desc">可複選，至少選擇一項。</p>
+            <div class="choice-list">
+              <label class="choice-item"><input type="checkbox" name="types" value="平面照片"><span class="choice-text">平面照片</span></label>
+              <label class="choice-item"><input type="checkbox" name="types" value="動態影片（無口播）"><span class="choice-text">動態影片（無口播）</span></label>
+              <label class="choice-item"><input type="checkbox" name="types" value="動態影片（含口播）"><span class="choice-text">動態影片（含口播）</span></label>
+              <label class="choice-item"><input type="checkbox" name="types" value="鞋款穿搭展示"><span class="choice-text">鞋款穿搭展示</span></label>
+              <label class="choice-item"><input type="checkbox" name="types" value="門市情境拍攝"><span class="choice-text">門市情境拍攝</span></label>
+            </div>
+          </section>
 
-          <div class="field full">
-            <label for="portfolio">IG 或作品連結</label>
-            <input id="portfolio" type="url" placeholder="https://">
-          </div>
-        </div>
-      </section>
+          <section class="step" data-step="8">
+            <div class="step-kicker">STEP 8</div>
+            <h2 class="step-title">是否可露臉</h2>
+            <div class="field">
+              <label class="required" for="face">是否可露臉</label>
+              <select id="face" required>
+                <option value="">請選擇</option>
+                <option value="可以露臉">可以露臉</option>
+                <option value="不露臉（手 / 腳 / 背影）">不露臉（手 / 腳 / 背影）</option>
+              </select>
+            </div>
+          </section>
 
-      <section class="section">
-        <h2 class="section-title">四、授權與同意聲明</h2>
-        <div class="policy-box">本人同意參與拍攝活動，並同意公司使用拍攝過程中產出之所有影像素材（包含照片、影片等），
+          <section class="step" data-step="9">
+            <div class="step-kicker">STEP 9</div>
+            <h2 class="step-title">是否可配合穿搭拍攝</h2>
+            <div class="field">
+              <label class="required" for="outfit">是否可配合穿搭拍攝</label>
+              <select id="outfit" required>
+                <option value="">請選擇</option>
+                <option value="可以（自備穿搭）">可以（自備穿搭）</option>
+                <option value="可以（需提供服裝）">可以（需提供服裝）</option>
+                <option value="不方便">不方便</option>
+              </select>
+            </div>
+          </section>
+
+          <section class="step" data-step="10">
+            <div class="step-kicker">STEP 10</div>
+            <h2 class="step-title">是否有拍攝經驗</h2>
+            <div class="field">
+              <label class="required" for="experience">是否有拍攝經驗</label>
+              <select id="experience" required>
+                <option value="">請選擇</option>
+                <option value="有（請補充）">有（請補充）</option>
+                <option value="沒有">沒有</option>
+              </select>
+            </div>
+          </section>
+
+          <section class="step" data-step="11">
+            <div class="step-kicker">STEP 11</div>
+            <h2 class="step-title">拍攝經驗補充</h2>
+            <p class="step-desc">若沒有可略過。</p>
+            <div class="field">
+              <label for="expDetail">拍攝經驗補充</label>
+              <textarea id="expDetail"></textarea>
+            </div>
+          </section>
+
+          <section class="step" data-step="12">
+            <div class="step-kicker">STEP 12</div>
+            <h2 class="step-title">IG 或作品連結</h2>
+            <p class="step-desc">若沒有可略過。</p>
+            <div class="field">
+              <label for="portfolio">IG 或作品連結</label>
+              <input id="portfolio" type="url" placeholder="https://">
+            </div>
+          </section>
+
+          <section class="step" data-step="13">
+            <div class="step-kicker">STEP 13</div>
+            <h2 class="step-title">是否願意優先參與未來拍攝</h2>
+            <div class="field">
+              <label for="priority">是否願意優先參與未來拍攝</label>
+              <select id="priority">
+                <option value="">請選擇</option>
+                <option value="願意">願意</option>
+                <option value="視情況">視情況</option>
+              </select>
+            </div>
+          </section>
+
+          <section class="step" data-step="14">
+            <div class="step-kicker">FINAL STEP</div>
+            <h2 class="step-title">授權與同意</h2>
+            <p class="step-desc">請確認後送出。</p>
+            <div class="field">
+              <div style="padding:16px;border:1px solid #e1e1e1;border-radius:16px;background:#fafafa;font-size:14px;color:#444;white-space:pre-line;">本人同意參與拍攝活動，並同意公司使用拍攝過程中產出之所有影像素材（包含照片、影片等），
 用於品牌行銷、社群媒體、官方網站及店鋪展示等相關用途。
 
 公司得就素材進行剪輯、調整及重製。
@@ -518,35 +528,47 @@
 
 本人已閱讀並理解上述內容，並同意授權使用。</div>
 
-        <div class="field" style="margin-top:16px;">
-          <label class="check-item" style="font-weight:700;">
-            <input id="authorized" type="checkbox">
-            我已閱讀並同意上述授權內容
-          </label>
+              <label class="choice-item" style="margin-top:14px;">
+                <input id="authorized" type="checkbox">
+                <span class="choice-text">我已閱讀並同意上述授權內容</span>
+              </label>
+            </div>
+          </section>
+
+          <section class="step" data-step="15">
+            <div class="thankyou">
+              <div class="step-kicker">COMPLETED</div>
+              <h2>感謝填寫</h2>
+              <p>期待與你一同拍攝</p>
+            </div>
+          </section>
         </div>
-      </section>
 
-      <div class="submit-area">
-        <button id="submitBtn" class="submit-btn" type="submit">送出表單</button>
-        <p id="status" class="status"></p>
-      </div>
-    </form>
+        <div class="actions">
+          <button type="button" id="prevBtn" class="btn btn-secondary">上一頁</button>
+          <button type="button" id="nextBtn" class="btn btn-primary">下一頁</button>
+          <button type="submit" id="submitBtn" class="btn btn-primary hidden">送出表單</button>
+        </div>
 
-    <div class="footer-note">本表單僅供行銷部內部進行拍攝安排、名單管理及相關業務使用。</div>
-  </div>
+        <div id="status" class="status"></div>
+      </form>
+    </div>
 
-  <div id="resultModal" class="modal">
-    <div class="modal-card">
-      <h3>填寫完成</h3>
-      <div id="summaryList" class="summary-list"></div>
-      <div class="modal-actions">
-        <button type="button" class="btn-primary" onclick="closeModal()">確認</button>
+    <div class="footer">
+      <div class="footer-inner">
+        <div class="progress-meta">
+          <span id="progressText">1 / 14</span>
+          <span>填寫進度</span>
+        </div>
+        <div class="progress">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwjZcrfwO95ZmRqTLanOC71sAp7VMoHrg4ClOMggKhdn7OeyVYCc46z0yami_quwMFF/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbwEd3S_ZXa3H0GP9ec0m_43kZWD_eKDpdH4T6fJf51vHIdAF5Bt3gRtFwHLZANphD0h/exec";
 
     const stores = [
       "ABC-GS 漢中（221125）",
@@ -623,64 +645,183 @@
       storeSelect.appendChild(option);
     });
 
-    const form = document.getElementById("form");
-    const statusEl = document.getElementById("status");
+    const steps = [...document.querySelectorAll(".step")];
+    const totalQuestionSteps = 14;
+    let currentStep = 0;
+
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
     const submitBtn = document.getElementById("submitBtn");
+    const progressText = document.getElementById("progressText");
+    const progressBar = document.getElementById("progressBar");
+    const statusEl = document.getElementById("status");
+    const form = document.getElementById("form");
 
     function setStatus(message, type = "") {
       statusEl.textContent = message;
       statusEl.className = "status " + type;
     }
 
-    function fileToBase64(file) {
-      return new Promise((resolve, reject) => {
-        if (!file) {
-          resolve({ base64: "", name: "" });
-          return;
+    function showStep(index) {
+      steps.forEach((step, i) => {
+        step.classList.toggle("active", i === index);
+      });
+
+      const isThankYou = index === steps.length - 1;
+      const isLastQuestion = index === totalQuestionSteps - 1;
+
+      prevBtn.classList.toggle("hidden", index === 0 || isThankYou);
+      nextBtn.classList.toggle("hidden", isLastQuestion || isThankYou);
+      submitBtn.classList.toggle("hidden", !isLastQuestion);
+
+      const progressStep = Math.min(index + 1, totalQuestionSteps);
+      progressText.textContent = `${progressStep} / ${totalQuestionSteps}`;
+      progressBar.style.width = `${(progressStep / totalQuestionSteps) * 100}%`;
+
+      if (isThankYou) {
+        prevBtn.classList.add("hidden");
+        nextBtn.classList.add("hidden");
+        submitBtn.classList.add("hidden");
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function validateStep(index) {
+      switch(index) {
+        case 0:
+          if (!document.getElementById("name").value.trim()) {
+            setStatus("請填寫姓名。", "error");
+            return false;
+          }
+          break;
+        case 1:
+          if (!document.getElementById("employeeId").value.trim()) {
+            setStatus("請填寫員編。", "error");
+            return false;
+          }
+          break;
+        case 2:
+          if (!document.getElementById("email").value.trim()) {
+            setStatus("請填寫 Email。", "error");
+            return false;
+          }
+          break;
+        case 3:
+          if (!document.getElementById("store").value.trim()) {
+            setStatus("請選擇門市。", "error");
+            return false;
+          }
+          break;
+        case 4:
+          if (!document.getElementById("contact").value.trim()) {
+            setStatus("請填寫聯絡方式。", "error");
+            return false;
+          }
+          break;
+        case 6:
+          if (![...document.querySelectorAll('input[name="types"]:checked')].length) {
+            setStatus("請至少選擇一種拍攝形式。", "error");
+            return false;
+          }
+          break;
+        case 7:
+          if (!document.getElementById("face").value) {
+            setStatus("請選擇是否可露臉。", "error");
+            return false;
+          }
+          break;
+        case 8:
+          if (!document.getElementById("outfit").value) {
+            setStatus("請選擇是否可配合穿搭拍攝。", "error");
+            return false;
+          }
+          break;
+        case 9:
+          if (!document.getElementById("experience").value) {
+            setStatus("請選擇是否有拍攝經驗。", "error");
+            return false;
+          }
+          break;
+        case 13:
+          if (!document.getElementById("authorized").checked) {
+            setStatus("請先勾選同意授權內容。", "error");
+            return false;
+          }
+          break;
+      }
+      setStatus("");
+      return true;
+    }
+
+    nextBtn.addEventListener("click", () => {
+      if (!validateStep(currentStep)) return;
+      currentStep += 1;
+      showStep(currentStep);
+    });
+
+    prevBtn.addEventListener("click", () => {
+      setStatus("");
+      currentStep -= 1;
+      showStep(currentStep);
+    });
+
+    document.getElementById("name").addEventListener("keydown", e => {
+      if (e.key === "Enter") { e.preventDefault(); if (validateStep(0)) { currentStep = 1; showStep(currentStep); } }
+    });
+    document.getElementById("employeeId").addEventListener("keydown", e => {
+      if (e.key === "Enter") { e.preventDefault(); if (validateStep(1)) { currentStep = 2; showStep(currentStep); } }
+    });
+    document.getElementById("email").addEventListener("keydown", e => {
+      if (e.key === "Enter") { e.preventDefault(); if (validateStep(2)) { currentStep = 3; showStep(currentStep); } }
+    });
+    document.getElementById("contact").addEventListener("keydown", e => {
+      if (e.key === "Enter") { e.preventDefault(); if (validateStep(4)) { currentStep = 5; showStep(currentStep); } }
+    });
+    document.getElementById("store").addEventListener("change", () => {
+      if (currentStep === 3 && validateStep(3)) {
+        currentStep = 4;
+        showStep(currentStep);
+      }
+    });
+    document.getElementById("face").addEventListener("change", () => {
+      if (currentStep === 7 && validateStep(7)) {
+        currentStep = 8;
+        showStep(currentStep);
+      }
+    });
+    document.getElementById("outfit").addEventListener("change", () => {
+      if (currentStep === 8 && validateStep(8)) {
+        currentStep = 9;
+        showStep(currentStep);
+      }
+    });
+    document.getElementById("experience").addEventListener("change", () => {
+      if (currentStep === 9 && validateStep(9)) {
+        currentStep = 10;
+        showStep(currentStep);
+      }
+    });
+    document.getElementById("priority").addEventListener("change", () => {
+      if (currentStep === 12) {
+        currentStep = 13;
+        showStep(currentStep);
+      }
+    });
+
+    form.addEventListener("change", (e) => {
+      if (currentStep === 6 && e.target.name === "types") {
+        if (validateStep(6)) {
+          currentStep = 7;
+          showStep(currentStep);
         }
-        const reader = new FileReader();
-        reader.onload = () => resolve({
-          base64: reader.result,
-          name: file.name
-        });
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function openModal(data) {
-      const modal = document.getElementById("resultModal");
-      const summaryList = document.getElementById("summaryList");
-      summaryList.innerHTML = "";
-
-      Object.entries(data).forEach(([key, value]) => {
-        const item = document.createElement("div");
-        item.className = "summary-item";
-        item.innerHTML = `<strong>${key}</strong><span>${value || ""}</span>`;
-        summaryList.appendChild(item);
-      });
-
-      modal.classList.add("show");
-    }
-
-    function closeModal() {
-      document.getElementById("resultModal").classList.remove("show");
-    }
+      }
+    });
 
     form.addEventListener("submit", async function(e) {
       e.preventDefault();
 
-      const types = [...document.querySelectorAll('input[name="types"]:checked')].map(el => el.value);
-
-      const photoFile = document.getElementById("photo").files[0];
-      let photoData = { base64: "", name: "" };
-
-      try {
-        photoData = await fileToBase64(photoFile);
-      } catch (error) {
-        setStatus("照片讀取失敗，請重新選擇檔案。", "error");
-        return;
-      }
+      if (!validateStep(13)) return;
 
       const payload = {
         name: document.getElementById("name").value.trim(),
@@ -689,46 +830,19 @@
         store: document.getElementById("store").value.trim(),
         contact: document.getElementById("contact").value.trim(),
         ig: document.getElementById("ig").value.trim(),
-        types: types,
+        types: [...document.querySelectorAll('input[name="types"]:checked')].map(el => el.value),
         face: document.getElementById("face").value,
         outfit: document.getElementById("outfit").value,
         experience: document.getElementById("experience").value,
         expDetail: document.getElementById("expDetail").value.trim(),
         portfolio: document.getElementById("portfolio").value.trim(),
         priority: document.getElementById("priority").value,
-        authorized: document.getElementById("authorized").checked,
-        photoBase64: photoData.base64,
-        photoName: photoData.name
+        authorized: document.getElementById("authorized").checked
       };
 
-      if (!payload.name || !payload.employeeId || !payload.email || !payload.store || !payload.contact) {
-        setStatus("請完整填寫姓名、員編、Email、門市與聯絡方式。", "error");
-        return;
-      }
-
-      if (!stores.includes(payload.store)) {
-        setStatus("請從下拉選單中選擇正確門市。", "error");
-        return;
-      }
-
-      if (!payload.types.length) {
-        setStatus("請至少選擇一種可接受的拍攝形式。", "error");
-        return;
-      }
-
-      if (!payload.face || !payload.outfit || !payload.experience) {
-        setStatus("請完成拍攝意願與經驗相關欄位。", "error");
-        return;
-      }
-
-      if (!payload.authorized) {
-        setStatus("請先勾選同意授權內容。", "error");
-        return;
-      }
-
-      setStatus("送出中...");
       submitBtn.disabled = true;
       submitBtn.textContent = "送出中...";
+      setStatus("送出中...");
 
       try {
         const res = await fetch(API_URL, {
@@ -743,9 +857,8 @@
 
         if (result.ok) {
           setStatus("送出成功，系統已同步寄送填寫副本至您的 Email。", "success");
-          form.reset();
-          openModal(result.submittedData || {});
-          window.scrollTo({ top: 0, behavior: "smooth" });
+          currentStep = 14;
+          showStep(currentStep);
         } else {
           setStatus("送出失敗：" + (result.message || "請稍後再試。"), "error");
         }
@@ -756,6 +869,8 @@
         submitBtn.textContent = "送出表單";
       }
     });
+
+    showStep(currentStep);
   </script>
 </body>
 </html>
