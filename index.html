@@ -3,28 +3,36 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>門市拍攝協助意願調查表</title>
+  <title>行銷素材拍攝意願調查表</title>
   <style>
     :root{
-      --red:#d71920;
-      --black:#111111;
-      --white:#ffffff;
-      --gray-01:#f5f5f5;
-      --gray-02:#e7e7e7;
-      --gray-04:#666666;
+      --bg:#f5f5f7;
+      --card:#ffffff;
+      --text:#111111;
+      --sub:#6e6e73;
+      --line:#e5e5e7;
+      --accent:#111111;
+      --accent-2:#d71920;
       --success:#157347;
       --error:#c62828;
-      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --shadow:0 20px 60px rgba(0,0,0,.08);
+      --radius:28px;
+      --max:900px;
     }
 
     *{box-sizing:border-box}
 
-    body{
+    html,body{
       margin:0;
-      font-family:Arial,"Noto Sans TC","PingFang TC","Microsoft JhengHei",sans-serif;
-      background:linear-gradient(180deg,#f2f2f2 0%, #fafafa 100%);
-      color:var(--black);
+      padding:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Noto Sans TC","PingFang TC","Segoe UI",sans-serif;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
     }
+
+    body{ min-height:100vh; }
 
     .app{
       min-height:100vh;
@@ -34,147 +42,169 @@
 
     .topbar{
       height:8px;
-      background:var(--red);
+      background:var(--accent-2);
     }
 
-    .container{
-      width:min(760px, 100%);
+    .shell{
+      width:min(var(--max), calc(100vw - 32px));
       margin:0 auto;
-      padding:24px 16px 120px;
-      flex:1;
+      padding:24px 0 120px;
     }
 
     .hero{
       position:relative;
       overflow:hidden;
-      background:linear-gradient(135deg,#111 0%, #1d1d1d 58%, #2a2a2a 100%);
-      color:#fff;
-      border-radius:24px;
-      padding:24px 22px;
+      border-radius:36px;
+      background:
+        radial-gradient(circle at top right, rgba(215,25,32,.10), transparent 25%),
+        linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
+      border:1px solid rgba(0,0,0,.05);
       box-shadow:var(--shadow);
-      margin-bottom:18px;
-    }
-
-    .hero::after{
-      content:"";
-      position:absolute;
-      right:-40px;
-      top:0;
-      width:140px;
-      height:100%;
-      background:var(--red);
-      transform:skewX(-20deg);
-    }
-
-    .hero-inner{
-      position:relative;
-      z-index:1;
-      max-width:560px;
+      padding:36px 32px;
+      margin-bottom:20px;
     }
 
     .hero-tag{
-      display:inline-block;
-      background:var(--red);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#111;
       color:#fff;
       font-size:12px;
       font-weight:700;
-      padding:6px 10px;
+      letter-spacing:.04em;
+      margin-bottom:20px;
+    }
+
+    .hero-tag::before{
+      content:"";
+      width:8px;
+      height:8px;
       border-radius:999px;
-      margin-bottom:12px;
-      letter-spacing:.4px;
+      background:var(--accent-2);
+      display:block;
     }
 
     .hero h1{
-      margin:0 0 8px;
-      font-size:28px;
-      line-height:1.2;
+      margin:0;
+      font-size:clamp(30px, 5vw, 54px);
+      line-height:1.04;
+      letter-spacing:-0.03em;
+      font-weight:800;
+      max-width:720px;
     }
 
     .hero p{
-      margin:0;
-      font-size:14px;
-      line-height:1.7;
-      color:rgba(255,255,255,.88);
+      margin:18px 0 0;
+      max-width:720px;
+      color:var(--sub);
+      font-size:15px;
+      line-height:1.8;
       white-space:pre-line;
     }
 
     .card{
-      background:#fff;
-      border-radius:24px;
-      padding:28px 22px;
+      background:var(--card);
+      border:1px solid rgba(0,0,0,.05);
+      border-radius:var(--radius);
       box-shadow:var(--shadow);
-      min-height:450px;
+    }
+
+    .form-card{
+      min-height:560px;
+      padding:36px 32px 28px;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
     }
 
-    .notice-box{
+    .notice-grid{
       display:grid;
-      gap:12px;
-      font-size:14px;
-      line-height:1.8;
-      color:#444;
+      grid-template-columns:1fr;
+      gap:14px;
+      margin-top:20px;
     }
 
     .notice-item{
-      padding:14px;
-      border:1px solid #e7e7e7;
-      border-radius:14px;
-      background:#fafafa;
+      padding:18px 18px 16px;
+      border:1px solid var(--line);
+      border-radius:20px;
+      background:linear-gradient(180deg,#fff 0%, #fafafa 100%);
+    }
+
+    .notice-item strong{
+      display:block;
+      font-size:16px;
+      margin-bottom:6px;
+      letter-spacing:-0.01em;
+    }
+
+    .notice-item p{
+      margin:0;
+      color:var(--sub);
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .eyebrow,
+    .step-kicker{
+      color:var(--accent-2);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:12px;
+    }
+
+    .notice-title,
+    .step-title{
+      margin:0 0 10px;
+      font-size:clamp(28px, 4vw, 46px);
+      line-height:1.08;
+      letter-spacing:-0.03em;
+      font-weight:800;
+      max-width:760px;
     }
 
     .step{
       display:none;
-      animation:fade .2s ease;
+      animation:fade .22s ease;
     }
 
-    .step.active{
-      display:block;
-    }
+    .step.active{ display:block; }
 
     @keyframes fade{
-      from{opacity:0;transform:translateY(4px)}
+      from{opacity:0;transform:translateY(6px)}
       to{opacity:1;transform:translateY(0)}
     }
 
-    .step-kicker{
-      color:var(--red);
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.5px;
-      margin-bottom:10px;
-    }
-
-    .step-title{
-      margin:0 0 10px;
-      font-size:30px;
-      line-height:1.2;
-      font-weight:800;
-    }
-
     .step-desc{
-      margin:0 0 24px;
-      font-size:14px;
-      color:var(--gray-04);
-      line-height:1.7;
+      margin:0 0 28px;
+      max-width:680px;
+      color:var(--sub);
+      font-size:15px;
+      line-height:1.8;
       white-space:pre-line;
     }
 
     .field{
       display:flex;
       flex-direction:column;
-      gap:8px;
+      gap:10px;
+      max-width:680px;
     }
 
     .field label{
       font-size:14px;
       font-weight:700;
+      letter-spacing:-0.01em;
     }
 
     .required::after{
       content:" *";
-      color:var(--red);
+      color:var(--accent-2);
     }
 
     input[type="text"],
@@ -183,70 +213,90 @@
     select,
     textarea{
       width:100%;
-      border:1px solid #d9d9d9;
-      border-radius:14px;
-      padding:14px 16px;
-      font-size:16px;
-      outline:none;
+      border:1px solid var(--line);
       background:#fff;
-      transition:.15s ease;
+      border-radius:20px;
+      padding:16px 18px;
+      font-size:17px;
+      line-height:1.4;
+      color:var(--text);
+      outline:none;
+      transition:border-color .15s ease, box-shadow .15s ease;
+      appearance:none;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="url"]:focus,
+    select:focus,
+    textarea:focus{
+      border-color:#c9c9ce;
+      box-shadow:0 0 0 5px rgba(0,0,0,.04);
     }
 
     textarea{
-      min-height:140px;
+      min-height:160px;
       resize:vertical;
-    }
-
-    input:focus,
-    select:focus,
-    textarea:focus{
-      border-color:var(--red);
-      box-shadow:0 0 0 4px rgba(215,25,32,.08);
     }
 
     .hint{
       font-size:12px;
-      color:var(--gray-04);
+      color:var(--sub);
+      margin-top:-2px;
     }
 
     .choice-list{
       display:grid;
       gap:12px;
+      max-width:720px;
     }
 
     .choice-item{
       display:flex;
-      gap:12px;
+      gap:14px;
       align-items:flex-start;
-      padding:14px 16px;
-      border:1px solid #ddd;
-      border-radius:16px;
-      cursor:pointer;
-      transition:.15s ease;
+      padding:18px;
+      border:1px solid var(--line);
+      border-radius:22px;
       background:#fff;
+      cursor:pointer;
+      transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+      user-select:none;
     }
 
     .choice-item:hover{
-      border-color:#bbb;
       transform:translateY(-1px);
+      border-color:#d0d0d4;
+      box-shadow:0 8px 20px rgba(0,0,0,.04);
     }
 
     .choice-item input{
-      margin-top:3px;
-      accent-color:var(--red);
-      transform:scale(1.1);
+      margin-top:4px;
+      accent-color:var(--accent-2);
+      transform:scale(1.15);
+      flex:0 0 auto;
     }
 
     .choice-text{
-      font-size:16px;
-      line-height:1.5;
+      font-size:17px;
+      line-height:1.55;
+      letter-spacing:-0.01em;
     }
 
     .actions{
       display:flex;
+      align-items:center;
       justify-content:space-between;
       gap:12px;
       margin-top:28px;
+      padding-top:12px;
+    }
+
+    .actions-left,
+    .actions-right{
+      display:flex;
+      gap:12px;
+      align-items:center;
     }
 
     .btn{
@@ -254,44 +304,54 @@
       border-radius:999px;
       padding:14px 20px;
       font-size:15px;
-      font-weight:800;
+      font-weight:700;
+      letter-spacing:-0.01em;
       cursor:pointer;
-      transition:.15s ease;
+      transition:transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease;
+      white-space:nowrap;
     }
 
+    .btn:hover{ transform:translateY(-1px); }
     .btn:disabled{
-      opacity:.5;
+      opacity:.55;
       cursor:not-allowed;
+      transform:none;
     }
 
     .btn-secondary{
-      background:#ececec;
-      color:#222;
+      background:#ededf0;
+      color:#1d1d1f;
     }
 
     .btn-primary{
       background:#111;
       color:#fff;
-      margin-left:auto;
+      box-shadow:0 10px 20px rgba(0,0,0,.10);
     }
 
-    .btn-primary:hover,
-    .btn-secondary:hover{
-      transform:translateY(-1px);
+    .status{
+      margin-top:14px;
+      min-height:22px;
+      font-size:14px;
+      font-weight:700;
     }
+
+    .status.success{ color:var(--success); }
+    .status.error{ color:var(--error); }
 
     .footer{
       position:fixed;
       left:0;
       right:0;
       bottom:0;
-      background:#fff;
-      border-top:1px solid #e6e6e6;
-      padding:14px 16px 18px;
+      padding:16px;
+      background:rgba(245,245,247,.85);
+      backdrop-filter:blur(16px);
+      border-top:1px solid rgba(0,0,0,.05);
     }
 
     .footer-inner{
-      width:min(760px, 100%);
+      width:min(var(--max), calc(100vw - 32px));
       margin:0 auto;
     }
 
@@ -299,16 +359,17 @@
       display:flex;
       justify-content:space-between;
       align-items:center;
+      margin-bottom:10px;
       font-size:12px;
-      color:#666;
-      margin-bottom:8px;
       font-weight:700;
+      color:var(--sub);
+      letter-spacing:.02em;
     }
 
     .progress{
       width:100%;
       height:8px;
-      background:#eee;
+      background:#e9e9ec;
       border-radius:999px;
       overflow:hidden;
     }
@@ -316,41 +377,32 @@
     .progress-bar{
       height:100%;
       width:0%;
-      background:var(--red);
-      transition:width .2s ease;
+      background:linear-gradient(90deg, #111 0%, #d71920 100%);
+      transition:width .25s ease;
     }
 
-    .status{
-      margin-top:12px;
-      font-size:14px;
-      font-weight:700;
-      min-height:20px;
-    }
-
-    .status.success{ color:var(--success); }
-    .status.error{ color:var(--error); }
+    .hidden{ display:none !important; }
 
     .thankyou{
       text-align:center;
-      padding:28px 8px 8px;
+      padding:48px 12px 18px;
+      max-width:700px;
+      margin:0 auto;
     }
 
     .thankyou h2{
-      margin:0 0 12px;
-      font-size:32px;
-      line-height:1.2;
+      margin:0 0 16px;
+      font-size:clamp(32px, 5vw, 52px);
+      line-height:1.06;
+      letter-spacing:-0.04em;
+      font-weight:800;
     }
 
     .thankyou p{
       margin:0;
-      color:#555;
-      font-size:16px;
-      line-height:1.8;
-      white-space:pre-line;
-    }
-
-    .hidden{
-      display:none !important;
+      color:var(--sub);
+      font-size:17px;
+      line-height:1.9;
     }
 
     .modal{
@@ -362,53 +414,58 @@
       justify-content:center;
       padding:20px;
       z-index:1000;
+      backdrop-filter:blur(8px);
     }
 
-    .modal.show{
-      display:flex;
-    }
+    .modal.show{ display:flex; }
 
     .modal-card{
-      width:min(760px,100%);
-      max-height:85vh;
+      width:min(820px,100%);
+      max-height:88vh;
       overflow:auto;
       background:#fff;
-      border-radius:24px;
-      padding:24px;
-      box-shadow:0 20px 50px rgba(0,0,0,.2);
+      border-radius:28px;
+      padding:28px;
+      box-shadow:0 30px 80px rgba(0,0,0,.22);
     }
 
     .modal-title{
       margin:0 0 10px;
-      font-size:24px;
+      font-size:30px;
+      line-height:1.1;
+      letter-spacing:-0.03em;
       font-weight:800;
     }
 
     .modal-desc{
       margin:0 0 18px;
-      color:#666;
+      color:var(--sub);
       font-size:14px;
-      line-height:1.7;
+      line-height:1.8;
     }
 
     .summary-list{
       display:grid;
-      gap:10px;
-      margin-bottom:20px;
+      gap:12px;
+      margin-bottom:22px;
     }
 
     .summary-item{
       background:#fafafa;
-      border:1px solid #ececec;
-      border-radius:14px;
-      padding:12px 14px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px 16px;
       font-size:14px;
+      line-height:1.7;
     }
 
     .summary-item strong{
       display:block;
       margin-bottom:4px;
-      color:#222;
+      color:#111;
+      font-size:13px;
+      letter-spacing:.03em;
+      text-transform:uppercase;
     }
 
     .modal-actions{
@@ -417,34 +474,154 @@
       justify-content:flex-end;
     }
 
+    /* searchable select */
+    .search-select{
+      position:relative;
+      max-width:680px;
+    }
+
+    .search-select-input{
+      width:100%;
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:20px;
+      padding:16px 18px;
+      font-size:17px;
+      line-height:1.4;
+      color:var(--text);
+      outline:none;
+    }
+
+    .search-select-input:focus{
+      border-color:#c9c9ce;
+      box-shadow:0 0 0 5px rgba(0,0,0,.04);
+    }
+
+    .search-select-dropdown{
+      position:absolute;
+      top:calc(100% + 8px);
+      left:0;
+      right:0;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:20px;
+      box-shadow:0 18px 40px rgba(0,0,0,.10);
+      max-height:280px;
+      overflow:auto;
+      z-index:20;
+      display:none;
+    }
+
+    .search-select.open .search-select-dropdown{
+      display:block;
+    }
+
+    .search-select-option{
+      padding:14px 16px;
+      font-size:15px;
+      line-height:1.6;
+      cursor:pointer;
+      border-bottom:1px solid #f2f2f2;
+    }
+
+    .search-select-option:last-child{
+      border-bottom:none;
+    }
+
+    .search-select-option:hover,
+    .search-select-option.active{
+      background:#f7f7f8;
+    }
+
+    .search-select-empty{
+      padding:14px 16px;
+      color:var(--sub);
+      font-size:14px;
+    }
+
+    /* phone input */
+    .phone-wrap{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      max-width:680px;
+    }
+
+    .phone-prefix{
+      flex:0 0 auto;
+      min-width:72px;
+      padding:16px 18px;
+      border:1px solid var(--line);
+      background:#f7f7f8;
+      border-radius:20px;
+      text-align:center;
+      font-size:17px;
+      font-weight:700;
+      color:#111;
+    }
+
+    .phone-input{
+      flex:1 1 auto;
+    }
+
     @media (max-width:720px){
-      .container{
-        padding:18px 12px 116px;
+      .shell,
+      .footer-inner{
+        width:calc(100vw - 24px);
+      }
+
+      .shell{
+        padding:18px 0 120px;
+      }
+
+      .hero,
+      .form-card{
+        border-radius:24px;
       }
 
       .hero{
-        padding:20px 18px;
-        border-radius:20px;
+        padding:22px 20px;
+      }
+
+      .form-card{
+        padding:22px 20px 24px;
+        min-height:420px;
       }
 
       .hero h1,
+      .notice-title,
       .step-title,
-      .thankyou h2{
-        font-size:24px;
+      .thankyou h2,
+      .modal-title{
+        font-size:28px;
       }
 
-      .card{
-        padding:22px 18px;
-        border-radius:20px;
-        min-height:380px;
+      .actions{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .actions-left,
+      .actions-right{
+        width:100%;
+      }
+
+      .actions-left .btn,
+      .actions-right .btn,
+      .modal-actions .btn{
+        width:100%;
       }
 
       .modal-actions{
         flex-direction:column;
       }
 
-      .modal-actions .btn{
-        width:100%;
+      .phone-wrap{
+        gap:10px;
+      }
+
+      .phone-prefix{
+        min-width:64px;
       }
     }
   </style>
@@ -453,46 +630,39 @@
   <div class="app">
     <div class="topbar"></div>
 
-    <div class="container">
+    <div class="shell">
       <section class="hero">
-        <div class="hero-inner">
-          <div class="hero-tag">ABC-MART INTERNAL FORM</div>
-          <h1>門市拍攝協助意願調查表</h1>
-          <p>本表單僅提供有意願之同仁填寫，並不代表一定會安排拍攝。
+        <div class="hero-tag">ABC-MART INTERNAL FORM</div>
+        <h1>行銷素材拍攝意願調查表</h1>
+        <p>本表僅提供有意願之同仁填寫，並不代表一定會安排拍攝。
 拍攝時間將依每次內容需求及門市營運狀況彈性安排，且不影響既有工作規劃。
 請依自身狀況與配合度審慎評估是否參與。</p>
-        </div>
       </section>
 
-      <form id="form" class="card">
+      <form id="form" class="card form-card">
         <div>
           <section class="step active" data-step="0">
-            <div class="step-kicker">NOTICE</div>
-            <h2 class="step-title">拍攝安排說明</h2>
-            <div class="notice-box">
+            <div class="eyebrow">Notice</div>
+            <h2 class="notice-title">拍攝安排說明</h2>
+            <div class="notice-grid">
               <div class="notice-item">
-                <strong>上班日拍攝</strong><br>
-                於上班時間進行，須事前與 SV 或店長確認拍攝時段，並以不影響門市營運及店務為原則。<br>
-                視專案內容及複雜程度，提供適當回饋（非薪資性質）。
+                <strong>上班日拍攝</strong>
+                <p>於上班時間進行，須事前與 SV 或店長確認拍攝時段，並以不影響門市營運及店務為原則。視專案內容及複雜程度，提供適當回饋（非薪資性質）。</p>
               </div>
-
               <div class="notice-item">
-                <strong>休假日拍攝</strong><br>
-                採自願參與方式，非屬工作指派，且不影響既有排班制度。<br>
-                視專案內容提供適當回饋（非薪資性質）。
+                <strong>休假日拍攝</strong>
+                <p>採自願參與方式，非屬工作指派，且不影響既有排班制度。視專案內容提供相對應回饋（非薪資性質）。</p>
               </div>
-
               <div class="notice-item">
-                <strong>個人資料使用說明</strong><br>
-                本表單所蒐集之個人資料，僅供行銷部內部進行拍攝安排、名單管理及相關業務使用。<br>
-                所蒐集之資料將依公司相關規範妥善保管，並於合理且必要之範圍內使用，不另作其他用途，亦不對外提供。
+                <strong>個人資料使用說明</strong>
+                <p>本表單所蒐集之個人資料，僅供行銷部內部進行拍攝安排、名單管理及相關業務使用。所蒐集之資料將依公司相關規範妥善保管，並於合理且必要之範圍內使用，不另作其他用途，亦不對外提供。</p>
               </div>
             </div>
           </section>
 
           <section class="step" data-step="1">
-            <div class="step-kicker">STEP 1</div>
-            <h2 class="step-title">請先告訴我們你的姓名</h2>
+            <div class="step-kicker">Step 1</div>
+            <h2 class="step-title">你的姓名?</h2>
             <p class="step-desc">此表單開放全體門市同仁填寫，包含正職、兼職及工讀人員。</p>
             <div class="field">
               <label class="required" for="name">姓名</label>
@@ -501,18 +671,18 @@
           </section>
 
           <section class="step" data-step="2">
-            <div class="step-kicker">STEP 2</div>
+            <div class="step-kicker">Step 2</div>
             <h2 class="step-title">你的員編是？</h2>
             <p class="step-desc">請填寫新版員編 6 碼數字。</p>
             <div class="field">
               <label class="required" for="employeeId">員編</label>
-              <input id="employeeId" type="text" inputmode="numeric" maxlength="6" required>
-              <div class="hint">格式範例：123456</div>
+              <input id="employeeId" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" required>
+              <div class="hint">格式範例：10XXXX、11XXXX</div>
             </div>
           </section>
 
           <section class="step" data-step="3">
-            <div class="step-kicker">STEP 3</div>
+            <div class="step-kicker">Step 3</div>
             <h2 class="step-title">請填寫你的 Email</h2>
             <div class="field">
               <label class="required" for="email">Email</label>
@@ -521,27 +691,51 @@
           </section>
 
           <section class="step" data-step="4">
-            <div class="step-kicker">STEP 4</div>
+            <div class="step-kicker">Step 4</div>
             <h2 class="step-title">你的所屬門市</h2>
             <div class="field">
-              <label class="required" for="store">所屬門市</label>
-              <select id="store" required>
-                <option value="">請選擇門市</option>
-              </select>
+              <label class="required" for="storeSearch">所屬門市</label>
+              <div class="search-select" id="storeSelectWrap">
+                <input
+                  id="storeSearch"
+                  class="search-select-input"
+                  type="text"
+                  placeholder="請搜尋門市名稱"
+                  autocomplete="off"
+                >
+                <div id="storeDropdown" class="search-select-dropdown"></div>
+              </div>
+              <input id="store" type="hidden">
+              <div class="hint">可直接輸入關鍵字搜尋，例如：西門、台中、南港</div>
             </div>
           </section>
 
           <section class="step" data-step="5">
-            <div class="step-kicker">STEP 5</div>
+            <div class="step-kicker">Step 5</div>
             <h2 class="step-title">聯絡方式</h2>
+            <p class="step-desc">手機號碼已預設前兩碼 09，請只填寫後面 8 碼數字。</p>
             <div class="field">
-              <label class="required" for="contact">LINE 或電話</label>
-              <input id="contact" type="text" required>
+              <label class="required" for="contactTail">手機號碼</label>
+              <div class="phone-wrap">
+                <div class="phone-prefix">09</div>
+                <input
+                  id="contactTail"
+                  class="phone-input"
+                  type="text"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  maxlength="8"
+                  autocomplete="off"
+                  placeholder="請輸入後 8 碼"
+                  required
+                >
+              </div>
+              <div class="hint">系統將自動組成完整手機號碼：09XXXXXXXX</div>
             </div>
           </section>
 
           <section class="step" data-step="6">
-            <div class="step-kicker">STEP 6</div>
+            <div class="step-kicker">Step 6</div>
             <h2 class="step-title">IG 帳號</h2>
             <p class="step-desc">若沒有可略過。</p>
             <div class="field">
@@ -551,7 +745,7 @@
           </section>
 
           <section class="step" data-step="7">
-            <div class="step-kicker">STEP 7</div>
+            <div class="step-kicker">Step 7</div>
             <h2 class="step-title">你可接受的拍攝形式</h2>
             <p class="step-desc">可複選，至少選擇一項。</p>
             <div class="choice-list">
@@ -564,7 +758,7 @@
           </section>
 
           <section class="step" data-step="8">
-            <div class="step-kicker">STEP 8</div>
+            <div class="step-kicker">Step 8</div>
             <h2 class="step-title">是否可露臉</h2>
             <div class="field">
               <label class="required" for="face">是否可露臉</label>
@@ -577,7 +771,7 @@
           </section>
 
           <section class="step" data-step="9">
-            <div class="step-kicker">STEP 9</div>
+            <div class="step-kicker">Step 9</div>
             <h2 class="step-title">是否可配合穿搭拍攝</h2>
             <div class="field">
               <label class="required" for="outfit">是否可配合穿搭拍攝</label>
@@ -585,13 +779,12 @@
                 <option value="">請選擇</option>
                 <option value="可以（自備穿搭）">可以（自備穿搭）</option>
                 <option value="可以（需提供服裝）">可以（需提供服裝）</option>
-                <option value="不方便">不方便</option>
               </select>
             </div>
           </section>
 
           <section class="step" data-step="10">
-            <div class="step-kicker">STEP 10</div>
+            <div class="step-kicker">Step 10</div>
             <h2 class="step-title">是否有拍攝經驗</h2>
             <div class="field">
               <label class="required" for="experience">是否有拍攝經驗</label>
@@ -604,7 +797,7 @@
           </section>
 
           <section class="step" data-step="11">
-            <div class="step-kicker">STEP 11</div>
+            <div class="step-kicker">Step 11</div>
             <h2 class="step-title">拍攝經驗補充</h2>
             <p class="step-desc">若沒有可略過。</p>
             <div class="field">
@@ -614,7 +807,7 @@
           </section>
 
           <section class="step" data-step="12">
-            <div class="step-kicker">STEP 12</div>
+            <div class="step-kicker">Step 12</div>
             <h2 class="step-title">IG 或作品連結</h2>
             <p class="step-desc">若沒有可略過。</p>
             <div class="field">
@@ -624,7 +817,7 @@
           </section>
 
           <section class="step" data-step="13">
-            <div class="step-kicker">STEP 13</div>
+            <div class="step-kicker">Step 13</div>
             <h2 class="step-title">是否願意優先參與未來拍攝</h2>
             <div class="field">
               <label for="priority">是否願意優先參與未來拍攝</label>
@@ -637,11 +830,11 @@
           </section>
 
           <section class="step" data-step="14">
-            <div class="step-kicker">FINAL STEP</div>
+            <div class="step-kicker">Final Step</div>
             <h2 class="step-title">授權與同意</h2>
             <p class="step-desc">請確認後進入最後資料確認。</p>
             <div class="field">
-              <div style="padding:16px;border:1px solid #e1e1e1;border-radius:16px;background:#fafafa;font-size:14px;color:#444;white-space:pre-line;">本人同意參與拍攝活動，並同意公司使用拍攝過程中產出之所有影像素材（包含照片、影片等），
+              <div style="padding:18px;border:1px solid var(--line);border-radius:20px;background:#fafafa;font-size:14px;color:#444;white-space:pre-line;line-height:1.8;">本人同意參與拍攝活動，並同意公司使用拍攝過程中產出之所有影像素材（包含照片、影片等），
 用於品牌行銷、社群媒體、官方網站及店鋪展示等相關用途。
 
 公司得就素材進行剪輯、調整及重製。
@@ -659,7 +852,7 @@
 
           <section class="step" data-step="15">
             <div class="thankyou">
-              <div class="step-kicker">COMPLETED</div>
+              <div class="step-kicker">Completed</div>
               <h2>感謝填寫</h2>
               <p>期待與你一同拍攝</p>
             </div>
@@ -667,10 +860,14 @@
         </div>
 
         <div class="actions">
-          <button type="button" id="prevBtn" class="btn btn-secondary">上一頁</button>
-          <button type="button" id="nextBtn" class="btn btn-primary">下一頁</button>
-          <button type="button" id="startBtn" class="btn btn-primary hidden">開始填寫</button>
-          <button type="button" id="reviewBtn" class="btn btn-primary hidden">確認資料</button>
+          <div class="actions-left">
+            <button type="button" id="prevBtn" class="btn btn-secondary">上一頁</button>
+          </div>
+          <div class="actions-right">
+            <button type="button" id="startBtn" class="btn btn-primary hidden">開始填寫</button>
+            <button type="button" id="nextBtn" class="btn btn-primary">下一頁</button>
+            <button type="button" id="reviewBtn" class="btn btn-primary hidden">確認資料</button>
+          </div>
         </div>
 
         <div id="status" class="status"></div>
@@ -724,14 +921,6 @@
       "ABC-岡山秀泰（272201）","ABC-高雄義享（272301）","ABC-屏東太平洋（281704）","ABC-台東（282201）"
     ];
 
-    const storeSelect = document.getElementById("store");
-    stores.forEach(store => {
-      const option = document.createElement("option");
-      option.value = store;
-      option.textContent = store;
-      storeSelect.appendChild(option);
-    });
-
     const steps = [...document.querySelectorAll(".step")];
     const totalQuestionSteps = 14;
     let currentStep = 0;
@@ -749,6 +938,11 @@
     const editBtn = document.getElementById("editBtn");
     const confirmSubmitBtn = document.getElementById("confirmSubmitBtn");
 
+    const storeSelectWrap = document.getElementById("storeSelectWrap");
+    const storeSearch = document.getElementById("storeSearch");
+    const storeDropdown = document.getElementById("storeDropdown");
+    const storeHidden = document.getElementById("store");
+
     function setStatus(message, type = "") {
       statusEl.textContent = message;
       statusEl.className = "status " + type;
@@ -758,13 +952,22 @@
       return /^\d{6}$/.test(value);
     }
 
+    function isValidPhoneTail(value) {
+      return /^\d{8}$/.test(value);
+    }
+
+    function getFullPhone() {
+      const tail = document.getElementById("contactTail").value.trim();
+      return tail ? `09${tail}` : "";
+    }
+
     function getPayload() {
       return {
         name: document.getElementById("name").value.trim(),
         employeeId: document.getElementById("employeeId").value.trim(),
         email: document.getElementById("email").value.trim(),
-        store: document.getElementById("store").value.trim(),
-        contact: document.getElementById("contact").value.trim(),
+        store: storeHidden.value.trim(),
+        contact: getFullPhone(),
         ig: document.getElementById("ig").value.trim(),
         types: [...document.querySelectorAll('input[name="types"]:checked')].map(el => el.value),
         face: document.getElementById("face").value,
@@ -839,17 +1042,23 @@
           }
           break;
         case 4:
-          if (!document.getElementById("store").value.trim()) {
-            setStatus("請選擇門市。", "error");
+          if (!storeHidden.value.trim()) {
+            setStatus("請選擇正確門市。", "error");
             return false;
           }
           break;
-        case 5:
-          if (!document.getElementById("contact").value.trim()) {
-            setStatus("請填寫聯絡方式。", "error");
+        case 5: {
+          const phoneTail = document.getElementById("contactTail").value.trim();
+          if (!phoneTail) {
+            setStatus("請填寫手機號碼後 8 碼。", "error");
+            return false;
+          }
+          if (!isValidPhoneTail(phoneTail)) {
+            setStatus("手機號碼格式錯誤，請填寫 8 碼數字。", "error");
             return false;
           }
           break;
+        }
         case 7:
           if (![...document.querySelectorAll('input[name="types"]:checked')].length) {
             setStatus("請至少選擇一種拍攝形式。", "error");
@@ -891,7 +1100,7 @@
         "員編": payload.employeeId,
         "Email": payload.email,
         "門市": payload.store,
-        "聯絡方式": payload.contact,
+        "手機號碼": payload.contact,
         "IG": payload.ig || "未填寫",
         "拍攝形式": payload.types.join("、"),
         "是否可露臉": payload.face,
@@ -920,6 +1129,58 @@
     function closeReviewModal() {
       reviewModal.classList.remove("show");
     }
+
+    function renderStoreOptions(keyword = "") {
+      const q = keyword.trim().toLowerCase();
+      const filtered = stores.filter(store => store.toLowerCase().includes(q));
+
+      if (!filtered.length) {
+        storeDropdown.innerHTML = `<div class="search-select-empty">找不到符合的門市</div>`;
+        return;
+      }
+
+      storeDropdown.innerHTML = filtered
+        .map(store => `<div class="search-select-option" data-value="${store.replace(/"/g, '&quot;')}">${store}</div>`)
+        .join("");
+
+      storeDropdown.querySelectorAll(".search-select-option").forEach(option => {
+        option.addEventListener("click", () => {
+          const value = option.getAttribute("data-value");
+          storeSearch.value = value;
+          storeHidden.value = value;
+          storeSelectWrap.classList.remove("open");
+          if (currentStep === 4 && validateStep(4)) {
+            currentStep = 5;
+            showStep(currentStep);
+          }
+        });
+      });
+    }
+
+    storeSearch.addEventListener("focus", () => {
+      storeSelectWrap.classList.add("open");
+      renderStoreOptions(storeSearch.value);
+    });
+
+    storeSearch.addEventListener("input", () => {
+      storeHidden.value = "";
+      storeSelectWrap.classList.add("open");
+      renderStoreOptions(storeSearch.value);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!storeSelectWrap.contains(e.target)) {
+        storeSelectWrap.classList.remove("open");
+      }
+    });
+
+    document.getElementById("employeeId").addEventListener("input", e => {
+      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6);
+    });
+
+    document.getElementById("contactTail").addEventListener("input", e => {
+      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 8);
+    });
 
     startBtn.addEventListener("click", () => {
       currentStep = 1;
@@ -984,29 +1245,42 @@
     });
 
     document.getElementById("name").addEventListener("keydown", e => {
-      if (e.key === "Enter") { e.preventDefault(); if (validateStep(1)) { currentStep = 2; showStep(currentStep); } }
-    });
-
-    document.getElementById("employeeId").addEventListener("input", e => {
-      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6);
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (validateStep(1)) {
+          currentStep = 2;
+          showStep(currentStep);
+        }
+      }
     });
 
     document.getElementById("employeeId").addEventListener("keydown", e => {
-      if (e.key === "Enter") { e.preventDefault(); if (validateStep(2)) { currentStep = 3; showStep(currentStep); } }
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (validateStep(2)) {
+          currentStep = 3;
+          showStep(currentStep);
+        }
+      }
     });
 
     document.getElementById("email").addEventListener("keydown", e => {
-      if (e.key === "Enter") { e.preventDefault(); if (validateStep(3)) { currentStep = 4; showStep(currentStep); } }
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (validateStep(3)) {
+          currentStep = 4;
+          showStep(currentStep);
+        }
+      }
     });
 
-    document.getElementById("contact").addEventListener("keydown", e => {
-      if (e.key === "Enter") { e.preventDefault(); if (validateStep(5)) { currentStep = 6; showStep(currentStep); } }
-    });
-
-    document.getElementById("store").addEventListener("change", () => {
-      if (currentStep === 4 && validateStep(4)) {
-        currentStep = 5;
-        showStep(currentStep);
+    document.getElementById("contactTail").addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (validateStep(5)) {
+          currentStep = 6;
+          showStep(currentStep);
+        }
       }
     });
 
