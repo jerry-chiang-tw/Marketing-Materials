@@ -11,7 +11,6 @@
       --text:#111111;
       --sub:#6e6e73;
       --line:#e5e5e7;
-      --accent:#111111;
       --accent-2:#d71920;
       --success:#157347;
       --error:#c62828;
@@ -78,6 +77,24 @@
       padding:24px 0 120px;
     }
 
+    .card{
+      background:var(--card);
+      border:1px solid rgba(0,0,0,.05);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(4px);
+    }
+
+    .form-card{
+      min-height:560px;
+      padding:36px 32px 28px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      position:relative;
+      overflow:hidden;
+    }
+
     .hero{
       position:relative;
       overflow:hidden;
@@ -129,7 +146,6 @@
       letter-spacing:.04em;
       margin-bottom:20px;
       box-shadow:0 8px 18px rgba(0,0,0,.12);
-      transform:translateY(0);
       animation:fadeSlide .7s var(--ease);
     }
 
@@ -171,32 +187,6 @@
     @keyframes fadeSlide{
       from{opacity:0; transform:translateY(16px)}
       to{opacity:1; transform:translateY(0)}
-    }
-
-    .card{
-      background:var(--card);
-      border:1px solid rgba(0,0,0,.05);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(4px);
-    }
-
-    .form-card{
-      min-height:560px;
-      padding:36px 32px 28px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .form-card::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,0));
-      pointer-events:none;
     }
 
     .notice-grid{
@@ -270,15 +260,6 @@
     @keyframes stepIn{
       from{opacity:0; transform:translateY(14px) scale(.995)}
       to{opacity:1; transform:translateY(0) scale(1)}
-    }
-
-    .step-out{
-      animation:stepOut .24s ease forwards;
-    }
-
-    @keyframes stepOut{
-      from{opacity:1; transform:translateY(0) scale(1)}
-      to{opacity:0; transform:translateY(-8px) scale(.995)}
     }
 
     .step-desc{
@@ -467,15 +448,6 @@
     .status.success{ color:var(--success); }
     .status.error{ color:var(--error); }
 
-    .status-pop{
-      animation:statusPop .24s ease;
-    }
-
-    @keyframes statusPop{
-      from{opacity:0; transform:translateY(6px)}
-      to{opacity:1; transform:translateY(0)}
-    }
-
     .footer{
       position:fixed;
       left:0;
@@ -627,11 +599,6 @@
       transition:transform .15s ease, box-shadow .15s ease;
     }
 
-    .summary-item:hover{
-      transform:translateY(-1px);
-      box-shadow:0 8px 20px rgba(0,0,0,.04);
-    }
-
     .summary-item strong{
       display:block;
       margin-bottom:4px;
@@ -736,7 +703,6 @@
       font-size:17px;
       font-weight:700;
       color:#111;
-      transition:transform .15s ease, box-shadow .15s ease;
     }
 
     .phone-input{
@@ -810,23 +776,23 @@
     <div class="topbar"></div>
 
     <div class="shell">
-      <section class="hero">
-        <div class="hero-tag">ABC-MART INTERNAL FORM</div>
-        <h1>行銷素材拍攝意願調查表</h1>
-        <p>本表單僅提供有意願之同仁填寫，並不代表一定會安排拍攝。
-拍攝時間將依每次內容需求及門市營運狀況彈性安排，且不影響既有工作規劃。
-請依自身狀況與配合度審慎評估是否參與。</p>
-      </section>
-
       <form id="form" class="card form-card">
         <div>
           <section class="step active" data-step="0">
+            <section class="hero" style="margin-bottom:24px;">
+              <div class="hero-tag">ABC-MART MKT</div>
+              <h1>行銷素材拍攝意願調查表</h1>
+              <p>本表單僅提供有意願之同仁填寫。
+拍攝時間將依每次內容需求及門市營運狀況彈性安排，以不影響既有工作規劃為優先。
+*請依自身狀況與配合度審慎評估是否參與。</p>
+            </section>
+
             <div class="eyebrow">Notice</div>
             <h2 class="notice-title">拍攝安排說明</h2>
             <div class="notice-grid">
               <div class="notice-item">
                 <strong>上班日拍攝</strong>
-                <p>於上班時間進行，須事前與 SV 或店長確認拍攝時段，並以不影響門市營運及店務為原則。視專案內容及複雜程度，提供適當回饋（非薪資性質）。</p>
+                <p>於上班時間進行，行銷須事前與SV或店長確認拍攝時段，並以不影響門市營運及店務為原則。視專案內容及複雜程度，提供適當回饋（非薪資性質）。</p>
               </div>
               <div class="notice-item">
                 <strong>休假日拍攝</strong>
@@ -842,7 +808,66 @@
           <section class="step" data-step="1">
             <div class="step-kicker">Step 1</div>
             <h2 class="step-title">你的姓名?</h2>
-            <p class="step-desc">此表單開放全體門市同仁填寫，包含正職、兼職及工讀人員。</p>
+            <p class="step-desc">本名/      }
+
+      .actions-left .btn,
+      .actions-right .btn,
+      .modal-actions .btn{
+        width:100%;
+      }
+
+      .modal-actions{
+        flex-direction:column;
+      }
+
+      .phone-wrap{
+        gap:10px;
+      }
+
+      .phone-prefix{
+        min-width:64px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="topbar"></div>
+
+    <div class="shell">
+      <form id="form" class="card form-card">
+        <div>
+          <section class="step active" data-step="0">
+            <section class="hero" style="margin-bottom:24px;">
+              <div class="hero-tag">ABC-MART MKT</div>
+              <h1>行銷素材拍攝意願調查表</h1>
+              <p>此表單開放全體門市同仁填寫，包含正職、兼職及工讀人員。
+拍攝時間將依每次內容需求及門市營運狀況彈性安排，以不影響既有工作規劃為優先。
+*請依自身狀況與配合度審慎評估是否參與。</p>
+            </section>
+
+            <div class="eyebrow">Notice</div>
+            <h2 class="notice-title">拍攝安排說明</h2>
+            <div class="notice-grid">
+              <div class="notice-item">
+                <strong>上班日拍攝</strong>
+                <p>於上班時間進行，行銷須事前與SV或店長確認拍攝時段，並以不影響門市營運及店務為原則。視專案內容及複雜程度，提供適當回饋（非薪資性質）。</p>
+              </div>
+              <div class="notice-item">
+                <strong>休假日拍攝</strong>
+                <p>採自願參與方式，非屬工作指派，且不影響既有排班制度。視專案內容提供相對應回饋（非薪資性質）。</p>
+              </div>
+              <div class="notice-item">
+                <strong>個人資料使用說明</strong>
+                <p>本表單所蒐集之個人資料，僅供行銷部內部進行拍攝安排、名單管理及相關業務使用。所蒐集之資料將依公司相關規範妥善保管，並於合理且必要之範圍內使用，不另作其他用途，亦不對外提供。</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="step" data-step="1">
+            <div class="step-kicker">Step 1</div>
+            <h2 class="step-title">你的名字?</h2>
+            <p class="step-desc">本名/小名/乳名/藝名/筆名 皆可</p>
             <div class="field">
               <label class="required" for="name">姓名</label>
               <input id="name" type="text" required>
@@ -856,13 +881,13 @@
             <div class="field">
               <label class="required" for="employeeId">員編</label>
               <input id="employeeId" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" required>
-              <div class="hint">格式範例：10XXXX、11XXXX</div>
+              <div class="hint">格式範例：123456</div>
             </div>
           </section>
 
           <section class="step" data-step="3">
             <div class="step-kicker">Step 3</div>
-            <h2 class="step-title">你的 Email?</h2>
+            <h2 class="step-title">你的Email?</h2>
             <div class="field">
               <label class="required" for="email">Email</label>
               <input id="email" type="email" required>
@@ -1024,8 +1049,7 @@
             <div class="thankyou">
               <div class="step-kicker">Completed</div>
               <h2>感謝填寫，期待與你一同拍攝！</h2>
-              <p>本專案相關聯繫人 行銷部｜江瑋豪、武詩婷</p>
-              
+              <p>本專案聯繫人 行銷部｜江瑋豪、武詩婷</p>
             </div>
           </section>
         </div>
@@ -1164,10 +1188,7 @@
 
     function setStatus(message, type = "") {
       statusEl.textContent = message;
-      statusEl.className = "status " + type + (message ? " status-pop" : "");
-      if (message) {
-        setTimeout(() => statusEl.classList.remove("status-pop"), 260);
-      }
+      statusEl.className = "status " + type;
     }
 
     function isValidEmployeeId(value) {
@@ -1360,29 +1381,23 @@
     function renderStoreOptions(keyword = "") {
       const q = keyword.trim().toLowerCase();
 
-      const filtered = stores.filter(store => {
-        return (
-          store.code.includes(q) ||
-          store.name.toLowerCase().includes(q) ||
-          store.label.toLowerCase().includes(q)
-        );
-      });
+      const filtered = stores.filter(store =>
+        store.code.includes(q) ||
+        store.name.toLowerCase().includes(q) ||
+        store.label.toLowerCase().includes(q)
+      );
 
       if (!filtered.length) {
         storeDropdown.innerHTML = `<div class="search-select-empty">找不到符合的門市</div>`;
         return;
       }
 
-      storeDropdown.innerHTML = filtered
-        .map(store => `
-          <div class="search-select-option"
-               data-code="${store.code}"
-               data-name="${store.name}"
-               data-label="${store.label}">
-            ${store.label}
-          </div>
-        `)
-        .join("");
+      storeDropdown.innerHTML = filtered.map(store => `
+        <div class="search-select-option"
+             data-label="${store.label}">
+          ${store.label}
+        </div>
+      `).join("");
 
       storeDropdown.querySelectorAll(".search-select-option").forEach(option => {
         option.addEventListener("click", () => {
@@ -1416,7 +1431,6 @@
           storeSearch.value = exactMatch.label;
           storeHidden.value = exactMatch.label;
           storeSelectWrap.classList.remove("open");
-
           if (currentStep === 4 && validateStep(4)) {
             currentStep = 5;
             showStep(currentStep);
