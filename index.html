@@ -16,8 +16,11 @@
       --success:#157347;
       --error:#c62828;
       --shadow:0 20px 60px rgba(0,0,0,.08);
+      --shadow-lg:0 30px 80px rgba(0,0,0,.16);
       --radius:28px;
       --max:900px;
+      --ease:cubic-bezier(.22,.61,.36,1);
+      --duration:.42s;
     }
 
     *{box-sizing:border-box}
@@ -30,19 +33,43 @@
       font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Noto Sans TC","PingFang TC","Segoe UI",sans-serif;
       -webkit-font-smoothing:antialiased;
       text-rendering:optimizeLegibility;
+      scroll-behavior:smooth;
     }
 
-    body{ min-height:100vh; }
+    body{
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-20%;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(215,25,32,.06), transparent 18%),
+        radial-gradient(circle at 85% 15%, rgba(0,0,0,.05), transparent 16%),
+        radial-gradient(circle at 70% 85%, rgba(215,25,32,.04), transparent 22%);
+      pointer-events:none;
+      z-index:0;
+      animation:bgFloat 18s linear infinite alternate;
+    }
+
+    @keyframes bgFloat{
+      from{transform:translate3d(0,0,0) scale(1)}
+      to{transform:translate3d(12px,-10px,0) scale(1.03)}
+    }
 
     .app{
       min-height:100vh;
       display:flex;
       flex-direction:column;
+      position:relative;
+      z-index:1;
     }
 
     .topbar{
       height:8px;
-      background:var(--accent-2);
+      background:linear-gradient(90deg,#111 0%, #d71920 100%);
     }
 
     .shell{
@@ -62,6 +89,31 @@
       box-shadow:var(--shadow);
       padding:36px 32px;
       margin-bottom:20px;
+      transform:translateY(0);
+      animation:heroReveal .8s var(--ease);
+    }
+
+    @keyframes heroReveal{
+      from{opacity:0; transform:translateY(18px) scale(.985)}
+      to{opacity:1; transform:translateY(0) scale(1)}
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      top:-30%;
+      right:-10%;
+      width:280px;
+      height:280px;
+      border-radius:999px;
+      background:radial-gradient(circle, rgba(215,25,32,.12), transparent 70%);
+      animation:orbPulse 6s ease-in-out infinite;
+      pointer-events:none;
+    }
+
+    @keyframes orbPulse{
+      0%,100%{transform:scale(1) translate3d(0,0,0)}
+      50%{transform:scale(1.08) translate3d(-8px,10px,0)}
     }
 
     .hero-tag{
@@ -76,6 +128,9 @@
       font-weight:700;
       letter-spacing:.04em;
       margin-bottom:20px;
+      box-shadow:0 8px 18px rgba(0,0,0,.12);
+      transform:translateY(0);
+      animation:fadeSlide .7s var(--ease);
     }
 
     .hero-tag::before{
@@ -85,6 +140,12 @@
       border-radius:999px;
       background:var(--accent-2);
       display:block;
+      animation:dotBlink 1.8s ease-in-out infinite;
+    }
+
+    @keyframes dotBlink{
+      0%,100%{opacity:1; transform:scale(1)}
+      50%{opacity:.45; transform:scale(.8)}
     }
 
     .hero h1{
@@ -94,6 +155,7 @@
       letter-spacing:-0.03em;
       font-weight:800;
       max-width:720px;
+      animation:fadeSlide .85s var(--ease);
     }
 
     .hero p{
@@ -103,6 +165,12 @@
       font-size:15px;
       line-height:1.8;
       white-space:pre-line;
+      animation:fadeSlide 1s var(--ease);
+    }
+
+    @keyframes fadeSlide{
+      from{opacity:0; transform:translateY(16px)}
+      to{opacity:1; transform:translateY(0)}
     }
 
     .card{
@@ -110,6 +178,7 @@
       border:1px solid rgba(0,0,0,.05);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
+      backdrop-filter:blur(4px);
     }
 
     .form-card{
@@ -118,6 +187,16 @@
       display:flex;
       flex-direction:column;
       justify-content:space-between;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .form-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,.7), rgba(255,255,255,0));
+      pointer-events:none;
     }
 
     .notice-grid{
@@ -132,6 +211,14 @@
       border:1px solid var(--line);
       border-radius:20px;
       background:linear-gradient(180deg,#fff 0%, #fafafa 100%);
+      transform:translateY(0);
+      transition:transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
+    }
+
+    .notice-item:hover{
+      transform:translateY(-2px);
+      box-shadow:0 14px 28px rgba(0,0,0,.06);
+      border-color:#dbdbdf;
     }
 
     .notice-item strong{
@@ -170,14 +257,28 @@
 
     .step{
       display:none;
-      animation:fade .22s ease;
+      opacity:0;
+      transform:translateY(14px) scale(.995);
+      transform-origin:center top;
     }
 
-    .step.active{ display:block; }
+    .step.active{
+      display:block;
+      animation:stepIn var(--duration) var(--ease) forwards;
+    }
 
-    @keyframes fade{
-      from{opacity:0;transform:translateY(6px)}
-      to{opacity:1;transform:translateY(0)}
+    @keyframes stepIn{
+      from{opacity:0; transform:translateY(14px) scale(.995)}
+      to{opacity:1; transform:translateY(0) scale(1)}
+    }
+
+    .step-out{
+      animation:stepOut .24s ease forwards;
+    }
+
+    @keyframes stepOut{
+      from{opacity:1; transform:translateY(0) scale(1)}
+      to{opacity:0; transform:translateY(-8px) scale(.995)}
     }
 
     .step-desc{
@@ -221,7 +322,7 @@
       line-height:1.4;
       color:var(--text);
       outline:none;
-      transition:border-color .15s ease, box-shadow .15s ease;
+      transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease, background .15s ease;
       appearance:none;
     }
 
@@ -232,6 +333,7 @@
     textarea:focus{
       border-color:#c9c9ce;
       box-shadow:0 0 0 5px rgba(0,0,0,.04);
+      transform:translateY(-1px);
     }
 
     textarea{
@@ -260,14 +362,30 @@
       border-radius:22px;
       background:#fff;
       cursor:pointer;
-      transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+      transition:transform .18s var(--ease), border-color .18s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease);
       user-select:none;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .choice-item::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg, rgba(255,255,255,0), rgba(255,255,255,.35), rgba(255,255,255,0));
+      transform:translateX(-120%);
+      transition:transform .6s var(--ease);
+      pointer-events:none;
     }
 
     .choice-item:hover{
       transform:translateY(-1px);
       border-color:#d0d0d4;
       box-shadow:0 8px 20px rgba(0,0,0,.04);
+    }
+
+    .choice-item:hover::after{
+      transform:translateX(120%);
     }
 
     .choice-item input{
@@ -307,15 +425,24 @@
       font-weight:700;
       letter-spacing:-0.01em;
       cursor:pointer;
-      transition:transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease;
+      transition:transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease, filter .15s ease;
       white-space:nowrap;
     }
 
-    .btn:hover{ transform:translateY(-1px); }
+    .btn:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.01);
+    }
+
+    .btn:active{
+      transform:translateY(0) scale(.985);
+    }
+
     .btn:disabled{
       opacity:.55;
       cursor:not-allowed;
       transform:none;
+      filter:none;
     }
 
     .btn-secondary{
@@ -334,10 +461,20 @@
       min-height:22px;
       font-size:14px;
       font-weight:700;
+      transition:opacity .2s ease, transform .2s ease;
     }
 
     .status.success{ color:var(--success); }
     .status.error{ color:var(--error); }
+
+    .status-pop{
+      animation:statusPop .24s ease;
+    }
+
+    @keyframes statusPop{
+      from{opacity:0; transform:translateY(6px)}
+      to{opacity:1; transform:translateY(0)}
+    }
 
     .footer{
       position:fixed;
@@ -345,9 +482,10 @@
       right:0;
       bottom:0;
       padding:16px;
-      background:rgba(245,245,247,.85);
-      backdrop-filter:blur(16px);
+      background:rgba(245,245,247,.82);
+      backdrop-filter:blur(18px);
       border-top:1px solid rgba(0,0,0,.05);
+      box-shadow:0 -8px 30px rgba(0,0,0,.04);
     }
 
     .footer-inner{
@@ -372,13 +510,30 @@
       background:#e9e9ec;
       border-radius:999px;
       overflow:hidden;
+      position:relative;
+    }
+
+    .progress::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+      transform:translateX(-100%);
+      animation:progressSheen 3s linear infinite;
+      pointer-events:none;
+    }
+
+    @keyframes progressSheen{
+      0%{transform:translateX(-100%)}
+      100%{transform:translateX(180%)}
     }
 
     .progress-bar{
       height:100%;
       width:0%;
       background:linear-gradient(90deg, #111 0%, #d71920 100%);
-      transition:width .25s ease;
+      transition:width .32s var(--ease);
+      position:relative;
     }
 
     .hidden{ display:none !important; }
@@ -388,6 +543,12 @@
       padding:48px 12px 18px;
       max-width:700px;
       margin:0 auto;
+      animation:fadeScale .55s var(--ease);
+    }
+
+    @keyframes fadeScale{
+      from{opacity:0; transform:translateY(12px) scale(.985)}
+      to{opacity:1; transform:translateY(0) scale(1)}
     }
 
     .thankyou h2{
@@ -414,7 +575,7 @@
       justify-content:center;
       padding:20px;
       z-index:1000;
-      backdrop-filter:blur(8px);
+      backdrop-filter:blur(10px);
     }
 
     .modal.show{ display:flex; }
@@ -426,7 +587,13 @@
       background:#fff;
       border-radius:28px;
       padding:28px;
-      box-shadow:0 30px 80px rgba(0,0,0,.22);
+      box-shadow:var(--shadow-lg);
+      animation:modalIn .28s var(--ease);
+    }
+
+    @keyframes modalIn{
+      from{opacity:0; transform:translateY(10px) scale(.985)}
+      to{opacity:1; transform:translateY(0) scale(1)}
     }
 
     .modal-title{
@@ -457,6 +624,12 @@
       padding:14px 16px;
       font-size:14px;
       line-height:1.7;
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+
+    .summary-item:hover{
+      transform:translateY(-1px);
+      box-shadow:0 8px 20px rgba(0,0,0,.04);
     }
 
     .summary-item strong{
@@ -474,7 +647,6 @@
       justify-content:flex-end;
     }
 
-    /* searchable select */
     .search-select{
       position:relative;
       max-width:680px;
@@ -490,11 +662,13 @@
       line-height:1.4;
       color:var(--text);
       outline:none;
+      transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease;
     }
 
     .search-select-input:focus{
       border-color:#c9c9ce;
       box-shadow:0 0 0 5px rgba(0,0,0,.04);
+      transform:translateY(-1px);
     }
 
     .search-select-dropdown{
@@ -510,6 +684,12 @@
       overflow:auto;
       z-index:20;
       display:none;
+      animation:dropIn .18s ease;
+    }
+
+    @keyframes dropIn{
+      from{opacity:0; transform:translateY(-4px)}
+      to{opacity:1; transform:translateY(0)}
     }
 
     .search-select.open .search-select-dropdown{
@@ -522,11 +702,10 @@
       line-height:1.6;
       cursor:pointer;
       border-bottom:1px solid #f2f2f2;
+      transition:background .12s ease;
     }
 
-    .search-select-option:last-child{
-      border-bottom:none;
-    }
+    .search-select-option:last-child{ border-bottom:none; }
 
     .search-select-option:hover,
     .search-select-option.active{
@@ -539,7 +718,6 @@
       font-size:14px;
     }
 
-    /* phone input */
     .phone-wrap{
       display:flex;
       align-items:center;
@@ -558,6 +736,7 @@
       font-size:17px;
       font-weight:700;
       color:#111;
+      transition:transform .15s ease, box-shadow .15s ease;
     }
 
     .phone-input{
@@ -634,7 +813,7 @@
       <section class="hero">
         <div class="hero-tag">ABC-MART INTERNAL FORM</div>
         <h1>行銷素材拍攝意願調查表</h1>
-        <p>本表僅提供有意願之同仁填寫，並不代表一定會安排拍攝。
+        <p>本表單僅提供有意願之同仁填寫，並不代表一定會安排拍攝。
 拍攝時間將依每次內容需求及門市營運狀況彈性安排，且不影響既有工作規劃。
 請依自身狀況與配合度審慎評估是否參與。</p>
       </section>
@@ -672,7 +851,7 @@
 
           <section class="step" data-step="2">
             <div class="step-kicker">Step 2</div>
-            <h2 class="step-title">你的員編是？</h2>
+            <h2 class="step-title">你的員編？</h2>
             <p class="step-desc">請填寫新版員編 6 碼數字。</p>
             <div class="field">
               <label class="required" for="employeeId">員編</label>
@@ -683,7 +862,7 @@
 
           <section class="step" data-step="3">
             <div class="step-kicker">Step 3</div>
-            <h2 class="step-title">請填寫你的 Email</h2>
+            <h2 class="step-title">你的 Email?</h2>
             <div class="field">
               <label class="required" for="email">Email</label>
               <input id="email" type="email" required>
@@ -692,46 +871,37 @@
 
           <section class="step" data-step="4">
             <div class="step-kicker">Step 4</div>
-            <h2 class="step-title">你的所屬門市</h2>
+            <h2 class="step-title">你的所屬門市?</h2>
             <div class="field">
               <label class="required" for="storeSearch">所屬門市</label>
               <div class="search-select" id="storeSelectWrap">
-                <input
-                  id="storeSearch"
-                  class="search-select-input"
-                  type="text"
-                  placeholder="請搜尋門市名稱"
-                  autocomplete="off"
-                >
+                <input id="storeSearch" class="search-select-input" type="text" placeholder="請輸入 6 碼店代號或搜尋門市名稱" autocomplete="off">
                 <div id="storeDropdown" class="search-select-dropdown"></div>
               </div>
               <input id="store" type="hidden">
-              <div class="hint">可直接輸入關鍵字搜尋，例如：西門、台中、南港</div>
+              <div class="hint">可輸入店代號，例如：221428，或直接搜尋門市名稱</div>
             </div>
           </section>
 
           <section class="step" data-step="5">
             <div class="step-kicker">Step 5</div>
             <h2 class="step-title">聯絡方式</h2>
-            <p class="step-desc">手機號碼已預設前兩碼 09，請只填寫後面 8 碼數字。</p>
+            <p class="step-desc">請填寫電話或 LINE ID，至少提供一項。</p>
+
             <div class="field">
-              <label class="required" for="contactTail">手機號碼</label>
+              <label for="contactTail">手機號碼（選填）</label>
               <div class="phone-wrap">
                 <div class="phone-prefix">09</div>
-                <input
-                  id="contactTail"
-                  class="phone-input"
-                  type="text"
-                  inputmode="numeric"
-                  pattern="[0-9]*"
-                  maxlength="8"
-                  autocomplete="off"
-                  placeholder="請輸入後 8 碼"
-                  required
-                >
+                <input id="contactTail" class="phone-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" placeholder="請輸入後 8 碼">
               </div>
-              <div class="hint">系統將自動組成完整手機號碼：09XXXXXXXX</div>
             </div>
+
+            <div class="field" style="margin-top:16px;">
+              <label for="lineId">LINE ID（選填）</label>
+              <input id="lineId" type="text" placeholder="請輸入 LINE ID">
+            </div>
+
+            <div class="hint">※ 請至少填寫一項聯絡方式</div>
           </section>
 
           <section class="step" data-step="6">
@@ -853,8 +1023,9 @@
           <section class="step" data-step="15">
             <div class="thankyou">
               <div class="step-kicker">Completed</div>
-              <h2>感謝填寫</h2>
-              <p>期待與你一同拍攝</p>
+              <h2>感謝填寫，期待與你一同拍攝！</h2>
+              <p>本專案相關聯繫人 行銷部｜江瑋豪、武詩婷</p>
+              
             </div>
           </section>
         </div>
@@ -903,22 +1074,70 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbxfJS57Zghi6c1ZTU1wsUalab1ssDqs6XSG-BFuMQ7zwkIYPdtrZeOml7piDpkIinJh/exec";
 
     const stores = [
-      "ABC-GS 漢中（221125）","ABC-敦南（221426）","ABC-基隆中正（221427）","ABC-西門（221428）",
-      "ABC-西寧（221530）","ABC-板橋環球（221531）","ABC-中和環球（221532）","OUTLET林口三井（221634）",
-      "ABC-A11（221837）","ABC-內湖潤泰（221838）","ABC-樹喜秀泰（221839）","ABC-永和比漾（221941）",
-      "ABC-GS 新莊宏匯（222044）","ABC-汐科遠雄廣場（222201）","ABC-淡新家樂福（222301）","ABC-峨眉（222302）",
-      "ABC-新店裕隆城（222303）","ABC-重新家樂福（222401）","ABC-GS 南港LaLaport（222501）","ABC-GS 信義微風（222502）",
-      "ABC-新竹巨城（231201）","ABC-苗栗尚順（231502）","ABC-新竹林森（231705）","ABC-桃園統領（231807）",
-      "ABC-中壢（231908）","ABC-宜蘭新月（231942）","ABC-桃園台茂（232009）","ABC-花蓮遠百（232101）",
-      "ABC-新竹大遠百（232102）","ABC-竹北遠百（232201）","ABC-桃園八德（232202）","ABC-桃園遠百（232203）",
-      "ABC-內壢家樂福（232204）","ABC-新竹湳雅廣場（232301）","ABC-桃園愛買（232401）","ABC-經國家樂福（232501）",
-      "ABC-桃園青埔（232502）","OUTLET台中麗寶（241603）","ABC-台中文華（241804）","ABC-文心秀泰（241805）",
-      "OUTLET台中三井（241806）","ABC-台中新時代（241907）","ABC-GS 台中大遠百（242008）","ABC-豐原太平洋（242009）",
-      "ABC-廣三SOGO（242010）","ABC-台中中友（242101）","ABC-台中LaLaport（242301）","ABC-嘉義耐斯（251401）",
-      "ABC-嘉義秀泰（252401）","ABC-台南小西門（261601）","ABC-台南南紡（261602）","ABC-台南FOCUS（261903）",
-      "OUTLET台南三井（262201）","ABC-仁德家樂福（262301）","ABC-誠品碳佐麻里（262501）","ABC-高雄統一（271201）",
-      "ABC-左營彩虹市集（271302）","ABC-高雄草衙道（271806）","ABC-高雄大遠百（271907）","OUTLET高雄義大（272101）",
-      "ABC-岡山秀泰（272201）","ABC-高雄義享（272301）","ABC-屏東太平洋（281704）","ABC-台東（282201）"
+      { code: "221125", name: "ABC-GS 漢中", label: "221125｜ABC-GS 漢中" },
+      { code: "221426", name: "ABC-敦南", label: "221426｜ABC-敦南" },
+      { code: "221427", name: "ABC-基隆中正", label: "221427｜ABC-基隆中正" },
+      { code: "221428", name: "ABC-西門", label: "221428｜ABC-西門" },
+      { code: "221530", name: "ABC-西寧", label: "221530｜ABC-西寧" },
+      { code: "221531", name: "ABC-板橋環球", label: "221531｜ABC-板橋環球" },
+      { code: "221532", name: "ABC-中和環球", label: "221532｜ABC-中和環球" },
+      { code: "221634", name: "OUTLET林口三井", label: "221634｜OUTLET林口三井" },
+      { code: "221837", name: "ABC-A11", label: "221837｜ABC-A11" },
+      { code: "221838", name: "ABC-內湖潤泰", label: "221838｜ABC-內湖潤泰" },
+      { code: "221839", name: "ABC-樹喜秀泰", label: "221839｜ABC-樹喜秀泰" },
+      { code: "221941", name: "ABC-永和比漾", label: "221941｜ABC-永和比漾" },
+      { code: "222044", name: "ABC-GS 新莊宏匯", label: "222044｜ABC-GS 新莊宏匯" },
+      { code: "222201", name: "ABC-汐科遠雄廣場", label: "222201｜ABC-汐科遠雄廣場" },
+      { code: "222301", name: "ABC-淡新家樂福", label: "222301｜ABC-淡新家樂福" },
+      { code: "222302", name: "ABC-峨眉", label: "222302｜ABC-峨眉" },
+      { code: "222303", name: "ABC-新店裕隆城", label: "222303｜ABC-新店裕隆城" },
+      { code: "222401", name: "ABC-重新家樂福", label: "222401｜ABC-重新家樂福" },
+      { code: "222501", name: "ABC-GS 南港LaLaport", label: "222501｜ABC-GS 南港LaLaport" },
+      { code: "222502", name: "ABC-GS 信義微風", label: "222502｜ABC-GS 信義微風" },
+      { code: "231201", name: "ABC-新竹巨城", label: "231201｜ABC-新竹巨城" },
+      { code: "231502", name: "ABC-苗栗尚順", label: "231502｜ABC-苗栗尚順" },
+      { code: "231705", name: "ABC-新竹林森", label: "231705｜ABC-新竹林森" },
+      { code: "231807", name: "ABC-桃園統領", label: "231807｜ABC-桃園統領" },
+      { code: "231908", name: "ABC-中壢", label: "231908｜ABC-中壢" },
+      { code: "231942", name: "ABC-宜蘭新月", label: "231942｜ABC-宜蘭新月" },
+      { code: "232009", name: "ABC-桃園台茂", label: "232009｜ABC-桃園台茂" },
+      { code: "232101", name: "ABC-花蓮遠百", label: "232101｜ABC-花蓮遠百" },
+      { code: "232102", name: "ABC-新竹大遠百", label: "232102｜ABC-新竹大遠百" },
+      { code: "232201", name: "ABC-竹北遠百", label: "232201｜ABC-竹北遠百" },
+      { code: "232202", name: "ABC-桃園八德", label: "232202｜ABC-桃園八德" },
+      { code: "232203", name: "ABC-桃園遠百", label: "232203｜ABC-桃園遠百" },
+      { code: "232204", name: "ABC-內壢家樂福", label: "232204｜ABC-內壢家樂福" },
+      { code: "232301", name: "ABC-新竹湳雅廣場", label: "232301｜ABC-新竹湳雅廣場" },
+      { code: "232401", name: "ABC-桃園愛買", label: "232401｜ABC-桃園愛買" },
+      { code: "232501", name: "ABC-經國家樂福", label: "232501｜ABC-經國家樂福" },
+      { code: "232502", name: "ABC-桃園青埔", label: "232502｜ABC-桃園青埔" },
+      { code: "241603", name: "OUTLET台中麗寶", label: "241603｜OUTLET台中麗寶" },
+      { code: "241804", name: "ABC-台中文華", label: "241804｜ABC-台中文華" },
+      { code: "241805", name: "ABC-文心秀泰", label: "241805｜ABC-文心秀泰" },
+      { code: "241806", name: "OUTLET台中三井", label: "241806｜OUTLET台中三井" },
+      { code: "241907", name: "ABC-台中新時代", label: "241907｜ABC-台中新時代" },
+      { code: "242008", name: "ABC-GS 台中大遠百", label: "242008｜ABC-GS 台中大遠百" },
+      { code: "242009", name: "ABC-豐原太平洋", label: "242009｜ABC-豐原太平洋" },
+      { code: "242010", name: "ABC-廣三SOGO", label: "242010｜ABC-廣三SOGO" },
+      { code: "242101", name: "ABC-台中中友", label: "242101｜ABC-台中中友" },
+      { code: "242301", name: "ABC-台中LaLaport", label: "242301｜ABC-台中LaLaport" },
+      { code: "251401", name: "ABC-嘉義耐斯", label: "251401｜ABC-嘉義耐斯" },
+      { code: "252401", name: "ABC-嘉義秀泰", label: "252401｜ABC-嘉義秀泰" },
+      { code: "261601", name: "ABC-台南小西門", label: "261601｜ABC-台南小西門" },
+      { code: "261602", name: "ABC-台南南紡", label: "261602｜ABC-台南南紡" },
+      { code: "261903", name: "ABC-台南FOCUS", label: "261903｜ABC-台南FOCUS" },
+      { code: "262201", name: "OUTLET台南三井", label: "262201｜OUTLET台南三井" },
+      { code: "262301", name: "ABC-仁德家樂福", label: "262301｜ABC-仁德家樂福" },
+      { code: "262501", name: "ABC-誠品碳佐麻里", label: "262501｜ABC-誠品碳佐麻里" },
+      { code: "271201", name: "ABC-高雄統一", label: "271201｜ABC-高雄統一" },
+      { code: "271302", name: "ABC-左營彩虹市集", label: "271302｜ABC-左營彩虹市集" },
+      { code: "271806", name: "ABC-高雄草衙道", label: "271806｜ABC-高雄草衙道" },
+      { code: "271907", name: "ABC-高雄大遠百", label: "271907｜ABC-高雄大遠百" },
+      { code: "272101", name: "OUTLET高雄義大", label: "272101｜OUTLET高雄義大" },
+      { code: "272201", name: "ABC-岡山秀泰", label: "272201｜ABC-岡山秀泰" },
+      { code: "272301", name: "ABC-高雄義享", label: "272301｜ABC-高雄義享" },
+      { code: "281704", name: "ABC-屏東太平洋", label: "281704｜ABC-屏東太平洋" },
+      { code: "282201", name: "ABC-台東", label: "282201｜ABC-台東" }
     ];
 
     const steps = [...document.querySelectorAll(".step")];
@@ -945,7 +1164,10 @@
 
     function setStatus(message, type = "") {
       statusEl.textContent = message;
-      statusEl.className = "status " + type;
+      statusEl.className = "status " + type + (message ? " status-pop" : "");
+      if (message) {
+        setTimeout(() => statusEl.classList.remove("status-pop"), 260);
+      }
     }
 
     function isValidEmployeeId(value) {
@@ -968,6 +1190,7 @@
         email: document.getElementById("email").value.trim(),
         store: storeHidden.value.trim(),
         contact: getFullPhone(),
+        lineId: document.getElementById("lineId").value.trim(),
         ig: document.getElementById("ig").value.trim(),
         types: [...document.querySelectorAll('input[name="types"]:checked')].map(el => el.value),
         face: document.getElementById("face").value,
@@ -1049,12 +1272,15 @@
           break;
         case 5: {
           const phoneTail = document.getElementById("contactTail").value.trim();
-          if (!phoneTail) {
-            setStatus("請填寫手機號碼後 8 碼。", "error");
+          const lineId = document.getElementById("lineId").value.trim();
+
+          if (!phoneTail && !lineId) {
+            setStatus("請至少填寫電話或 LINE ID。", "error");
             return false;
           }
-          if (!isValidPhoneTail(phoneTail)) {
-            setStatus("手機號碼格式錯誤，請填寫 8 碼數字。", "error");
+
+          if (phoneTail && !isValidPhoneTail(phoneTail)) {
+            setStatus("手機號碼格式錯誤，請填寫後 8 碼數字。", "error");
             return false;
           }
           break;
@@ -1100,7 +1326,8 @@
         "員編": payload.employeeId,
         "Email": payload.email,
         "門市": payload.store,
-        "手機號碼": payload.contact,
+        "手機號碼": payload.contact || "未填寫",
+        "LINE ID": payload.lineId || "未填寫",
         "IG": payload.ig || "未填寫",
         "拍攝形式": payload.types.join("、"),
         "是否可露臉": payload.face,
@@ -1132,7 +1359,14 @@
 
     function renderStoreOptions(keyword = "") {
       const q = keyword.trim().toLowerCase();
-      const filtered = stores.filter(store => store.toLowerCase().includes(q));
+
+      const filtered = stores.filter(store => {
+        return (
+          store.code.includes(q) ||
+          store.name.toLowerCase().includes(q) ||
+          store.label.toLowerCase().includes(q)
+        );
+      });
 
       if (!filtered.length) {
         storeDropdown.innerHTML = `<div class="search-select-empty">找不到符合的門市</div>`;
@@ -1140,15 +1374,23 @@
       }
 
       storeDropdown.innerHTML = filtered
-        .map(store => `<div class="search-select-option" data-value="${store.replace(/"/g, '&quot;')}">${store}</div>`)
+        .map(store => `
+          <div class="search-select-option"
+               data-code="${store.code}"
+               data-name="${store.name}"
+               data-label="${store.label}">
+            ${store.label}
+          </div>
+        `)
         .join("");
 
       storeDropdown.querySelectorAll(".search-select-option").forEach(option => {
         option.addEventListener("click", () => {
-          const value = option.getAttribute("data-value");
-          storeSearch.value = value;
-          storeHidden.value = value;
+          const label = option.dataset.label;
+          storeSearch.value = label;
+          storeHidden.value = label;
           storeSelectWrap.classList.remove("open");
+
           if (currentStep === 4 && validateStep(4)) {
             currentStep = 5;
             showStep(currentStep);
@@ -1163,9 +1405,37 @@
     });
 
     storeSearch.addEventListener("input", () => {
+      const value = storeSearch.value.trim();
       storeHidden.value = "";
       storeSelectWrap.classList.add("open");
-      renderStoreOptions(storeSearch.value);
+      renderStoreOptions(value);
+
+      if (/^\d{6}$/.test(value)) {
+        const exactMatch = stores.find(store => store.code === value);
+        if (exactMatch) {
+          storeSearch.value = exactMatch.label;
+          storeHidden.value = exactMatch.label;
+          storeSelectWrap.classList.remove("open");
+
+          if (currentStep === 4 && validateStep(4)) {
+            currentStep = 5;
+            showStep(currentStep);
+          }
+        }
+      }
+    });
+
+    storeSearch.addEventListener("blur", () => {
+      setTimeout(() => {
+        const value = storeSearch.value.trim();
+        if (!storeHidden.value && /^\d{6}$/.test(value)) {
+          const exactMatch = stores.find(store => store.code === value);
+          if (exactMatch) {
+            storeSearch.value = exactMatch.label;
+            storeHidden.value = exactMatch.label;
+          }
+        }
+      }, 120);
     });
 
     document.addEventListener("click", (e) => {
@@ -1275,6 +1545,16 @@
     });
 
     document.getElementById("contactTail").addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (validateStep(5)) {
+          currentStep = 6;
+          showStep(currentStep);
+        }
+      }
+    });
+
+    document.getElementById("lineId").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         e.preventDefault();
         if (validateStep(5)) {
