@@ -1,289 +1,1564 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>行銷素材拍攝意願調查表</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>行銷素材拍攝意願調查表</title>
+  <style>
+    :root{
+      --bg:#f5f5f7;
+      --card:#ffffff;
+      --text:#111111;
+      --sub:#6e6e73;
+      --line:#e5e5e7;
+      --accent-2:#d71920;
+      --success:#157347;
+      --error:#c62828;
+      --shadow:0 20px 60px rgba(0,0,0,.08);
+      --shadow-lg:0 30px 80px rgba(0,0,0,.16);
+      --radius:28px;
+      --max:900px;
+      --ease:cubic-bezier(.22,.61,.36,1);
+      --duration:.42s;
+    }
 
-<style>
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Noto Sans TC",sans-serif;
-  background:#f5f5f7;
-  color:#111;
-}
+    *{box-sizing:border-box}
 
-.container{
-  max-width:720px;
-  margin:auto;
-  padding:24px;
-}
+    html,body{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Noto Sans TC","PingFang TC","Segoe UI",sans-serif;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+      scroll-behavior:smooth;
+    }
 
-.card{
-  background:#fff;
-  border-radius:24px;
-  padding:32px;
-  box-shadow:0 20px 60px rgba(0,0,0,.08);
-}
+    body{
+      min-height:100vh;
+      overflow-x:hidden;
+    }
 
-h1{font-size:32px;margin:0 0 12px;}
-p{color:#666;line-height:1.7;}
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-20%;
+      background:
+        radial-gradient(circle at 10% 20%, rgba(215,25,32,.06), transparent 18%),
+        radial-gradient(circle at 85% 15%, rgba(0,0,0,.05), transparent 16%),
+        radial-gradient(circle at 70% 85%, rgba(215,25,32,.04), transparent 22%);
+      pointer-events:none;
+      z-index:0;
+      animation:bgFloat 18s linear infinite alternate;
+    }
 
-input,select,textarea{
-  width:100%;
-  padding:14px;
-  border-radius:16px;
-  border:1px solid #ddd;
-  font-size:16px;
-}
+    @keyframes bgFloat{
+      from{transform:translate3d(0,0,0) scale(1)}
+      to{transform:translate3d(12px,-10px,0) scale(1.03)}
+    }
 
-button{
-  padding:14px 20px;
-  border:none;
-  border-radius:999px;
-  font-weight:bold;
-  cursor:pointer;
-}
+    .app{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      position:relative;
+      z-index:1;
+    }
 
-.primary{background:#111;color:#fff;}
-.secondary{background:#eee;}
+    .topbar{
+      height:8px;
+      background:linear-gradient(90deg,#111 0%, #d71920 100%);
+    }
 
-.step{display:none;}
-.step.active{display:block;}
+    .shell{
+      width:min(var(--max), calc(100vw - 32px));
+      margin:0 auto;
+      padding:24px 0 120px;
+    }
 
-.progress{
-  height:6px;
-  background:#eee;
-  border-radius:999px;
-  margin-top:20px;
-}
+    .card{
+      background:var(--card);
+      border:1px solid rgba(0,0,0,.05);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(4px);
+    }
 
-.bar{
-  height:100%;
-  background:#111;
-  width:0%;
-  border-radius:999px;
-}
+    .form-card{
+      min-height:560px;
+      padding:36px 32px 28px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      position:relative;
+      overflow:hidden;
+    }
 
-.choice{
-  padding:14px;
-  border:1px solid #ddd;
-  border-radius:16px;
-  margin-bottom:10px;
-  cursor:pointer;
-}
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border-radius:36px;
+      background:
+        radial-gradient(circle at top right, rgba(215,25,32,.10), transparent 25%),
+        linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
+      border:1px solid rgba(0,0,0,.05);
+      box-shadow:var(--shadow);
+      padding:36px 32px;
+      margin-bottom:24px;
+      transform:translateY(0);
+      animation:heroReveal .8s var(--ease);
+    }
 
-.modal{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.4);
-  display:none;
-  align-items:center;
-  justify-content:center;
-}
+    @keyframes heroReveal{
+      from{opacity:0; transform:translateY(18px) scale(.985)}
+      to{opacity:1; transform:translateY(0) scale(1)}
+    }
 
-.modal.show{display:flex;}
+    .hero::after{
+      content:"";
+      position:absolute;
+      top:-30%;
+      right:-10%;
+      width:280px;
+      height:280px;
+      border-radius:999px;
+      background:radial-gradient(circle, rgba(215,25,32,.12), transparent 70%);
+      animation:orbPulse 6s ease-in-out infinite;
+      pointer-events:none;
+    }
 
-.modal-box{
-  background:#fff;
-  padding:24px;
-  border-radius:20px;
-  max-width:500px;
-  width:100%;
-}
+    @keyframes orbPulse{
+      0%,100%{transform:scale(1) translate3d(0,0,0)}
+      50%{transform:scale(1.08) translate3d(-8px,10px,0)}
+    }
 
-</style>
+    .hero-tag{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#111;
+      color:#fff;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.04em;
+      margin-bottom:20px;
+      box-shadow:0 8px 18px rgba(0,0,0,.12);
+      animation:fadeSlide .7s var(--ease);
+    }
+
+    .hero-tag::before{
+      content:"";
+      width:8px;
+      height:8px;
+      border-radius:999px;
+      background:var(--accent-2);
+      display:block;
+      animation:dotBlink 1.8s ease-in-out infinite;
+    }
+
+    @keyframes dotBlink{
+      0%,100%{opacity:1; transform:scale(1)}
+      50%{opacity:.45; transform:scale(.8)}
+    }
+
+    .hero h1{
+      margin:0;
+      font-size:clamp(30px, 5vw, 54px);
+      line-height:1.04;
+      letter-spacing:-0.03em;
+      font-weight:800;
+      max-width:720px;
+      animation:fadeSlide .85s var(--ease);
+    }
+
+    .hero p{
+      margin:18px 0 0;
+      max-width:720px;
+      color:var(--sub);
+      font-size:15px;
+      line-height:1.8;
+      white-space:pre-line;
+      animation:fadeSlide 1s var(--ease);
+    }
+
+    @keyframes fadeSlide{
+      from{opacity:0; transform:translateY(16px)}
+      to{opacity:1; transform:translateY(0)}
+    }
+
+    .notice-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+      margin-top:20px;
+    }
+
+    .notice-item{
+      padding:18px 18px 16px;
+      border:1px solid var(--line);
+      border-radius:20px;
+      background:linear-gradient(180deg,#fff 0%, #fafafa 100%);
+      transform:translateY(0);
+      transition:transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
+    }
+
+    .notice-item:hover{
+      transform:translateY(-2px);
+      box-shadow:0 14px 28px rgba(0,0,0,.06);
+      border-color:#dbdbdf;
+    }
+
+    .notice-item strong{
+      display:block;
+      font-size:16px;
+      margin-bottom:6px;
+      letter-spacing:-0.01em;
+    }
+
+    .notice-item p{
+      margin:0;
+      color:var(--sub);
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .eyebrow,
+    .step-kicker{
+      color:var(--accent-2);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:12px;
+    }
+
+    .notice-title,
+    .step-title{
+      margin:0 0 10px;
+      font-size:clamp(28px, 4vw, 46px);
+      line-height:1.08;
+      letter-spacing:-0.03em;
+      font-weight:800;
+      max-width:760px;
+    }
+
+    .step{
+      display:none;
+      opacity:0;
+      transform:translateY(14px) scale(.995);
+      transform-origin:center top;
+    }
+
+    .step.active{
+      display:block;
+      animation:stepIn var(--duration) var(--ease) forwards;
+    }
+
+    @keyframes stepIn{
+      from{opacity:0; transform:translateY(14px) scale(.995)}
+      to{opacity:1; transform:translateY(0) scale(1)}
+    }
+
+    .step-desc{
+      margin:0 0 28px;
+      max-width:680px;
+      color:var(--sub);
+      font-size:15px;
+      line-height:1.8;
+      white-space:pre-line;
+    }
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      max-width:680px;
+    }
+
+    .field label{
+      font-size:14px;
+      font-weight:700;
+      letter-spacing:-0.01em;
+    }
+
+    .required::after{
+      content:" *";
+      color:var(--accent-2);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    select,
+    textarea{
+      width:100%;
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:20px;
+      padding:16px 18px;
+      font-size:17px;
+      line-height:1.4;
+      color:var(--text);
+      outline:none;
+      transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease, background .15s ease;
+      appearance:none;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="url"]:focus,
+    select:focus,
+    textarea:focus{
+      border-color:#c9c9ce;
+      box-shadow:0 0 0 5px rgba(0,0,0,.04);
+      transform:translateY(-1px);
+    }
+
+    textarea{
+      min-height:160px;
+      resize:vertical;
+    }
+
+    .hint{
+      font-size:12px;
+      color:var(--sub);
+      margin-top:-2px;
+    }
+
+    .choice-list{
+      display:grid;
+      gap:12px;
+      max-width:720px;
+    }
+
+    .choice-item{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      padding:18px;
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:#fff;
+      cursor:pointer;
+      transition:transform .18s var(--ease), border-color .18s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease);
+      user-select:none;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .choice-item::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(120deg, rgba(255,255,255,0), rgba(255,255,255,.35), rgba(255,255,255,0));
+      transform:translateX(-120%);
+      transition:transform .6s var(--ease);
+      pointer-events:none;
+    }
+
+    .choice-item:hover{
+      transform:translateY(-1px);
+      border-color:#d0d0d4;
+      box-shadow:0 8px 20px rgba(0,0,0,.04);
+    }
+
+    .choice-item:hover::after{
+      transform:translateX(120%);
+    }
+
+    .choice-item input{
+      margin-top:4px;
+      accent-color:var(--accent-2);
+      transform:scale(1.15);
+      flex:0 0 auto;
+    }
+
+    .choice-text{
+      font-size:17px;
+      line-height:1.55;
+      letter-spacing:-0.01em;
+    }
+
+    .actions{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-top:28px;
+      padding-top:12px;
+    }
+
+    .actions-left,
+    .actions-right{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .btn{
+      border:none;
+      border-radius:999px;
+      padding:14px 20px;
+      font-size:15px;
+      font-weight:700;
+      letter-spacing:-0.01em;
+      cursor:pointer;
+      transition:transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease, filter .15s ease;
+      white-space:nowrap;
+    }
+
+    .btn:hover{
+      transform:translateY(-1px);
+      filter:brightness(1.01);
+    }
+
+    .btn:active{
+      transform:translateY(0) scale(.985);
+    }
+
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
+      filter:none;
+    }
+
+    .btn-secondary{
+      background:#ededf0;
+      color:#1d1d1f;
+    }
+
+    .btn-primary{
+      background:#111;
+      color:#fff;
+      box-shadow:0 10px 20px rgba(0,0,0,.10);
+    }
+
+    .status{
+      margin-top:14px;
+      min-height:22px;
+      font-size:14px;
+      font-weight:700;
+      transition:opacity .2s ease, transform .2s ease;
+    }
+
+    .status.success{ color:var(--success); }
+    .status.error{ color:var(--error); }
+
+    .footer{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      padding:16px;
+      background:rgba(245,245,247,.82);
+      backdrop-filter:blur(18px);
+      border-top:1px solid rgba(0,0,0,.05);
+      box-shadow:0 -8px 30px rgba(0,0,0,.04);
+    }
+
+    .footer-inner{
+      width:min(var(--max), calc(100vw - 32px));
+      margin:0 auto;
+    }
+
+    .progress-meta{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:10px;
+      font-size:12px;
+      font-weight:700;
+      color:var(--sub);
+      letter-spacing:.02em;
+    }
+
+    .progress{
+      width:100%;
+      height:8px;
+      background:#e9e9ec;
+      border-radius:999px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .progress::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+      transform:translateX(-100%);
+      animation:progressSheen 3s linear infinite;
+      pointer-events:none;
+    }
+
+    @keyframes progressSheen{
+      0%{transform:translateX(-100%)}
+      100%{transform:translateX(180%)}
+    }
+
+    .progress-bar{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg, #111 0%, #d71920 100%);
+      transition:width .32s var(--ease);
+      position:relative;
+    }
+
+    .hidden{ display:none !important; }
+
+    .thankyou{
+      text-align:center;
+      padding:48px 12px 18px;
+      max-width:700px;
+      margin:0 auto;
+      animation:fadeScale .55s var(--ease);
+    }
+
+    @keyframes fadeScale{
+      from{opacity:0; transform:translateY(12px) scale(.985)}
+      to{opacity:1; transform:translateY(0) scale(1)}
+    }
+
+    .thankyou h2{
+      margin:0 0 16px;
+      font-size:clamp(32px, 5vw, 52px);
+      line-height:1.06;
+      letter-spacing:-0.04em;
+      font-weight:800;
+    }
+
+    .thankyou p{
+      margin:0;
+      color:var(--sub);
+      font-size:17px;
+      line-height:1.9;
+    }
+
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.45);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+      z-index:1000;
+      backdrop-filter:blur(10px);
+    }
+
+    .modal.show{ display:flex; }
+
+    .modal-card{
+      width:min(820px,100%);
+      max-height:88vh;
+      overflow:auto;
+      background:#fff;
+      border-radius:28px;
+      padding:28px;
+      box-shadow:var(--shadow-lg);
+      animation:modalIn .28s var(--ease);
+    }
+
+    @keyframes modalIn{
+      from{opacity:0; transform:translateY(10px) scale(.985)}
+      to{opacity:1; transform:translateY(0) scale(1)}
+    }
+
+    .modal-title{
+      margin:0 0 10px;
+      font-size:30px;
+      line-height:1.1;
+      letter-spacing:-0.03em;
+      font-weight:800;
+    }
+
+    .modal-desc{
+      margin:0 0 18px;
+      color:var(--sub);
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .summary-list{
+      display:grid;
+      gap:12px;
+      margin-bottom:22px;
+    }
+
+    .summary-item{
+      background:#fafafa;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px 16px;
+      font-size:14px;
+      line-height:1.7;
+      transition:transform .15s ease, box-shadow .15s ease;
+    }
+
+    .summary-item strong{
+      display:block;
+      margin-bottom:4px;
+      color:#111;
+      font-size:13px;
+      letter-spacing:.03em;
+      text-transform:uppercase;
+    }
+
+    .modal-actions{
+      display:flex;
+      gap:12px;
+      justify-content:flex-end;
+    }
+
+    .search-select{
+      position:relative;
+      max-width:680px;
+    }
+
+    .search-select-input{
+      width:100%;
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:20px;
+      padding:16px 18px;
+      font-size:17px;
+      line-height:1.4;
+      color:var(--text);
+      outline:none;
+      transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+    }
+
+    .search-select-input:focus{
+      border-color:#c9c9ce;
+      box-shadow:0 0 0 5px rgba(0,0,0,.04);
+      transform:translateY(-1px);
+    }
+
+    .search-select-dropdown{
+      position:absolute;
+      top:calc(100% + 8px);
+      left:0;
+      right:0;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:20px;
+      box-shadow:0 18px 40px rgba(0,0,0,.10);
+      max-height:280px;
+      overflow:auto;
+      z-index:20;
+      display:none;
+      animation:dropIn .18s ease;
+    }
+
+    @keyframes dropIn{
+      from{opacity:0; transform:translateY(-4px)}
+      to{opacity:1; transform:translateY(0)}
+    }
+
+    .search-select.open .search-select-dropdown{
+      display:block;
+    }
+
+    .search-select-option{
+      padding:14px 16px;
+      font-size:15px;
+      line-height:1.6;
+      cursor:pointer;
+      border-bottom:1px solid #f2f2f2;
+      transition:background .12s ease;
+    }
+
+    .search-select-option:last-child{ border-bottom:none; }
+
+    .search-select-option:hover,
+    .search-select-option.active{
+      background:#f7f7f8;
+    }
+
+    .search-select-empty{
+      padding:14px 16px;
+      color:var(--sub);
+      font-size:14px;
+    }
+
+    .phone-wrap{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      max-width:680px;
+    }
+
+    .phone-prefix{
+      flex:0 0 auto;
+      min-width:72px;
+      padding:16px 18px;
+      border:1px solid var(--line);
+      background:#f7f7f8;
+      border-radius:20px;
+      text-align:center;
+      font-size:17px;
+      font-weight:700;
+      color:#111;
+    }
+
+    .phone-input{
+      flex:1 1 auto;
+    }
+
+    @media (max-width:720px){
+      .shell,
+      .footer-inner{
+        width:calc(100vw - 24px);
+      }
+
+      .shell{
+        padding:18px 0 120px;
+      }
+
+      .hero,
+      .form-card{
+        border-radius:24px;
+      }
+
+      .hero{
+        padding:22px 20px;
+      }
+
+      .form-card{
+        padding:22px 20px 24px;
+        min-height:420px;
+      }
+
+      .hero h1,
+      .notice-title,
+      .step-title,
+      .thankyou h2,
+      .modal-title{
+        font-size:28px;
+      }
+
+      .actions{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .actions-left,
+      .actions-right{
+        width:100%;
+      }
+
+      .actions-left .btn,
+      .actions-right .btn,
+      .modal-actions .btn{
+        width:100%;
+      }
+
+      .modal-actions{
+        flex-direction:column;
+      }
+
+      .phone-wrap{
+        gap:10px;
+      }
+
+      .phone-prefix{
+        min-width:64px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="app">
+    <div class="topbar"></div>
 
-<div class="container">
+    <div class="shell">
+      <form id="form" class="card form-card">
+        <div>
+          <section class="step active" data-step="0">
+            <section class="hero">
+              <div class="hero-tag">ABC-MART INTERNAL FORM</div>
+              <h1>行銷素材拍攝意願調查表</h1>
+              <p>本表單僅提供有意願之同仁填寫，並不代表一定會安排拍攝。
+拍攝時間將依每次內容需求及門市營運狀況彈性安排，且不影響既有工作規劃。
+請依自身狀況與配合度審慎評估是否參與。</p>
+            </section>
 
-<div class="card">
+            <div class="eyebrow">Notice</div>
+            <h2 class="notice-title">拍攝安排說明</h2>
+            <div class="notice-grid">
+              <div class="notice-item">
+                <strong>上班日拍攝</strong>
+                <p>於上班時間進行，須事前與 SV 或店長確認拍攝時段，並以不影響門市營運及店務為原則。視專案內容及複雜程度，提供適當回饋（非薪資性質）。</p>
+              </div>
+              <div class="notice-item">
+                <strong>休假日拍攝</strong>
+                <p>採自願參與方式，非屬工作指派，且不影響既有排班制度。視專案內容提供適當回饋（非薪資性質）。</p>
+              </div>
+              <div class="notice-item">
+                <strong>個人資料使用說明</strong>
+                <p>本表單所蒐集之個人資料，僅供行銷部內部進行拍攝安排、名單管理及相關業務使用。所蒐集之資料將依公司相關規範妥善保管，並於合理且必要之範圍內使用，不另作其他用途，亦不對外提供。</p>
+              </div>
+            </div>
+          </section>
 
-<!-- STEP 0 -->
-<div class="step active" data-step="0">
-<h1>行銷素材拍攝意願調查表</h1>
-<p>
-本表單僅提供有意願之同仁填寫，並不代表一定會安排拍攝。<br>
-拍攝時間將依內容需求及門市營運狀況彈性安排，且不影響既有工作規劃。<br>
-請依自身狀況審慎評估是否參與。
-</p>
+          <section class="step" data-step="1">
+            <div class="step-kicker">Step 1</div>
+            <h2 class="step-title">請先告訴我們你的姓名</h2>
+            <p class="step-desc">此表單開放全體門市同仁填寫，包含正職、兼職及工讀人員。</p>
+            <div class="field">
+              <label class="required" for="name">姓名</label>
+              <input id="name" type="text" required>
+            </div>
+          </section>
 
-<button id="startBtn" class="primary" style="margin-top:20px;width:100%;">
-開始填寫
-</button>
-</div>
+          <section class="step" data-step="2">
+            <div class="step-kicker">Step 2</div>
+            <h2 class="step-title">你的員編是？</h2>
+            <p class="step-desc">請填寫新版員編 6 碼數字。</p>
+            <div class="field">
+              <label class="required" for="employeeId">員編</label>
+              <input id="employeeId" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" required>
+              <div class="hint">格式範例：123456</div>
+            </div>
+          </section>
 
-<!-- STEP 1 -->
-<div class="step" data-step="1">
-<h1>你的姓名</h1>
-<input id="name">
-</div>
+          <section class="step" data-step="3">
+            <div class="step-kicker">Step 3</div>
+            <h2 class="step-title">請填寫你的 Email</h2>
+            <div class="field">
+              <label class="required" for="email">Email</label>
+              <input id="email" type="email" required>
+            </div>
+          </section>
 
-<!-- STEP 2 -->
-<div class="step" data-step="2">
-<h1>員編（6碼）</h1>
-<input id="employeeId" inputmode="numeric">
-</div>
+          <section class="step" data-step="4">
+            <div class="step-kicker">Step 4</div>
+            <h2 class="step-title">你的所屬門市</h2>
+            <div class="field">
+              <label class="required" for="storeSearch">所屬門市</label>
+              <div class="search-select" id="storeSelectWrap">
+                <input id="storeSearch" class="search-select-input" type="text" placeholder="請輸入 6 碼店代號或搜尋門市名稱" autocomplete="off">
+                <div id="storeDropdown" class="search-select-dropdown"></div>
+              </div>
+              <input id="store" type="hidden">
+              <div class="hint">可輸入店代號，例如：221428，或直接搜尋門市名稱</div>
+            </div>
+          </section>
 
-<!-- STEP 3 -->
-<div class="step" data-step="3">
-<h1>Email</h1>
-<input id="email" type="email">
-</div>
+          <section class="step" data-step="5">
+            <div class="step-kicker">Step 5</div>
+            <h2 class="step-title">聯絡方式</h2>
+            <p class="step-desc">請填寫電話或 LINE ID，至少提供一項。</p>
 
-<!-- STEP 4 -->
-<div class="step" data-step="4">
-<h1>門市</h1>
-<input id="storeSearch" placeholder="輸入6碼或名稱">
-</div>
+            <div class="field">
+              <label for="contactTail">手機號碼（選填）</label>
+              <div class="phone-wrap">
+                <div class="phone-prefix">09</div>
+                <input id="contactTail" class="phone-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" placeholder="請輸入後 8 碼">
+              </div>
+            </div>
 
-<!-- STEP 5 -->
-<div class="step" data-step="5">
-<h1>聯絡方式</h1>
-<input id="phone" placeholder="手機後8碼">
-<input id="line" placeholder="或 LINE ID">
-</div>
+            <div class="field" style="margin-top:16px;">
+              <label for="lineId">LINE ID（選填）</label>
+              <input id="lineId" type="text" placeholder="請輸入 LINE ID">
+            </div>
 
-<!-- STEP 6 -->
-<div class="step" data-step="6">
-<h1>IG</h1>
-<input id="ig">
-</div>
+            <div class="hint">※ 請至少填寫一項聯絡方式</div>
+          </section>
 
-<!-- STEP 7 -->
-<div class="step" data-step="7">
-<h1>拍攝形式</h1>
-<label><input type="checkbox" value="照片" name="types">照片</label>
-<label><input type="checkbox" value="影片" name="types">影片</label>
-</div>
+          <section class="step" data-step="6">
+            <div class="step-kicker">Step 6</div>
+            <h2 class="step-title">IG 帳號</h2>
+            <p class="step-desc">若沒有可略過。</p>
+            <div class="field">
+              <label for="ig">IG 帳號</label>
+              <input id="ig" type="text">
+            </div>
+          </section>
 
-<!-- STEP 8 -->
-<div class="step" data-step="8">
-<h1>可露臉</h1>
-<select id="face">
-<option value="">選擇</option>
-<option>可以</option>
-<option>不露臉</option>
-</select>
-</div>
+          <section class="step" data-step="7">
+            <div class="step-kicker">Step 7</div>
+            <h2 class="step-title">你可接受的拍攝形式</h2>
+            <p class="step-desc">可複選，至少選擇一項。</p>
+            <div class="choice-list">
+              <label class="choice-item"><input type="checkbox" name="types" value="平面照片"><span class="choice-text">平面照片</span></label>
+              <label class="choice-item"><input type="checkbox" name="types" value="動態影片（無口播）"><span class="choice-text">動態影片（無口播）</span></label>
+              <label class="choice-item"><input type="checkbox" name="types" value="動態影片（含口播）"><span class="choice-text">動態影片（含口播）</span></label>
+              <label class="choice-item"><input type="checkbox" name="types" value="鞋款穿搭展示"><span class="choice-text">鞋款穿搭展示</span></label>
+              <label class="choice-item"><input type="checkbox" name="types" value="門市情境拍攝"><span class="choice-text">門市情境拍攝</span></label>
+            </div>
+          </section>
 
-<!-- STEP 9 -->
-<div class="step" data-step="9">
-<h1>授權</h1>
-<label><input type="checkbox" id="auth">同意授權</label>
-</div>
+          <section class="step" data-step="8">
+            <div class="step-kicker">Step 8</div>
+            <h2 class="step-title">是否可露臉</h2>
+            <div class="field">
+              <label class="required" for="face">是否可露臉</label>
+              <select id="face" required>
+                <option value="">請選擇</option>
+                <option value="可以露臉">可以露臉</option>
+                <option value="不露臉（手 / 腳 / 背影）">不露臉（手 / 腳 / 背影）</option>
+              </select>
+            </div>
+          </section>
 
-<!-- STEP 10 -->
-<div class="step" data-step="10">
-<h1>完成</h1>
-<p>感謝填寫</p>
-</div>
+          <section class="step" data-step="9">
+            <div class="step-kicker">Step 9</div>
+            <h2 class="step-title">是否可配合穿搭拍攝</h2>
+            <div class="field">
+              <label class="required" for="outfit">是否可配合穿搭拍攝</label>
+              <select id="outfit" required>
+                <option value="">請選擇</option>
+                <option value="可以（自備穿搭）">可以（自備穿搭）</option>
+                <option value="可以（需提供服裝）">可以（需提供服裝）</option>
+                <option value="不方便">不方便</option>
+              </select>
+            </div>
+          </section>
 
-<!-- BUTTONS -->
-<div style="margin-top:20px;display:flex;gap:10px;">
-<button id="prev" class="secondary">上一頁</button>
-<button id="next" class="primary">下一頁</button>
-<button id="review" class="primary" style="display:none;">確認資料</button>
-</div>
+          <section class="step" data-step="10">
+            <div class="step-kicker">Step 10</div>
+            <h2 class="step-title">是否有拍攝經驗</h2>
+            <div class="field">
+              <label class="required" for="experience">是否有拍攝經驗</label>
+              <select id="experience" required>
+                <option value="">請選擇</option>
+                <option value="有（請補充）">有（請補充）</option>
+                <option value="沒有">沒有</option>
+              </select>
+            </div>
+          </section>
 
-<div class="progress">
-<div id="bar" class="bar"></div>
-</div>
+          <section class="step" data-step="11">
+            <div class="step-kicker">Step 11</div>
+            <h2 class="step-title">拍攝經驗補充</h2>
+            <p class="step-desc">若沒有可略過。</p>
+            <div class="field">
+              <label for="expDetail">拍攝經驗補充</label>
+              <textarea id="expDetail"></textarea>
+            </div>
+          </section>
 
-</div>
-</div>
+          <section class="step" data-step="12">
+            <div class="step-kicker">Step 12</div>
+            <h2 class="step-title">IG 或作品連結</h2>
+            <p class="step-desc">若沒有可略過。</p>
+            <div class="field">
+              <label for="portfolio">IG 或作品連結</label>
+              <input id="portfolio" type="url" placeholder="https://">
+            </div>
+          </section>
 
-<!-- MODAL -->
-<div id="modal" class="modal">
-<div class="modal-box">
-<h3>確認資料</h3>
-<div id="summary"></div>
-<button id="submit" class="primary">確認送出</button>
-</div>
-</div>
+          <section class="step" data-step="13">
+            <div class="step-kicker">Step 13</div>
+            <h2 class="step-title">是否願意優先參與未來拍攝</h2>
+            <div class="field">
+              <label for="priority">是否願意優先參與未來拍攝</label>
+              <select id="priority">
+                <option value="">請選擇</option>
+                <option value="願意">願意</option>
+                <option value="視情況">視情況</option>
+              </select>
+            </div>
+          </section>
 
-<script>
+          <section class="step" data-step="14">
+            <div class="step-kicker">Final Step</div>
+            <h2 class="step-title">授權與同意</h2>
+            <p class="step-desc">請確認後進入最後資料確認。</p>
+            <div class="field">
+              <div style="padding:18px;border:1px solid var(--line);border-radius:20px;background:#fafafa;font-size:14px;color:#444;white-space:pre-line;line-height:1.8;">本人同意參與拍攝活動，並同意公司使用拍攝過程中產出之所有影像素材（包含照片、影片等），
+用於品牌行銷、社群媒體、官方網站及店鋪展示等相關用途。
 
-const steps = document.querySelectorAll(".step");
-let current = 0;
+公司得就素材進行剪輯、調整及重製。
 
-const startBtn = document.getElementById("startBtn");
-const nextBtn = document.getElementById("next");
-const prevBtn = document.getElementById("prev");
-const reviewBtn = document.getElementById("review");
+本授權為無償授權，且不受時間、地區及媒體形式限制。
 
-const bar = document.getElementById("bar");
+本人已閱讀並理解上述內容，並同意授權使用。</div>
 
-function showStep(i){
-steps.forEach((s,index)=>{
-s.classList.toggle("active",index===i);
-});
+              <label class="choice-item" style="margin-top:14px;">
+                <input id="authorized" type="checkbox">
+                <span class="choice-text">我已閱讀並同意上述授權內容</span>
+              </label>
+            </div>
+          </section>
 
-bar.style.width = (i/9)*100+"%";
+          <section class="step" data-step="15">
+            <div class="thankyou">
+              <div class="step-kicker">Completed</div>
+              <h2>感謝填寫</h2>
+              <p>期待與你一同拍攝</p>
+            </div>
+          </section>
+        </div>
 
-/* 按鈕控制（重點修正） */
-if(i===0){
-startBtn.style.display="block";
-nextBtn.style.display="none";
-prevBtn.style.display="none";
-reviewBtn.style.display="none";
-}
-else if(i===9){
-nextBtn.style.display="none";
-reviewBtn.style.display="block";
-prevBtn.style.display="block";
-}
-else if(i===10){
-nextBtn.style.display="none";
-prevBtn.style.display="none";
-reviewBtn.style.display="none";
-}
-else{
-startBtn.style.display="none";
-nextBtn.style.display="block";
-prevBtn.style.display="block";
-reviewBtn.style.display="none";
-}
-}
+        <div class="actions">
+          <div class="actions-left">
+            <button type="button" id="prevBtn" class="btn btn-secondary">上一頁</button>
+          </div>
+          <div class="actions-right">
+            <button type="button" id="startBtn" class="btn btn-primary">開始填寫</button>
+            <button type="button" id="nextBtn" class="btn btn-primary">下一頁</button>
+            <button type="button" id="reviewBtn" class="btn btn-primary">確認資料</button>
+          </div>
+        </div>
 
-startBtn.onclick=()=>{
-current=1;
-showStep(current);
-};
+        <div id="status" class="status"></div>
+      </form>
+    </div>
 
-nextBtn.onclick=()=>{
-current++;
-showStep(current);
-};
+    <div class="footer">
+      <div class="footer-inner">
+        <div class="progress-meta">
+          <span id="progressText">說明頁</span>
+          <span>填寫進度</span>
+        </div>
+        <div class="progress">
+          <div id="progressBar" class="progress-bar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-prevBtn.onclick=()=>{
-current--;
-showStep(current);
-};
+  <div id="reviewModal" class="modal">
+    <div class="modal-card">
+      <h3 class="modal-title">請再次確認填寫內容</h3>
+      <p class="modal-desc">確認無誤後，按下「確認送出」才會正式送出表單。</p>
+      <div id="summaryList" class="summary-list"></div>
+      <div class="modal-actions">
+        <button type="button" id="editBtn" class="btn btn-secondary">返回修改</button>
+        <button type="button" id="confirmSubmitBtn" class="btn btn-primary">確認送出</button>
+      </div>
+    </div>
+  </div>
 
-reviewBtn.onclick=()=>{
-const data = {
-name:name.value,
-employeeId:employeeId.value,
-email:email.value
-};
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbxfJS57Zghi6c1ZTU1wsUalab1ssDqs6XSG-BFuMQ7zwkIYPdtrZeOml7piDpkIinJh/exec";
 
-summary.innerHTML = JSON.stringify(data,null,2);
-modal.classList.add("show");
-};
+    const stores = [
+      { code: "221125", name: "ABC-GS 漢中", label: "221125｜ABC-GS 漢中" },
+      { code: "221426", name: "ABC-敦南", label: "221426｜ABC-敦南" },
+      { code: "221427", name: "ABC-基隆中正", label: "221427｜ABC-基隆中正" },
+      { code: "221428", name: "ABC-西門", label: "221428｜ABC-西門" },
+      { code: "221530", name: "ABC-西寧", label: "221530｜ABC-西寧" },
+      { code: "221531", name: "ABC-板橋環球", label: "221531｜ABC-板橋環球" },
+      { code: "221532", name: "ABC-中和環球", label: "221532｜ABC-中和環球" },
+      { code: "221634", name: "OUTLET林口三井", label: "221634｜OUTLET林口三井" },
+      { code: "221837", name: "ABC-A11", label: "221837｜ABC-A11" },
+      { code: "221838", name: "ABC-內湖潤泰", label: "221838｜ABC-內湖潤泰" },
+      { code: "221839", name: "ABC-樹喜秀泰", label: "221839｜ABC-樹喜秀泰" },
+      { code: "221941", name: "ABC-永和比漾", label: "221941｜ABC-永和比漾" },
+      { code: "222044", name: "ABC-GS 新莊宏匯", label: "222044｜ABC-GS 新莊宏匯" },
+      { code: "222201", name: "ABC-汐科遠雄廣場", label: "222201｜ABC-汐科遠雄廣場" },
+      { code: "222301", name: "ABC-淡新家樂福", label: "222301｜ABC-淡新家樂福" },
+      { code: "222302", name: "ABC-峨眉", label: "222302｜ABC-峨眉" },
+      { code: "222303", name: "ABC-新店裕隆城", label: "222303｜ABC-新店裕隆城" },
+      { code: "222401", name: "ABC-重新家樂福", label: "222401｜ABC-重新家樂福" },
+      { code: "222501", name: "ABC-GS 南港LaLaport", label: "222501｜ABC-GS 南港LaLaport" },
+      { code: "222502", name: "ABC-GS 信義微風", label: "222502｜ABC-GS 信義微風" },
+      { code: "231201", name: "ABC-新竹巨城", label: "231201｜ABC-新竹巨城" },
+      { code: "231502", name: "ABC-苗栗尚順", label: "231502｜ABC-苗栗尚順" },
+      { code: "231705", name: "ABC-新竹林森", label: "231705｜ABC-新竹林森" },
+      { code: "231807", name: "ABC-桃園統領", label: "231807｜ABC-桃園統領" },
+      { code: "231908", name: "ABC-中壢", label: "231908｜ABC-中壢" },
+      { code: "231942", name: "ABC-宜蘭新月", label: "231942｜ABC-宜蘭新月" },
+      { code: "232009", name: "ABC-桃園台茂", label: "232009｜ABC-桃園台茂" },
+      { code: "232101", name: "ABC-花蓮遠百", label: "232101｜ABC-花蓮遠百" },
+      { code: "232102", name: "ABC-新竹大遠百", label: "232102｜ABC-新竹大遠百" },
+      { code: "232201", name: "ABC-竹北遠百", label: "232201｜ABC-竹北遠百" },
+      { code: "232202", name: "ABC-桃園八德", label: "232202｜ABC-桃園八德" },
+      { code: "232203", name: "ABC-桃園遠百", label: "232203｜ABC-桃園遠百" },
+      { code: "232204", name: "ABC-內壢家樂福", label: "232204｜ABC-內壢家樂福" },
+      { code: "232301", name: "ABC-新竹湳雅廣場", label: "232301｜ABC-新竹湳雅廣場" },
+      { code: "232401", name: "ABC-桃園愛買", label: "232401｜ABC-桃園愛買" },
+      { code: "232501", name: "ABC-經國家樂福", label: "232501｜ABC-經國家樂福" },
+      { code: "232502", name: "ABC-桃園青埔", label: "232502｜ABC-桃園青埔" },
+      { code: "241603", name: "OUTLET台中麗寶", label: "241603｜OUTLET台中麗寶" },
+      { code: "241804", name: "ABC-台中文華", label: "241804｜ABC-台中文華" },
+      { code: "241805", name: "ABC-文心秀泰", label: "241805｜ABC-文心秀泰" },
+      { code: "241806", name: "OUTLET台中三井", label: "241806｜OUTLET台中三井" },
+      { code: "241907", name: "ABC-台中新時代", label: "241907｜ABC-台中新時代" },
+      { code: "242008", name: "ABC-GS 台中大遠百", label: "242008｜ABC-GS 台中大遠百" },
+      { code: "242009", name: "ABC-豐原太平洋", label: "242009｜ABC-豐原太平洋" },
+      { code: "242010", name: "ABC-廣三SOGO", label: "242010｜ABC-廣三SOGO" },
+      { code: "242101", name: "ABC-台中中友", label: "242101｜ABC-台中中友" },
+      { code: "242301", name: "ABC-台中LaLaport", label: "242301｜ABC-台中LaLaport" },
+      { code: "251401", name: "ABC-嘉義耐斯", label: "251401｜ABC-嘉義耐斯" },
+      { code: "252401", name: "ABC-嘉義秀泰", label: "252401｜ABC-嘉義秀泰" },
+      { code: "261601", name: "ABC-台南小西門", label: "261601｜ABC-台南小西門" },
+      { code: "261602", name: "ABC-台南南紡", label: "261602｜ABC-台南南紡" },
+      { code: "261903", name: "ABC-台南FOCUS", label: "261903｜ABC-台南FOCUS" },
+      { code: "262201", name: "OUTLET台南三井", label: "262201｜OUTLET台南三井" },
+      { code: "262301", name: "ABC-仁德家樂福", label: "262301｜ABC-仁德家樂福" },
+      { code: "262501", name: "ABC-誠品碳佐麻里", label: "262501｜ABC-誠品碳佐麻里" },
+      { code: "271201", name: "ABC-高雄統一", label: "271201｜ABC-高雄統一" },
+      { code: "271302", name: "ABC-左營彩虹市集", label: "271302｜ABC-左營彩虹市集" },
+      { code: "271806", name: "ABC-高雄草衙道", label: "271806｜ABC-高雄草衙道" },
+      { code: "271907", name: "ABC-高雄大遠百", label: "271907｜ABC-高雄大遠百" },
+      { code: "272101", name: "OUTLET高雄義大", label: "272101｜OUTLET高雄義大" },
+      { code: "272201", name: "ABC-岡山秀泰", label: "272201｜ABC-岡山秀泰" },
+      { code: "272301", name: "ABC-高雄義享", label: "272301｜ABC-高雄義享" },
+      { code: "281704", name: "ABC-屏東太平洋", label: "281704｜ABC-屏東太平洋" },
+      { code: "282201", name: "ABC-台東", label: "282201｜ABC-台東" }
+    ];
 
-submit.onclick=()=>{
-alert("已送出");
-modal.classList.remove("show");
-current=10;
-showStep(current);
-};
+    const steps = [...document.querySelectorAll(".step")];
+    const totalQuestionSteps = 14;
+    let currentStep = 0;
 
-showStep(0);
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const startBtn = document.getElementById("startBtn");
+    const reviewBtn = document.getElementById("reviewBtn");
+    const progressText = document.getElementById("progressText");
+    const progressBar = document.getElementById("progressBar");
+    const statusEl = document.getElementById("status");
 
-</script>
+    const reviewModal = document.getElementById("reviewModal");
+    const summaryList = document.getElementById("summaryList");
+    const editBtn = document.getElementById("editBtn");
+    const confirmSubmitBtn = document.getElementById("confirmSubmitBtn");
 
+    const storeSelectWrap = document.getElementById("storeSelectWrap");
+    const storeSearch = document.getElementById("storeSearch");
+    const storeDropdown = document.getElementById("storeDropdown");
+    const storeHidden = document.getElementById("store");
+
+    function setStatus(message, type = "") {
+      statusEl.textContent = message;
+      statusEl.className = "status " + type;
+    }
+
+    function isValidEmployeeId(value) {
+      return /^\d{6}$/.test(value);
+    }
+
+    function isValidPhoneTail(value) {
+      return /^\d{8}$/.test(value);
+    }
+
+    function getFullPhone() {
+      const tail = document.getElementById("contactTail").value.trim();
+      return tail ? `09${tail}` : "";
+    }
+
+    function getPayload() {
+      return {
+        name: document.getElementById("name").value.trim(),
+        employeeId: document.getElementById("employeeId").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        store: storeHidden.value.trim(),
+        contact: getFullPhone(),
+        lineId: document.getElementById("lineId").value.trim(),
+        ig: document.getElementById("ig").value.trim(),
+        types: [...document.querySelectorAll('input[name="types"]:checked')].map(el => el.value),
+        face: document.getElementById("face").value,
+        outfit: document.getElementById("outfit").value,
+        experience: document.getElementById("experience").value,
+        expDetail: document.getElementById("expDetail").value.trim(),
+        portfolio: document.getElementById("portfolio").value.trim(),
+        priority: document.getElementById("priority").value,
+        authorized: document.getElementById("authorized").checked
+      };
+    }
+
+    function showStep(index) {
+      steps.forEach((step, i) => {
+        step.classList.toggle("active", i === index);
+      });
+
+      const isNotice = index === 0;
+      const isThankYou = index === steps.length - 1;
+      const isLastQuestion = index === totalQuestionSteps;
+
+      if (isNotice) {
+        startBtn.classList.remove("hidden");
+        nextBtn.classList.add("hidden");
+        prevBtn.classList.add("hidden");
+        reviewBtn.classList.add("hidden");
+      } else if (isLastQuestion) {
+        startBtn.classList.add("hidden");
+        nextBtn.classList.add("hidden");
+        prevBtn.classList.remove("hidden");
+        reviewBtn.classList.remove("hidden");
+      } else if (isThankYou) {
+        startBtn.classList.add("hidden");
+        nextBtn.classList.add("hidden");
+        prevBtn.classList.add("hidden");
+        reviewBtn.classList.add("hidden");
+      } else {
+        startBtn.classList.add("hidden");
+        nextBtn.classList.remove("hidden");
+        prevBtn.classList.toggle("hidden", index === 1);
+        reviewBtn.classList.add("hidden");
+      }
+
+      if (isNotice) {
+        progressText.textContent = "說明頁";
+        progressBar.style.width = "0%";
+      } else {
+        const progressStep = Math.min(index, totalQuestionSteps);
+        progressText.textContent = `${progressStep} / ${totalQuestionSteps}`;
+        progressBar.style.width = `${(progressStep / totalQuestionSteps) * 100}%`;
+      }
+
+      if (isThankYou) {
+        progressText.textContent = "填寫完成";
+        progressBar.style.width = "100%";
+      }
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function validateStep(index) {
+      switch(index) {
+        case 1:
+          if (!document.getElementById("name").value.trim()) {
+            setStatus("請填寫姓名。", "error");
+            return false;
+          }
+          break;
+        case 2: {
+          const employeeId = document.getElementById("employeeId").value.trim();
+          if (!employeeId) {
+            setStatus("請填寫員編。", "error");
+            return false;
+          }
+          if (!isValidEmployeeId(employeeId)) {
+            setStatus("員編格式錯誤，請填寫新版 6 碼員編。", "error");
+            return false;
+          }
+          break;
+        }
+        case 3:
+          if (!document.getElementById("email").value.trim()) {
+            setStatus("請填寫 Email。", "error");
+            return false;
+          }
+          break;
+        case 4:
+          if (!storeHidden.value.trim()) {
+            setStatus("請選擇正確門市。", "error");
+            return false;
+          }
+          break;
+        case 5: {
+          const phoneTail = document.getElementById("contactTail").value.trim();
+          const lineId = document.getElementById("lineId").value.trim();
+
+          if (!phoneTail && !lineId) {
+            setStatus("請至少填寫電話或 LINE ID。", "error");
+            return false;
+          }
+          if (phoneTail && !isValidPhoneTail(phoneTail)) {
+            setStatus("手機號碼格式錯誤，請填寫後 8 碼數字。", "error");
+            return false;
+          }
+          break;
+        }
+        case 7:
+          if (![...document.querySelectorAll('input[name="types"]:checked')].length) {
+            setStatus("請至少選擇一種拍攝形式。", "error");
+            return false;
+          }
+          break;
+        case 8:
+          if (!document.getElementById("face").value) {
+            setStatus("請選擇是否可露臉。", "error");
+            return false;
+          }
+          break;
+        case 9:
+          if (!document.getElementById("outfit").value) {
+            setStatus("請選擇是否可配合穿搭拍攝。", "error");
+            return false;
+          }
+          break;
+        case 10:
+          if (!document.getElementById("experience").value) {
+            setStatus("請選擇是否有拍攝經驗。", "error");
+            return false;
+          }
+          break;
+        case 14:
+          if (!document.getElementById("authorized").checked) {
+            setStatus("請先勾選同意授權內容。", "error");
+            return false;
+          }
+          break;
+      }
+      setStatus("");
+      return true;
+    }
+
+    function renderSummary(payload) {
+      const summary = {
+        "姓名": payload.name,
+        "員編": payload.employeeId,
+        "Email": payload.email,
+        "門市": payload.store,
+        "手機號碼": payload.contact || "未填寫",
+        "LINE ID": payload.lineId || "未填寫",
+        "IG": payload.ig || "未填寫",
+        "拍攝形式": payload.types.join("、"),
+        "是否可露臉": payload.face,
+        "是否可配合穿搭拍攝": payload.outfit,
+        "是否有拍攝經驗": payload.experience,
+        "拍攝經驗補充": payload.expDetail || "未填寫",
+        "IG 或作品連結": payload.portfolio || "未填寫",
+        "是否願意優先參與未來拍攝": payload.priority || "未填寫",
+        "授權同意": payload.authorized ? "同意" : "不同意"
+      };
+
+      summaryList.innerHTML = "";
+      Object.entries(summary).forEach(([key, value]) => {
+        const item = document.createElement("div");
+        item.className = "summary-item";
+        item.innerHTML = `<strong>${key}</strong><span>${value}</span>`;
+        summaryList.appendChild(item);
+      });
+    }
+
+    function openReviewModal() {
+      renderSummary(getPayload());
+      reviewModal.classList.add("show");
+    }
+
+    function closeReviewModal() {
+      reviewModal.classList.remove("show");
+    }
+
+    function renderStoreOptions(keyword = "") {
+      const q = keyword.trim().toLowerCase();
+
+      const filtered = stores.filter(store =>
+        store.code.includes(q) ||
+        store.name.toLowerCase().includes(q) ||
+        store.label.toLowerCase().includes(q)
+      );
+
+      if (!filtered.length) {
+        storeDropdown.innerHTML = `<div class="search-select-empty">找不到符合的門市</div>`;
+        return;
+      }
+
+      storeDropdown.innerHTML = filtered.map(store => `
+        <div class="search-select-option" data-label="${store.label}">
+          ${store.label}
+        </div>
+      `).join("");
+
+      storeDropdown.querySelectorAll(".search-select-option").forEach(option => {
+        option.addEventListener("click", () => {
+          const label = option.dataset.label;
+          storeSearch.value = label;
+          storeHidden.value = label;
+          storeSelectWrap.classList.remove("open");
+
+          if (currentStep === 4 && validateStep(4)) {
+            currentStep = 5;
+            showStep(currentStep);
+          }
+        });
+      });
+    }
+
+    storeSearch.addEventListener("focus", () => {
+      storeSelectWrap.classList.add("open");
+      renderStoreOptions(storeSearch.value);
+    });
+
+    storeSearch.addEventListener("input", () => {
+      const value = storeSearch.value.trim();
+      storeHidden.value = "";
+      storeSelectWrap.classList.add("open");
+      renderStoreOptions(value);
+
+      if (/^\d{6}$/.test(value)) {
+        const exactMatch = stores.find(store => store.code === value);
+        if (exactMatch) {
+          storeSearch.value = exactMatch.label;
+          storeHidden.value = exactMatch.label;
+          storeSelectWrap.classList.remove("open");
+
+          if (currentStep === 4 && validateStep(4)) {
+            currentStep = 5;
+            showStep(currentStep);
+          }
+        }
+      }
+    });
+
+    storeSearch.addEventListener("blur", () => {
+      setTimeout(() => {
+        const value = storeSearch.value.trim();
+        if (!storeHidden.value && /^\d{6}$/.test(value)) {
+          const exactMatch = stores.find(store => store.code === value);
+          if (exactMatch) {
+            storeSearch.value = exactMatch.label;
+            storeHidden.value = exactMatch.label;
+          }
+        }
+      }, 120);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!storeSelectWrap.contains(e.target)) {
+        storeSelectWrap.classList.remove("open");
+      }
+    });
+
+    document.getElementById("employeeId").addEventListener("input", e => {
+      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 6);
+    });
+
+    document.getElementById("contactTail").addEventListener("input", e => {
+      e.target.value = e.target.value.replace(/\D/g, "").slice(0, 8);
+    });
+
+    startBtn.addEventListener("click", () => {
+      currentStep = 1;
+      showStep(currentStep);
+    });
+
+    nextBtn.addEventListener("click", () => {
+      if (!validateStep(currentStep)) return;
+      currentStep += 1;
+      showStep(currentStep);
+    });
+
+    prevBtn.addEventListener("click", () => {
+      setStatus("");
+      currentStep -= 1;
+      showStep(currentStep);
+    });
+
+    reviewBtn.addEventListener("click", () => {
+      if (!validateStep(14)) return;
+      openReviewModal();
+    });
+
+    editBtn.addEventListener("click", () => {
+      closeReviewModal();
+    });
+
+    confirmSubmitBtn.addEventListener("click", async () => {
+      const payload = getPayload();
+
+      confirmSubmitBtn.disabled = true;
+      confirmSubmitBtn.textContent = "送出中...";
+      setStatus("送出中...");
+
+      try {
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await res.json();
+
+        if (result.ok) {
+          closeReviewModal();
+          setStatus("送出成功。", "success");
+          currentStep = 15;
+          showStep(currentStep);
+        } else {
+          closeReviewModal();
+          setStatus("送出失敗：" + (result.message || "請稍後再試。"), "error");
+        }
+      } catch (err) {
+        closeReviewModal();
+        setStatus("送出失敗，請稍後再試。", "error");
+      } finally {
+        confirmSubmitBtn.disabled = false;
+        confirmSubmitBtn.textContent = "確認送出";
+      }
+    });
+
+    document.getElementById("name").addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (validateStep(1)) {
+          currentStep = 2;
+          showStep(currentStep);
+        }
+      }
+    });
+
+    document.getElementById("employeeId").addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (validateStep(2)) {
+          currentStep = 3;
+          showStep(currentStep);
+        }
+      }
+    });
+
+    document.getElementById("email").addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (validateStep(3)) {
+          currentStep = 4;
+          showStep(currentStep);
+        }
+      }
+    });
+
+    document.getElementById("contactTail").addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (validateStep(5)) {
+          currentStep = 6;
+          showStep(currentStep);
+        }
+      }
+    });
+
+    document.getElementById("lineId").addEventListener("keydown", e => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        if (validateStep(5)) {
+          currentStep = 6;
+          showStep(currentStep);
+        }
+      }
+    });
+
+    document.getElementById("face").addEventListener("change", () => {
+      if (currentStep === 8 && validateStep(8)) {
+        currentStep = 9;
+        showStep(currentStep);
+      }
+    });
+
+    document.getElementById("outfit").addEventListener("change", () => {
+      if (currentStep === 9 && validateStep(9)) {
+        currentStep = 10;
+        showStep(currentStep);
+      }
+    });
+
+    document.getElementById("experience").addEventListener("change", () => {
+      if (currentStep === 10 && validateStep(10)) {
+        currentStep = 11;
+        showStep(currentStep);
+      }
+    });
+
+    document.getElementById("priority").addEventListener("change", () => {
+      if (currentStep === 13) {
+        currentStep = 14;
+        showStep(currentStep);
+      }
+    });
+
+    showStep(currentStep);
+  </script>
 </body>
 </html>
