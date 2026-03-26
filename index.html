@@ -103,13 +103,13 @@
       border-radius:24px;
       padding:28px 22px;
       box-shadow:var(--shadow);
+      min-height:450px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
     }
 
-    .notice-card{
-      margin-bottom:18px;
-    }
-
-    .notice-grid{
+    .notice-box{
       display:grid;
       gap:12px;
       font-size:14px;
@@ -117,18 +117,11 @@
       color:#444;
     }
 
-    .notice-box{
+    .notice-item{
       padding:14px;
       border:1px solid #e7e7e7;
       border-radius:14px;
       background:#fafafa;
-    }
-
-    .form-card{
-      min-height:450px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
     }
 
     .step{
@@ -443,9 +436,6 @@
       .card{
         padding:22px 18px;
         border-radius:20px;
-      }
-
-      .form-card{
         min-height:380px;
       }
 
@@ -474,33 +464,33 @@
         </div>
       </section>
 
-      <section class="card notice-card">
-        <div class="step-kicker">NOTICE</div>
-        <h2 class="step-title" style="font-size:24px;">拍攝安排說明</h2>
-        <div class="notice-grid">
-          <div class="notice-box">
-            <strong>上班日拍攝</strong><br>
-            於上班時間進行，須事前與 SV 或店長確認拍攝時段，並以不影響門市營運及店務為原則。<br>
-            視專案內容及複雜程度，提供適當回饋（非薪資性質）。
-          </div>
-
-          <div class="notice-box">
-            <strong>休假日拍攝</strong><br>
-            採自願參與方式，非屬工作指派，且不影響既有排班制度。<br>
-            視專案內容提供適當回饋（非薪資性質）。
-          </div>
-
-          <div class="notice-box">
-            <strong>個人資料使用說明</strong><br>
-            本表單所蒐集之個人資料，僅供行銷部內部進行拍攝安排、名單管理及相關業務使用。<br>
-            所蒐集之資料將依公司相關規範妥善保管，並於合理且必要之範圍內使用，不另作其他用途，亦不對外提供。
-          </div>
-        </div>
-      </section>
-
-      <form id="form" class="card form-card">
+      <form id="form" class="card">
         <div>
-          <section class="step active" data-step="1">
+          <section class="step active" data-step="0">
+            <div class="step-kicker">NOTICE</div>
+            <h2 class="step-title">拍攝安排說明</h2>
+            <div class="notice-box">
+              <div class="notice-item">
+                <strong>上班日拍攝</strong><br>
+                於上班時間進行，須事前與 SV 或店長確認拍攝時段，並以不影響門市營運及店務為原則。<br>
+                視專案內容及複雜程度，提供適當回饋（非薪資性質）。
+              </div>
+
+              <div class="notice-item">
+                <strong>休假日拍攝</strong><br>
+                採自願參與方式，非屬工作指派，且不影響既有排班制度。<br>
+                視專案內容提供適當回饋（非薪資性質）。
+              </div>
+
+              <div class="notice-item">
+                <strong>個人資料使用說明</strong><br>
+                本表單所蒐集之個人資料，僅供行銷部內部進行拍攝安排、名單管理及相關業務使用。<br>
+                所蒐集之資料將依公司相關規範妥善保管，並於合理且必要之範圍內使用，不另作其他用途，亦不對外提供。
+              </div>
+            </div>
+          </section>
+
+          <section class="step" data-step="1">
             <div class="step-kicker">STEP 1</div>
             <h2 class="step-title">請先告訴我們你的姓名</h2>
             <p class="step-desc">此表單開放全體門市同仁填寫，包含正職、兼職及工讀人員。</p>
@@ -679,6 +669,7 @@
         <div class="actions">
           <button type="button" id="prevBtn" class="btn btn-secondary">上一頁</button>
           <button type="button" id="nextBtn" class="btn btn-primary">下一頁</button>
+          <button type="button" id="startBtn" class="btn btn-primary hidden">開始填寫</button>
           <button type="button" id="reviewBtn" class="btn btn-primary hidden">確認資料</button>
         </div>
 
@@ -689,7 +680,7 @@
     <div class="footer">
       <div class="footer-inner">
         <div class="progress-meta">
-          <span id="progressText">1 / 14</span>
+          <span id="progressText">說明頁</span>
           <span>填寫進度</span>
         </div>
         <div class="progress">
@@ -715,70 +706,22 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbxfJS57Zghi6c1ZTU1wsUalab1ssDqs6XSG-BFuMQ7zwkIYPdtrZeOml7piDpkIinJh/exec";
 
     const stores = [
-      "ABC-GS 漢中（221125）",
-      "ABC-敦南（221426）",
-      "ABC-基隆中正（221427）",
-      "ABC-西門（221428）",
-      "ABC-西寧（221530）",
-      "ABC-板橋環球（221531）",
-      "ABC-中和環球（221532）",
-      "OUTLET林口三井（221634）",
-      "ABC-A11（221837）",
-      "ABC-內湖潤泰（221838）",
-      "ABC-樹喜秀泰（221839）",
-      "ABC-永和比漾（221941）",
-      "ABC-GS 新莊宏匯（222044）",
-      "ABC-汐科遠雄廣場（222201）",
-      "ABC-淡新家樂福（222301）",
-      "ABC-峨眉（222302）",
-      "ABC-新店裕隆城（222303）",
-      "ABC-重新家樂福（222401）",
-      "ABC-GS 南港LaLaport（222501）",
-      "ABC-GS 信義微風（222502）",
-      "ABC-新竹巨城（231201）",
-      "ABC-苗栗尚順（231502）",
-      "ABC-新竹林森（231705）",
-      "ABC-桃園統領（231807）",
-      "ABC-中壢（231908）",
-      "ABC-宜蘭新月（231942）",
-      "ABC-桃園台茂（232009）",
-      "ABC-花蓮遠百（232101）",
-      "ABC-新竹大遠百（232102）",
-      "ABC-竹北遠百（232201）",
-      "ABC-桃園八德（232202）",
-      "ABC-桃園遠百（232203）",
-      "ABC-內壢家樂福（232204）",
-      "ABC-新竹湳雅廣場（232301）",
-      "ABC-桃園愛買（232401）",
-      "ABC-經國家樂福（232501）",
-      "ABC-桃園青埔（232502）",
-      "OUTLET台中麗寶（241603）",
-      "ABC-台中文華（241804）",
-      "ABC-文心秀泰（241805）",
-      "OUTLET台中三井（241806）",
-      "ABC-台中新時代（241907）",
-      "ABC-GS 台中大遠百（242008）",
-      "ABC-豐原太平洋（242009）",
-      "ABC-廣三SOGO（242010）",
-      "ABC-台中中友（242101）",
-      "ABC-台中LaLaport（242301）",
-      "ABC-嘉義耐斯（251401）",
-      "ABC-嘉義秀泰（252401）",
-      "ABC-台南小西門（261601）",
-      "ABC-台南南紡（261602）",
-      "ABC-台南FOCUS（261903）",
-      "OUTLET台南三井（262201）",
-      "ABC-仁德家樂福（262301）",
-      "ABC-誠品碳佐麻里（262501）",
-      "ABC-高雄統一（271201）",
-      "ABC-左營彩虹市集（271302）",
-      "ABC-高雄草衙道（271806）",
-      "ABC-高雄大遠百（271907）",
-      "OUTLET高雄義大（272101）",
-      "ABC-岡山秀泰（272201）",
-      "ABC-高雄義享（272301）",
-      "ABC-屏東太平洋（281704）",
-      "ABC-台東（282201）"
+      "ABC-GS 漢中（221125）","ABC-敦南（221426）","ABC-基隆中正（221427）","ABC-西門（221428）",
+      "ABC-西寧（221530）","ABC-板橋環球（221531）","ABC-中和環球（221532）","OUTLET林口三井（221634）",
+      "ABC-A11（221837）","ABC-內湖潤泰（221838）","ABC-樹喜秀泰（221839）","ABC-永和比漾（221941）",
+      "ABC-GS 新莊宏匯（222044）","ABC-汐科遠雄廣場（222201）","ABC-淡新家樂福（222301）","ABC-峨眉（222302）",
+      "ABC-新店裕隆城（222303）","ABC-重新家樂福（222401）","ABC-GS 南港LaLaport（222501）","ABC-GS 信義微風（222502）",
+      "ABC-新竹巨城（231201）","ABC-苗栗尚順（231502）","ABC-新竹林森（231705）","ABC-桃園統領（231807）",
+      "ABC-中壢（231908）","ABC-宜蘭新月（231942）","ABC-桃園台茂（232009）","ABC-花蓮遠百（232101）",
+      "ABC-新竹大遠百（232102）","ABC-竹北遠百（232201）","ABC-桃園八德（232202）","ABC-桃園遠百（232203）",
+      "ABC-內壢家樂福（232204）","ABC-新竹湳雅廣場（232301）","ABC-桃園愛買（232401）","ABC-經國家樂福（232501）",
+      "ABC-桃園青埔（232502）","OUTLET台中麗寶（241603）","ABC-台中文華（241804）","ABC-文心秀泰（241805）",
+      "OUTLET台中三井（241806）","ABC-台中新時代（241907）","ABC-GS 台中大遠百（242008）","ABC-豐原太平洋（242009）",
+      "ABC-廣三SOGO（242010）","ABC-台中中友（242101）","ABC-台中LaLaport（242301）","ABC-嘉義耐斯（251401）",
+      "ABC-嘉義秀泰（252401）","ABC-台南小西門（261601）","ABC-台南南紡（261602）","ABC-台南FOCUS（261903）",
+      "OUTLET台南三井（262201）","ABC-仁德家樂福（262301）","ABC-誠品碳佐麻里（262501）","ABC-高雄統一（271201）",
+      "ABC-左營彩虹市集（271302）","ABC-高雄草衙道（271806）","ABC-高雄大遠百（271907）","OUTLET高雄義大（272101）",
+      "ABC-岡山秀泰（272201）","ABC-高雄義享（272301）","ABC-屏東太平洋（281704）","ABC-台東（282201）"
     ];
 
     const storeSelect = document.getElementById("store");
@@ -795,11 +738,11 @@
 
     const prevBtn = document.getElementById("prevBtn");
     const nextBtn = document.getElementById("nextBtn");
+    const startBtn = document.getElementById("startBtn");
     const reviewBtn = document.getElementById("reviewBtn");
     const progressText = document.getElementById("progressText");
     const progressBar = document.getElementById("progressBar");
     const statusEl = document.getElementById("status");
-    const form = document.getElementById("form");
 
     const reviewModal = document.getElementById("reviewModal");
     const summaryList = document.getElementById("summaryList");
@@ -839,21 +782,31 @@
         step.classList.toggle("active", i === index);
       });
 
+      const isNotice = index === 0;
       const isThankYou = index === steps.length - 1;
-      const isLastQuestion = index === totalQuestionSteps - 1;
+      const isLastQuestion = index === totalQuestionSteps;
 
-      prevBtn.classList.toggle("hidden", index === 0 || isThankYou);
-      nextBtn.classList.toggle("hidden", isLastQuestion || isThankYou);
+      prevBtn.classList.toggle("hidden", index <= 1 || isThankYou || isNotice);
+      nextBtn.classList.toggle("hidden", isLastQuestion || isThankYou || isNotice);
+      startBtn.classList.toggle("hidden", !isNotice);
       reviewBtn.classList.toggle("hidden", !isLastQuestion || isThankYou);
 
-      const progressStep = Math.min(index + 1, totalQuestionSteps);
-      progressText.textContent = `${progressStep} / ${totalQuestionSteps}`;
-      progressBar.style.width = `${(progressStep / totalQuestionSteps) * 100}%`;
+      if (isNotice) {
+        progressText.textContent = "說明頁";
+        progressBar.style.width = "0%";
+      } else {
+        const progressStep = Math.min(index, totalQuestionSteps);
+        progressText.textContent = `${progressStep} / ${totalQuestionSteps}`;
+        progressBar.style.width = `${(progressStep / totalQuestionSteps) * 100}%`;
+      }
 
       if (isThankYou) {
         prevBtn.classList.add("hidden");
         nextBtn.classList.add("hidden");
+        startBtn.classList.add("hidden");
         reviewBtn.classList.add("hidden");
+        progressText.textContent = "填寫完成";
+        progressBar.style.width = "100%";
       }
 
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -861,13 +814,13 @@
 
     function validateStep(index) {
       switch(index) {
-        case 0:
+        case 1:
           if (!document.getElementById("name").value.trim()) {
             setStatus("請填寫姓名。", "error");
             return false;
           }
           break;
-        case 1: {
+        case 2: {
           const employeeId = document.getElementById("employeeId").value.trim();
           if (!employeeId) {
             setStatus("請填寫員編。", "error");
@@ -879,49 +832,49 @@
           }
           break;
         }
-        case 2:
+        case 3:
           if (!document.getElementById("email").value.trim()) {
             setStatus("請填寫 Email。", "error");
             return false;
           }
           break;
-        case 3:
+        case 4:
           if (!document.getElementById("store").value.trim()) {
             setStatus("請選擇門市。", "error");
             return false;
           }
           break;
-        case 4:
+        case 5:
           if (!document.getElementById("contact").value.trim()) {
             setStatus("請填寫聯絡方式。", "error");
             return false;
           }
           break;
-        case 6:
+        case 7:
           if (![...document.querySelectorAll('input[name="types"]:checked')].length) {
             setStatus("請至少選擇一種拍攝形式。", "error");
             return false;
           }
           break;
-        case 7:
+        case 8:
           if (!document.getElementById("face").value) {
             setStatus("請選擇是否可露臉。", "error");
             return false;
           }
           break;
-        case 8:
+        case 9:
           if (!document.getElementById("outfit").value) {
             setStatus("請選擇是否可配合穿搭拍攝。", "error");
             return false;
           }
           break;
-        case 9:
+        case 10:
           if (!document.getElementById("experience").value) {
             setStatus("請選擇是否有拍攝經驗。", "error");
             return false;
           }
           break;
-        case 13:
+        case 14:
           if (!document.getElementById("authorized").checked) {
             setStatus("請先勾選同意授權內容。", "error");
             return false;
@@ -968,6 +921,11 @@
       reviewModal.classList.remove("show");
     }
 
+    startBtn.addEventListener("click", () => {
+      currentStep = 1;
+      showStep(currentStep);
+    });
+
     nextBtn.addEventListener("click", () => {
       if (!validateStep(currentStep)) return;
       currentStep += 1;
@@ -981,7 +939,7 @@
     });
 
     reviewBtn.addEventListener("click", () => {
-      if (!validateStep(13)) return;
+      if (!validateStep(14)) return;
       openReviewModal();
     });
 
@@ -1010,7 +968,7 @@
         if (result.ok) {
           closeReviewModal();
           setStatus("送出成功。", "success");
-          currentStep = 14;
+          currentStep = 15;
           showStep(currentStep);
         } else {
           closeReviewModal();
@@ -1026,7 +984,7 @@
     });
 
     document.getElementById("name").addEventListener("keydown", e => {
-      if (e.key === "Enter") { e.preventDefault(); if (validateStep(0)) { currentStep = 1; showStep(currentStep); } }
+      if (e.key === "Enter") { e.preventDefault(); if (validateStep(1)) { currentStep = 2; showStep(currentStep); } }
     });
 
     document.getElementById("employeeId").addEventListener("input", e => {
@@ -1034,48 +992,48 @@
     });
 
     document.getElementById("employeeId").addEventListener("keydown", e => {
-      if (e.key === "Enter") { e.preventDefault(); if (validateStep(1)) { currentStep = 2; showStep(currentStep); } }
-    });
-
-    document.getElementById("email").addEventListener("keydown", e => {
       if (e.key === "Enter") { e.preventDefault(); if (validateStep(2)) { currentStep = 3; showStep(currentStep); } }
     });
 
+    document.getElementById("email").addEventListener("keydown", e => {
+      if (e.key === "Enter") { e.preventDefault(); if (validateStep(3)) { currentStep = 4; showStep(currentStep); } }
+    });
+
     document.getElementById("contact").addEventListener("keydown", e => {
-      if (e.key === "Enter") { e.preventDefault(); if (validateStep(4)) { currentStep = 5; showStep(currentStep); } }
+      if (e.key === "Enter") { e.preventDefault(); if (validateStep(5)) { currentStep = 6; showStep(currentStep); } }
     });
 
     document.getElementById("store").addEventListener("change", () => {
-      if (currentStep === 3 && validateStep(3)) {
-        currentStep = 4;
+      if (currentStep === 4 && validateStep(4)) {
+        currentStep = 5;
         showStep(currentStep);
       }
     });
 
     document.getElementById("face").addEventListener("change", () => {
-      if (currentStep === 7 && validateStep(7)) {
-        currentStep = 8;
-        showStep(currentStep);
-      }
-    });
-
-    document.getElementById("outfit").addEventListener("change", () => {
       if (currentStep === 8 && validateStep(8)) {
         currentStep = 9;
         showStep(currentStep);
       }
     });
 
-    document.getElementById("experience").addEventListener("change", () => {
+    document.getElementById("outfit").addEventListener("change", () => {
       if (currentStep === 9 && validateStep(9)) {
         currentStep = 10;
         showStep(currentStep);
       }
     });
 
+    document.getElementById("experience").addEventListener("change", () => {
+      if (currentStep === 10 && validateStep(10)) {
+        currentStep = 11;
+        showStep(currentStep);
+      }
+    });
+
     document.getElementById("priority").addEventListener("change", () => {
-      if (currentStep === 12) {
-        currentStep = 13;
+      if (currentStep === 13) {
+        currentStep = 14;
         showStep(currentStep);
       }
     });
