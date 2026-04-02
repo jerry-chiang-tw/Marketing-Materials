@@ -960,7 +960,7 @@
                 <div>
                   <div class="hero-tag">ABC-MART INTERNAL FORM</div>
                   <h1>行銷素材拍攝意願調查表</h1>
-                  <p>本表單僅提供有意願之同仁填寫，並不代表一定會安排拍攝。
+                  <p>此表單開放全體門市同仁填寫，包含正職、兼職及工讀人員。
 拍攝時間將依每次內容需求及門市營運狀況彈性安排，且不影響既有工作規劃。
 請依自身狀況與配合度審慎評估是否參與。</p>
                 </div>
@@ -1001,8 +1001,8 @@
 
           <section class="step" data-step="1">
             <div class="step-kicker">Step 1</div>
-            <h2 class="step-title">先告訴我們你的姓名</h2>
-            <p class="step-desc">此表單開放全體門市同仁填寫，包含正職、兼職及工讀人員。</p>
+            <h2 class="step-title">你的名字?</h2>
+            <p class="step-desc">本名/綽號皆可</p>
             <div class="field">
               <label class="required" for="name">姓名</label>
               <input id="name" type="text" required>
@@ -1016,7 +1016,7 @@
             <div class="field">
               <label class="required" for="employeeId">員編</label>
               <input id="employeeId" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="off" required>
-              <div class="hint">格式範例：123456</div>
+              <div class="hint">格式範例：10XXXX、11XXXX</div>
             </div>
           </section>
 
@@ -1088,33 +1088,33 @@
             <div class="demo-panel">
               <div class="demo-head">
                 <div>
-                  <div class="demo-title">拍攝風格示範</div>
-                  <div class="demo-sub">不需跳轉 IG。先看示意風格，再決定自己可接受的類型。</div>
+                  <div class="demo-title">拍攝內容參考</div>
+                  <div class="demo-sub">內容為過往製作內容，供填寫意願表參考，實際執行會視不同專案製作素材需求。</div>
                 </div>
               </div>
 
               <div class="demo-grid">
   <article class="demo-card" data-demo="0">
     <div class="demo-thumb">
-      <img src="2.png" alt="示意1">
+      <img src="2.png" alt="參考1">
     </div>
   </article>
 
   <article class="demo-card" data-demo="1">
     <div class="demo-thumb">
-      <img src="3.png" alt="示意2">
+      <img src="3.png" alt="參考2">
     </div>
   </article>
 
   <article class="demo-card" data-demo="2">
     <div class="demo-thumb">
-      <img src="1.png" alt="示意3">
+      <img src="1.png" alt="參考3">
     </div>
   </article>
 
   <article class="demo-card" data-demo="3">
     <div class="demo-thumb">
-      <img src="4.png" alt="示意4">
+      <img src="4.png" alt="參考4">
     </div>
   </article>
 </div>
@@ -1124,7 +1124,7 @@
                 <article class="demo-card" data-demo="1">
                   <div class="demo-thumb">
                     <span class="demo-chip">REELS</span>
-                    <img src="4.png" alt="動態影片示意">
+                    <img src="4.png" alt="動態影片參考">
                   </div>
                   <div class="demo-card-body">
                     <div class="demo-card-title">動態影片（無口播）</div>
@@ -1136,36 +1136,36 @@
                 <article class="demo-card" data-demo="2">
                   <div class="demo-thumb">
                     <span class="demo-chip">STYLE</span>
-                    <img src="3.png" alt="鞋款穿搭展示示意">
+                    <img src="3.png" alt="鞋款穿搭展示參考">
                   </div>
                   <div class="demo-card-body">
                     <div class="demo-card-title">鞋款穿搭展示</div>
                     <div class="demo-card-text">著重鞋款與整體穿搭的搭配感，呈現真實上腳風格。</div>
-                    <div class="demo-card-link">點擊查看示意</div>
+                    <div class="demo-card-link">點擊查看參考</div>
                   </div>
                 </article>
 
                 <article class="demo-card" data-demo="3">
                   <div class="demo-thumb">
                     <span class="demo-chip">TALK</span>
-                    <img src="1.png" alt="含口播影片示意">
+                    <img src="1.png" alt="含口播影片參考">
                   </div>
                   <div class="demo-card-body">
                     <div class="demo-card-title">動態影片（含口播）</div>
                     <div class="demo-card-text">搭配簡單介紹、情境台詞或自然分享，讓影片更有互動感。</div>
-                    <div class="demo-card-link">點擊查看示意</div>
+                    <div class="demo-card-link">點擊查看參考</div>
                   </div>
                 </article>
 
                 <article class="demo-card" data-demo="4">
                   <div class="demo-thumb">
                     <span class="demo-chip">STORE</span>
-                    <img src="2.png" alt="門市情境拍攝示意">
+                    <img src="2.png" alt="門市情境拍攝參考">
                   </div>
                   <div class="demo-card-body">
-                    <div class="demo-card-title">門市情境拍攝</div>
+                    <div class="demo-card-title">門市情境參考</div>
                     <div class="demo-card-text">以試穿、拿鞋、走動、互動等方式，呈現自然的店內拍攝情境。</div>
-                    <div class="demo-card-link">點擊查看示意</div>
+                    <div class="demo-card-link">點擊查看參考</div>
                   </div>
                 </article>
               </div>
@@ -1363,6 +1363,8 @@
     ];
 
     const stores = [
+      { code: "909001", name: "台北辦公室", label: "909001｜台北辦公室" },
+      { code: "909101", name: "台中辦公室", label: "909101｜台中辦公室" },
       { code: "221125", name: "ABC-GS 漢中", label: "221125｜ABC-GS 漢中" },
       { code: "221426", name: "ABC-敦南", label: "221426｜ABC-敦南" },
       { code: "221427", name: "ABC-基隆中正", label: "221427｜ABC-基隆中正" },
