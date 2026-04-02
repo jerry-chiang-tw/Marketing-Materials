@@ -13,7 +13,6 @@
       --line:#e7e7ea;
       --accent:#d71920;
       --accent-soft:rgba(215,25,32,.08);
-      --black:#111111;
       --success:#157347;
       --error:#c62828;
       --shadow:0 24px 80px rgba(0,0,0,.08);
@@ -202,7 +201,6 @@
     .hero-mini-stage::after{
       content:"";
       position:absolute;
-      inset:auto;
       border-radius:999px;
     }
 
@@ -374,7 +372,12 @@
       white-space:pre-line;
     }
 
-    .field{display:flex;flex-direction:column;gap:10px;max-width:720px;}
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      max-width:720px;
+    }
 
     .field label{
       font-size:14px;
@@ -416,7 +419,12 @@
 
     textarea{min-height:160px;resize:vertical;}
 
-    .hint{font-size:12px;color:var(--sub);margin-top:-2px;line-height:1.7;}
+    .hint{
+      font-size:12px;
+      color:var(--sub);
+      margin-top:-2px;
+      line-height:1.7;
+    }
 
     .choice-list{
       display:grid;
@@ -453,7 +461,11 @@
       flex:0 0 auto;
     }
 
-    .choice-text{font-size:17px;line-height:1.6;letter-spacing:-.01em;}
+    .choice-text{
+      font-size:17px;
+      line-height:1.6;
+      letter-spacing:-.01em;
+    }
 
     .demo-panel{
       margin-top:22px;
@@ -508,12 +520,6 @@
       box-shadow:0 26px 50px rgba(0,0,0,.12);
     }
 
-    .demo-card:hover{
-      transform:translateY(-4px);
-      box-shadow:0 20px 30px rgba(0,0,0,.08);
-      border-color:#d5d5da;
-    }
-
     .demo-thumb{
       aspect-ratio:4 / 5;
       background:#f0f0f2;
@@ -556,53 +562,6 @@
       transform:translate(-50%,-50%) scale(1);
     }
 
-    .demo-thumb img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-
-    .demo-chip{
-      position:absolute;
-      left:12px;
-      top:12px;
-      z-index:2;
-      padding:7px 10px;
-      border-radius:999px;
-      background:rgba(17,17,17,.82);
-      color:#fff;
-      font-size:11px;
-      font-weight:800;
-      letter-spacing:.06em;
-      backdrop-filter:blur(6px);
-    }
-
-    .demo-card-body{
-      padding:14px 14px 16px;
-    }
-
-    .demo-card-title{
-      font-size:15px;
-      font-weight:900;
-      letter-spacing:-.02em;
-      margin-bottom:6px;
-    }
-
-    .demo-card-text{
-      font-size:13px;
-      line-height:1.75;
-      color:var(--sub);
-    }
-
-    .demo-card-link{
-      margin-top:10px;
-      color:var(--accent);
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.03em;
-    }
-
     .actions{
       display:flex;
       align-items:center;
@@ -612,7 +571,11 @@
       padding-top:10px;
     }
 
-    .actions-left,.actions-right{display:flex;gap:12px;align-items:center;}
+    .actions-left,.actions-right{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
 
     .btn{
       border:none;
@@ -641,7 +604,13 @@
       box-shadow:0 14px 24px rgba(0,0,0,.12);
     }
 
-    .status{margin-top:12px;min-height:22px;font-size:14px;font-weight:800;}
+    .status{
+      margin-top:12px;
+      min-height:22px;
+      font-size:14px;
+      font-weight:800;
+    }
+
     .status.success{color:var(--success)}
     .status.error{color:var(--error)}
 
@@ -733,7 +702,12 @@
       font-weight:900;
     }
 
-    .thankyou p{margin:0;color:var(--sub);font-size:17px;line-height:1.9;}
+    .thankyou p{
+      margin:0;
+      color:var(--sub);
+      font-size:17px;
+      line-height:1.9;
+    }
 
     .modal{
       position:fixed;
@@ -760,10 +734,26 @@
       animation:stepIn .24s var(--ease);
     }
 
-    .modal-title{margin:0 0 10px;font-size:32px;line-height:1.08;letter-spacing:-.04em;font-weight:900;}
-    .modal-desc{margin:0 0 18px;color:var(--sub);font-size:14px;line-height:1.8;}
+    .modal-title{
+      margin:0 0 10px;
+      font-size:32px;
+      line-height:1.08;
+      letter-spacing:-.04em;
+      font-weight:900;
+    }
 
-    .summary-list{display:grid;gap:12px;margin-bottom:22px;}
+    .modal-desc{
+      margin:0 0 18px;
+      color:var(--sub);
+      font-size:14px;
+      line-height:1.8;
+    }
+
+    .summary-list{
+      display:grid;
+      gap:12px;
+      margin-bottom:22px;
+    }
 
     .summary-item{
       background:#fafafa;
@@ -783,9 +773,16 @@
       text-transform:uppercase;
     }
 
-    .modal-actions{display:flex;gap:12px;justify-content:flex-end;}
+    .modal-actions{
+      display:flex;
+      gap:12px;
+      justify-content:flex-end;
+    }
 
-    .search-select{position:relative;max-width:720px;}
+    .search-select{
+      position:relative;
+      max-width:720px;
+    }
 
     .search-select-input{
       width:100%;
@@ -829,9 +826,18 @@
 
     .search-select-option:last-child{border-bottom:none}
     .search-select-option:hover,.search-select-option.active{background:#f7f7f8}
-    .search-select-empty{padding:14px 16px;color:var(--sub);font-size:14px;}
+    .search-select-empty{
+      padding:14px 16px;
+      color:var(--sub);
+      font-size:14px;
+    }
 
-    .phone-wrap{display:flex;align-items:center;gap:12px;max-width:720px;}
+    .phone-wrap{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      max-width:720px;
+    }
 
     .phone-prefix{
       flex:0 0 auto;
@@ -851,7 +857,7 @@
 
     .demo-modal-grid{
       display:grid;
-      grid-template-columns:1fr 1fr;
+      grid-template-columns:1fr;
       gap:20px;
       align-items:start;
     }
@@ -871,60 +877,10 @@
       aspect-ratio:4 / 5;
     }
 
-    .demo-modal-copy{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-    }
-
-    .demo-modal-copy .mini{
-      display:inline-flex;
-      align-items:center;
-      width:max-content;
-      padding:8px 12px;
-      border-radius:999px;
-      background:#111;
-      color:#fff;
-      font-size:12px;
-      font-weight:800;
-      letter-spacing:.06em;
-    }
-
-    .demo-modal-copy h4{
-      margin:0;
-      font-size:28px;
-      line-height:1.1;
-      letter-spacing:-.04em;
-      font-weight:900;
-    }
-
-    .demo-modal-copy p{
-      margin:0;
-      color:var(--sub);
-      font-size:14px;
-      line-height:1.85;
-    }
-
-    .demo-points{
-      display:grid;
-      gap:10px;
-      margin-top:6px;
-    }
-
-    .demo-point{
-      border:1px solid var(--line);
-      background:#fafafa;
-      border-radius:18px;
-      padding:12px 14px;
-      font-size:13px;
-      line-height:1.75;
-    }
-
     @media (max-width:900px){
       .hero-grid{grid-template-columns:1fr}
       .notice-grid{grid-template-columns:1fr}
       .demo-grid{grid-template-columns:1fr 1fr}
-      .demo-modal-grid{grid-template-columns:1fr}
     }
 
     @media (max-width:720px){
@@ -967,10 +923,10 @@
                 <div class="hero-side">
                   <div class="hero-mini-stage">
                     <div class="floating-card a">
-                      <img src="https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=600&q=80" alt="拍攝示意 1">
+                      <img src="1.png" alt="拍攝示意 1">
                     </div>
                     <div class="floating-card b">
-                      <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=600&q=80" alt="拍攝示意 2">
+                      <img src="2.png" alt="拍攝示意 2">
                     </div>
                     <div class="floating-badge">SHOOT MOOD PREVIEW</div>
                   </div>
@@ -1075,7 +1031,7 @@
             <div class="step-kicker">Step 7</div>
             <h2 class="step-title">你可接受的拍攝類型</h2>
             <p class="step-desc">可複選，至少選擇一項。
-下方示範卡片可直接點開預覽，快速理解大概會拍成什麼感覺。</p>
+下方示範圖片供填寫意願表參考，實際執行會依不同專案需求調整。</p>
 
             <div class="choice-list">
               <label class="choice-item"><input type="checkbox" name="types" value="平面照片"><span class="choice-text">平面照片</span></label>
@@ -1089,83 +1045,32 @@
               <div class="demo-head">
                 <div>
                   <div class="demo-title">拍攝內容參考</div>
-                  <div class="demo-sub">內容為過往製作內容，供填寫意願表參考，實際執行會視不同專案製作素材需求。</div>
+                  <div class="demo-sub">內容為過往製作內容，供填寫意願表參考。</div>
                 </div>
               </div>
 
               <div class="demo-grid">
-  <article class="demo-card" data-demo="0">
-    <div class="demo-thumb">
-      <img src="2.png" alt="參考1">
-    </div>
-  </article>
-
-  <article class="demo-card" data-demo="1">
-    <div class="demo-thumb">
-      <img src="3.png" alt="參考2">
-    </div>
-  </article>
-
-  <article class="demo-card" data-demo="2">
-    <div class="demo-thumb">
-      <img src="1.png" alt="參考3">
-    </div>
-  </article>
-
-  <article class="demo-card" data-demo="3">
-    <div class="demo-thumb">
-      <img src="4.png" alt="參考4">
-    </div>
-  </article>
-</div>
-</div>
+                <article class="demo-card" data-demo="0">
+                  <div class="demo-thumb">
+                    <img src="2.png" alt="參考1">
+                  </div>
                 </article>
 
                 <article class="demo-card" data-demo="1">
                   <div class="demo-thumb">
-                    <span class="demo-chip">REELS</span>
-                    <img src="4.png" alt="動態影片參考">
-                  </div>
-                  <div class="demo-card-body">
-                    <div class="demo-card-title">動態影片（無口播）</div>
-                    <div class="demo-card-text">以步伐、轉場、鏡位與字幕，讓畫面節奏帶出商品特色。</div>
-                    <div class="demo-card-link">點擊查看示意</div>
+                    <img src="3.png" alt="參考2">
                   </div>
                 </article>
 
                 <article class="demo-card" data-demo="2">
                   <div class="demo-thumb">
-                    <span class="demo-chip">STYLE</span>
-                    <img src="3.png" alt="鞋款穿搭展示參考">
-                  </div>
-                  <div class="demo-card-body">
-                    <div class="demo-card-title">鞋款穿搭展示</div>
-                    <div class="demo-card-text">著重鞋款與整體穿搭的搭配感，呈現真實上腳風格。</div>
-                    <div class="demo-card-link">點擊查看參考</div>
+                    <img src="1.png" alt="參考3">
                   </div>
                 </article>
 
                 <article class="demo-card" data-demo="3">
                   <div class="demo-thumb">
-                    <span class="demo-chip">TALK</span>
-                    <img src="1.png" alt="含口播影片參考">
-                  </div>
-                  <div class="demo-card-body">
-                    <div class="demo-card-title">動態影片（含口播）</div>
-                    <div class="demo-card-text">搭配簡單介紹、情境台詞或自然分享，讓影片更有互動感。</div>
-                    <div class="demo-card-link">點擊查看參考</div>
-                  </div>
-                </article>
-
-                <article class="demo-card" data-demo="4">
-                  <div class="demo-thumb">
-                    <span class="demo-chip">STORE</span>
-                    <img src="2.png" alt="門市情境拍攝參考">
-                  </div>
-                  <div class="demo-card-body">
-                    <div class="demo-card-title">門市情境參考</div>
-                    <div class="demo-card-text">以試穿、拿鞋、走動、互動等方式，呈現自然的店內拍攝情境。</div>
-                    <div class="demo-card-link">點擊查看參考</div>
+                    <img src="4.png" alt="參考4">
                   </div>
                 </article>
               </div>
@@ -1306,16 +1211,10 @@
     <div class="modal-card">
       <div class="demo-modal-grid">
         <div class="demo-modal-visual">
-          <img id="demoModalImage" src="" alt="拍攝示意圖">
+          <img id="demoModalImage" src="" alt="拍攝參考圖">
         </div>
-        <div class="demo-modal-copy">
-          <div id="demoModalTag" class="mini"></div>
-          <h4 id="demoModalTitle"></h4>
-          <p id="demoModalDesc"></p>
-          <div id="demoModalPoints" class="demo-points"></div>
-          <div class="modal-actions" style="justify-content:flex-start; margin-top:8px;">
-            <button type="button" id="closeDemoBtn" class="btn btn-secondary">關閉預覽</button>
-          </div>
+        <div class="modal-actions" style="justify-content:flex-start; margin-top:8px;">
+          <button type="button" id="closeDemoBtn" class="btn btn-secondary">關閉預覽</button>
         </div>
       </div>
     </div>
@@ -1325,66 +1224,37 @@
     const API_URL = "https://script.google.com/macros/s/AKfycbxfJS57Zghi6c1ZTU1wsUalab1ssDqs6XSG-BFuMQ7zwkIYPdtrZeOml7piDpkIinJh/exec";
 
     const demoData = [
-      {
-        tag:"PHOTO",
-        title:"平面照片",
-        image:"2.png",
-        description:"適合呈現鞋款細節、穿搭氛圍、門市視覺或單一主題企劃。通常會以自然站姿、走動、局部特寫或系列圖的方式完成。",
-        points:["可能拍攝腳部特寫、半身、全身或局部細節。","重點在畫面完成度與整體風格感。","若不習慣口播，這類通常最容易配合。"]
-      },
-      {
-        tag:"REELS",
-        title:"動態影片（無口播）",
-        image:"4.png",
-        description:"以畫面節奏、動作、轉場與字幕呈現內容，不需要講話。可能包含走路、穿鞋、轉身、拿鞋、鏡頭互動等簡單動作。",
-        points:["不需開口說話，壓力相對較低。","會依腳本安排簡單動作與鏡位。","適合想參與影片，但不想口播的人。"]
-      },
-      {
-        tag:"STYLE",
-        title:"鞋款穿搭展示",
-        image:"3.png",
-        description:"著重鞋款與服裝的搭配感，呈現真實上腳效果與日常穿搭氛圍。原則上以同仁自備服飾為主，如有特殊需求會另行安排說明。",
-        points:["以自然穿搭感為主，不需過度正式。","拍攝重點在鞋與整體造型的搭配。","如企劃有特殊需求，將由行銷部另外說明。"]
-      },
-      {
-        tag:"TALK",
-        title:"動態影片（含口播）",
-        image:"1.png",
-        description:"需配合簡單介紹、情境台詞或自然分享。內容通常不會太長，會事前提供方向，並盡量以自然表現為主。",
-        points:["可能需要簡短說明商品特色或情境對白。","會先提供腳本方向，不需即興發揮太多。","適合面對鏡頭較自在、願意說話的人。"]
-      },
-      {
-        tag:"STORE",
-        title:"門市情境拍攝",
-        image:"2.png",
-        description:"在門市空間中進行自然互動拍攝，例如試穿、挑鞋、拿鞋、走動、與陳列互動等，讓畫面更貼近真實購物情境。",
-        points:["通常會在門市現場完成。","內容會盡量以自然互動為主。","拍攝安排仍以不影響門市營運為原則。"]
-      }
+      { image:"2.png", alt:"參考1" },
+      { image:"3.png", alt:"參考2" },
+      { image:"1.png", alt:"參考3" },
+      { image:"4.png", alt:"參考4" }
     ];
 
     const stores = [
       { code: "909001", name: "台北辦公室", label: "909001｜台北辦公室" },
       { code: "909101", name: "台中辦公室", label: "909101｜台中辦公室" },
-      { code: "221125", name: "ABC-GS 漢中", label: "221125｜ABC-GS 漢中" },
-      { code: "221426", name: "ABC-敦南", label: "221426｜ABC-敦南" },
+
+      { code: "221125", name: "ABC-台北漢中", label: "221125｜ABC-台北漢中" },
+      { code: "221426", name: "ABC-台北敦南", label: "221426｜ABC-台北敦南" },
       { code: "221427", name: "ABC-基隆中正", label: "221427｜ABC-基隆中正" },
-      { code: "221428", name: "ABC-西門", label: "221428｜ABC-西門" },
-      { code: "221530", name: "ABC-西寧", label: "221530｜ABC-西寧" },
+      { code: "221428", name: "ABC-台北西門", label: "221428｜ABC-台北西門" },
+      { code: "221530", name: "ABC-台北西寧", label: "221530｜ABC-台北西寧" },
       { code: "221531", name: "ABC-板橋環球", label: "221531｜ABC-板橋環球" },
       { code: "221532", name: "ABC-中和環球", label: "221532｜ABC-中和環球" },
       { code: "221634", name: "OUTLET林口三井", label: "221634｜OUTLET林口三井" },
       { code: "221837", name: "ABC-A11", label: "221837｜ABC-A11" },
       { code: "221838", name: "ABC-內湖潤泰", label: "221838｜ABC-內湖潤泰" },
-      { code: "221839", name: "ABC-樹喜秀泰", label: "221839｜ABC-樹喜秀泰" },
+      { code: "221839", name: "ABC-秀泰樹喜", label: "221839｜ABC-秀泰樹喜" },
       { code: "221941", name: "ABC-永和比漾", label: "221941｜ABC-永和比漾" },
-      { code: "222044", name: "ABC-GS 新莊宏匯", label: "222044｜ABC-GS 新莊宏匯" },
-      { code: "222201", name: "ABC-汐科遠雄廣場", label: "222201｜ABC-汐科遠雄廣場" },
+      { code: "222044", name: "ABC-新莊宏匯", label: "222044｜ABC-新莊宏匯" },
+      { code: "222201", name: "ABC-遠雄汐科", label: "222201｜ABC-遠雄汐科" },
       { code: "222301", name: "ABC-淡新家樂福", label: "222301｜ABC-淡新家樂福" },
-      { code: "222302", name: "ABC-峨眉", label: "222302｜ABC-峨眉" },
+      { code: "222302", name: "ABC-台北峨眉", label: "222302｜ABC-台北峨眉" },
       { code: "222303", name: "ABC-新店裕隆城", label: "222303｜ABC-新店裕隆城" },
       { code: "222401", name: "ABC-重新家樂福", label: "222401｜ABC-重新家樂福" },
-      { code: "222501", name: "ABC-GS 南港LaLaport", label: "222501｜ABC-GS 南港LaLaport" },
-      { code: "222502", name: "ABC-GS 信義微風", label: "222502｜ABC-GS 信義微風" },
+      { code: "222501", name: "ABC-南港Lalaport", label: "222501｜ABC-南港Lalaport" },
+      { code: "222502", name: "ABC-信義微風", label: "222502｜ABC-信義微風" },
+
       { code: "231201", name: "ABC-新竹巨城", label: "231201｜ABC-新竹巨城" },
       { code: "231502", name: "ABC-苗栗尚順", label: "231502｜ABC-苗栗尚順" },
       { code: "231705", name: "ABC-新竹林森", label: "231705｜ABC-新竹林森" },
@@ -1398,35 +1268,40 @@
       { code: "232202", name: "ABC-桃園八德", label: "232202｜ABC-桃園八德" },
       { code: "232203", name: "ABC-桃園遠百", label: "232203｜ABC-桃園遠百" },
       { code: "232204", name: "ABC-內壢家樂福", label: "232204｜ABC-內壢家樂福" },
-      { code: "232301", name: "ABC-新竹湳雅廣場", label: "232301｜ABC-新竹湳雅廣場" },
+      { code: "232301", name: "ABC-新竹湳雅", label: "232301｜ABC-新竹湳雅" },
       { code: "232401", name: "ABC-桃園愛買", label: "232401｜ABC-桃園愛買" },
       { code: "232501", name: "ABC-經國家樂福", label: "232501｜ABC-經國家樂福" },
-      { code: "232502", name: "ABC-桃園青埔", label: "232502｜ABC-桃園青埔" },
+      { code: "232502", name: "ABC-桃園青埔店", label: "232502｜ABC-桃園青埔店" },
+
       { code: "241603", name: "OUTLET台中麗寶", label: "241603｜OUTLET台中麗寶" },
       { code: "241804", name: "ABC-台中文華", label: "241804｜ABC-台中文華" },
-      { code: "241805", name: "ABC-文心秀泰", label: "241805｜ABC-文心秀泰" },
+      { code: "241805", name: "ABC-秀泰文心", label: "241805｜ABC-秀泰文心" },
       { code: "241806", name: "OUTLET台中三井", label: "241806｜OUTLET台中三井" },
       { code: "241907", name: "ABC-台中新時代", label: "241907｜ABC-台中新時代" },
-      { code: "242008", name: "ABC-GS 台中大遠百", label: "242008｜ABC-GS 台中大遠百" },
+      { code: "242008", name: "ABC-GS台中大遠百", label: "242008｜ABC-GS台中大遠百" },
       { code: "242009", name: "ABC-豐原太平洋", label: "242009｜ABC-豐原太平洋" },
       { code: "242010", name: "ABC-廣三SOGO", label: "242010｜ABC-廣三SOGO" },
       { code: "242101", name: "ABC-台中中友", label: "242101｜ABC-台中中友" },
       { code: "242301", name: "ABC-台中LaLaport", label: "242301｜ABC-台中LaLaport" },
+
       { code: "251401", name: "ABC-嘉義耐斯", label: "251401｜ABC-嘉義耐斯" },
       { code: "252401", name: "ABC-嘉義秀泰", label: "252401｜ABC-嘉義秀泰" },
+
       { code: "261601", name: "ABC-台南小西門", label: "261601｜ABC-台南小西門" },
-      { code: "261602", name: "ABC-台南南紡", label: "261602｜ABC-台南南紡" },
-      { code: "261903", name: "ABC-台南FOCUS", label: "261903｜ABC-台南FOCUS" },
+      { code: "261602", name: "ABC-南紡", label: "261602｜ABC-南紡" },
+      { code: "261903", name: "ABC台南FOCUS", label: "261903｜ABC台南FOCUS" },
       { code: "262201", name: "OUTLET台南三井", label: "262201｜OUTLET台南三井" },
       { code: "262301", name: "ABC-仁德家樂福", label: "262301｜ABC-仁德家樂福" },
       { code: "262501", name: "ABC-誠品碳佐麻里", label: "262501｜ABC-誠品碳佐麻里" },
+
       { code: "271201", name: "ABC-高雄統一", label: "271201｜ABC-高雄統一" },
       { code: "271302", name: "ABC-左營彩虹市集", label: "271302｜ABC-左營彩虹市集" },
-      { code: "271806", name: "ABC-高雄草衙道", label: "271806｜ABC-高雄草衙道" },
+      { code: "271806", name: "ABC-高雄草衙", label: "271806｜ABC-高雄草衙" },
       { code: "271907", name: "ABC-高雄大遠百", label: "271907｜ABC-高雄大遠百" },
       { code: "272101", name: "OUTLET高雄義大", label: "272101｜OUTLET高雄義大" },
-      { code: "272201", name: "ABC-岡山秀泰", label: "272201｜ABC-岡山秀泰" },
+      { code: "272201", name: "ABC-秀泰岡山", label: "272201｜ABC-秀泰岡山" },
       { code: "272301", name: "ABC-高雄義享", label: "272301｜ABC-高雄義享" },
+
       { code: "281704", name: "ABC-屏東太平洋", label: "281704｜ABC-屏東太平洋" },
       { code: "282201", name: "ABC-台東", label: "282201｜ABC-台東" }
     ];
@@ -1450,10 +1325,6 @@
 
     const demoModal = document.getElementById("demoModal");
     const demoModalImage = document.getElementById("demoModalImage");
-    const demoModalTag = document.getElementById("demoModalTag");
-    const demoModalTitle = document.getElementById("demoModalTitle");
-    const demoModalDesc = document.getElementById("demoModalDesc");
-    const demoModalPoints = document.getElementById("demoModalPoints");
     const closeDemoBtn = document.getElementById("closeDemoBtn");
 
     const storeSelectWrap = document.getElementById("storeSelectWrap");
@@ -1658,11 +1529,7 @@
       const item = demoData[index];
       if (!item) return;
       demoModalImage.src = item.image;
-      demoModalImage.alt = item.title;
-      demoModalTag.textContent = item.tag;
-      demoModalTitle.textContent = item.title;
-      demoModalDesc.textContent = item.description;
-      demoModalPoints.innerHTML = item.points.map(point => `<div class="demo-point">${point}</div>`).join("");
+      demoModalImage.alt = item.alt || "拍攝參考圖";
       demoModal.classList.add("show");
     }
 
