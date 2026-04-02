@@ -6,20 +6,21 @@
   <title>行銷素材拍攝意願調查表</title>
   <style>
     :root{
-      --bg:#f5f5f7;
+      --bg:#f3f3f5;
       --card:#ffffff;
       --text:#111111;
       --sub:#6e6e73;
-      --line:#e5e5e7;
-      --accent-2:#d71920;
+      --line:#e7e7ea;
+      --accent:#d71920;
+      --accent-soft:rgba(215,25,32,.08);
+      --black:#111111;
       --success:#157347;
       --error:#c62828;
-      --shadow:0 20px 60px rgba(0,0,0,.08);
-      --shadow-lg:0 30px 80px rgba(0,0,0,.16);
-      --radius:28px;
-      --max:900px;
+      --shadow:0 24px 80px rgba(0,0,0,.08);
+      --shadow-soft:0 14px 36px rgba(0,0,0,.06);
+      --radius:30px;
+      --max:980px;
       --ease:cubic-bezier(.22,.61,.36,1);
-      --duration:.42s;
     }
 
     *{box-sizing:border-box}
@@ -27,41 +28,33 @@
     html,body{
       margin:0;
       padding:0;
-      background:var(--bg);
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Noto Sans TC","PingFang TC","Segoe UI",sans-serif;
       color:var(--text);
-      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Noto Sans TC","PingFang TC","Segoe UI",sans-serif;
+      background:
+        radial-gradient(circle at 8% 10%, rgba(215,25,32,.08), transparent 18%),
+        radial-gradient(circle at 92% 14%, rgba(0,0,0,.05), transparent 18%),
+        linear-gradient(180deg,#f6f6f8 0%, #f2f2f4 100%);
+      min-height:100%;
       -webkit-font-smoothing:antialiased;
       text-rendering:optimizeLegibility;
-      scroll-behavior:smooth;
-    }
-
-    body{
-      min-height:100vh;
       overflow-x:hidden;
     }
 
     body::before{
       content:"";
       position:fixed;
-      inset:-20%;
-      background:
-        radial-gradient(circle at 10% 20%, rgba(215,25,32,.06), transparent 18%),
-        radial-gradient(circle at 85% 15%, rgba(0,0,0,.05), transparent 16%),
-        radial-gradient(circle at 70% 85%, rgba(215,25,32,.04), transparent 22%);
+      inset:0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size:28px 28px;
+      opacity:.35;
       pointer-events:none;
       z-index:0;
-      animation:bgFloat 18s linear infinite alternate;
-    }
-
-    @keyframes bgFloat{
-      from{transform:translate3d(0,0,0) scale(1)}
-      to{transform:translate3d(12px,-10px,0) scale(1.03)}
     }
 
     .app{
       min-height:100vh;
-      display:flex;
-      flex-direction:column;
       position:relative;
       z-index:1;
     }
@@ -69,84 +62,89 @@
     .topbar{
       height:8px;
       background:linear-gradient(90deg,#111 0%, #d71920 100%);
+      position:sticky;
+      top:0;
+      z-index:10;
     }
 
     .shell{
       width:min(var(--max), calc(100vw - 32px));
       margin:0 auto;
-      padding:24px 0 120px;
+      padding:22px 0 132px;
     }
 
-    .card{
-      background:var(--card);
-      border:1px solid rgba(0,0,0,.05);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(4px);
+    .floating-orb{
+      position:fixed;
+      right:4vw;
+      top:14vh;
+      width:180px;
+      height:180px;
+      border-radius:999px;
+      background:radial-gradient(circle, rgba(215,25,32,.10), rgba(215,25,32,0));
+      filter:blur(8px);
+      pointer-events:none;
+      animation:orb 7s ease-in-out infinite alternate;
+      z-index:0;
+    }
+
+    @keyframes orb{
+      from{transform:translateY(0) scale(1)}
+      to{transform:translateY(18px) scale(1.08)}
     }
 
     .form-card{
-      min-height:560px;
-      padding:36px 32px 28px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
+      background:rgba(255,255,255,.88);
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(255,255,255,.7);
+      border-radius:38px;
+      box-shadow:var(--shadow);
+      min-height:620px;
+      padding:34px 34px 28px;
       position:relative;
       overflow:hidden;
+    }
+
+    .form-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(135deg, rgba(255,255,255,.3), transparent 35%);
+      pointer-events:none;
     }
 
     .hero{
       position:relative;
       overflow:hidden;
-      border-radius:36px;
+      border-radius:34px;
       background:
-        radial-gradient(circle at top right, rgba(215,25,32,.10), transparent 25%),
-        linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
+        radial-gradient(circle at 85% 15%, rgba(215,25,32,.12), transparent 20%),
+        linear-gradient(135deg, #ffffff 0%, #fafafa 100%);
       border:1px solid rgba(0,0,0,.05);
-      box-shadow:var(--shadow);
-      padding:36px 32px;
+      padding:36px 30px 28px;
+      box-shadow:var(--shadow-soft);
       margin-bottom:24px;
-      transform:translateY(0);
-      animation:heroReveal .8s var(--ease);
+      animation:fadeUp .7s var(--ease);
     }
 
-    @keyframes heroReveal{
-      from{opacity:0; transform:translateY(18px) scale(.985)}
-      to{opacity:1; transform:translateY(0) scale(1)}
-    }
-
-    .hero::after{
-      content:"";
-      position:absolute;
-      top:-30%;
-      right:-10%;
-      width:280px;
-      height:280px;
-      border-radius:999px;
-      background:radial-gradient(circle, rgba(215,25,32,.12), transparent 70%);
-      animation:orbPulse 6s ease-in-out infinite;
-      pointer-events:none;
-    }
-
-    @keyframes orbPulse{
-      0%,100%{transform:scale(1) translate3d(0,0,0)}
-      50%{transform:scale(1.08) translate3d(-8px,10px,0)}
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.2fr .85fr;
+      gap:18px;
+      align-items:end;
     }
 
     .hero-tag{
       display:inline-flex;
       align-items:center;
       gap:8px;
-      padding:8px 12px;
+      padding:9px 14px;
       border-radius:999px;
       background:#111;
       color:#fff;
       font-size:12px;
-      font-weight:700;
-      letter-spacing:.04em;
-      margin-bottom:20px;
-      box-shadow:0 8px 18px rgba(0,0,0,.12);
-      animation:fadeSlide .7s var(--ease);
+      font-weight:800;
+      letter-spacing:.08em;
+      margin-bottom:18px;
     }
 
     .hero-tag::before{
@@ -154,140 +152,237 @@
       width:8px;
       height:8px;
       border-radius:999px;
-      background:var(--accent-2);
-      display:block;
-      animation:dotBlink 1.8s ease-in-out infinite;
+      background:var(--accent);
+      animation:pulse 1.8s ease-in-out infinite;
     }
 
-    @keyframes dotBlink{
-      0%,100%{opacity:1; transform:scale(1)}
-      50%{opacity:.45; transform:scale(.8)}
+    @keyframes pulse{
+      0%,100%{transform:scale(1);opacity:1}
+      50%{transform:scale(.72);opacity:.55}
     }
 
     .hero h1{
       margin:0;
-      font-size:clamp(30px, 5vw, 54px);
-      line-height:1.04;
-      letter-spacing:-0.03em;
-      font-weight:800;
-      max-width:720px;
-      animation:fadeSlide .85s var(--ease);
+      font-size:clamp(34px, 5vw, 58px);
+      line-height:1.02;
+      font-weight:900;
+      letter-spacing:-.05em;
+      max-width:640px;
     }
 
     .hero p{
-      margin:18px 0 0;
-      max-width:720px;
+      margin:16px 0 0;
       color:var(--sub);
       font-size:15px;
-      line-height:1.8;
+      line-height:1.85;
       white-space:pre-line;
-      animation:fadeSlide 1s var(--ease);
+      max-width:650px;
     }
 
-    @keyframes fadeSlide{
-      from{opacity:0; transform:translateY(16px)}
-      to{opacity:1; transform:translateY(0)}
+    .hero-side{
+      display:flex;
+      justify-content:flex-end;
+      align-items:flex-end;
+    }
+
+    .hero-mini-stage{
+      width:100%;
+      min-height:220px;
+      border-radius:28px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.75), rgba(245,245,247,.95)),
+        repeating-linear-gradient(90deg, rgba(0,0,0,.03) 0 1px, transparent 1px 22px);
+      border:1px solid rgba(0,0,0,.05);
+      position:relative;
+      overflow:hidden;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.7);
+    }
+
+    .hero-mini-stage::before,
+    .hero-mini-stage::after{
+      content:"";
+      position:absolute;
+      inset:auto;
+      border-radius:999px;
+    }
+
+    .hero-mini-stage::before{
+      width:140px;
+      height:140px;
+      right:-22px;
+      top:-18px;
+      background:radial-gradient(circle, rgba(215,25,32,.16), rgba(215,25,32,0));
+    }
+
+    .hero-mini-stage::after{
+      width:180px;
+      height:40px;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      background:radial-gradient(circle, rgba(0,0,0,.10), rgba(0,0,0,0) 70%);
+      filter:blur(8px);
+    }
+
+    .floating-card{
+      position:absolute;
+      border-radius:22px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.05);
+      box-shadow:0 16px 30px rgba(0,0,0,.08);
+      overflow:hidden;
+      animation:floaty 3.6s ease-in-out infinite;
+    }
+
+    .floating-card img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .floating-card.a{
+      width:150px;
+      height:190px;
+      left:18px;
+      top:26px;
+      transform:rotate(-7deg);
+    }
+
+    .floating-card.b{
+      width:148px;
+      height:164px;
+      right:18px;
+      top:54px;
+      transform:rotate(7deg);
+      animation-delay:.6s;
+    }
+
+    .floating-badge{
+      position:absolute;
+      left:20px;
+      bottom:18px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#111;
+      color:#fff;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.06em;
+      box-shadow:0 10px 20px rgba(0,0,0,.14);
+    }
+
+    @keyframes floaty{
+      0%,100%{translate:0 0}
+      50%{translate:0 -8px}
     }
 
     .notice-grid{
       display:grid;
-      grid-template-columns:1fr;
+      grid-template-columns:repeat(3, minmax(0,1fr));
       gap:14px;
-      margin-top:20px;
+      margin-top:18px;
     }
 
     .notice-item{
-      padding:18px 18px 16px;
-      border:1px solid var(--line);
-      border-radius:20px;
+      padding:20px 18px;
+      border-radius:22px;
       background:linear-gradient(180deg,#fff 0%, #fafafa 100%);
-      transform:translateY(0);
-      transition:transform .25s var(--ease), box-shadow .25s var(--ease), border-color .25s var(--ease);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow-soft);
+      transition:transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease);
     }
 
     .notice-item:hover{
-      transform:translateY(-2px);
-      box-shadow:0 14px 28px rgba(0,0,0,.06);
-      border-color:#dbdbdf;
+      transform:translateY(-3px);
+      border-color:#dadade;
+      box-shadow:0 20px 36px rgba(0,0,0,.07);
+    }
+
+    .notice-icon{
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background:var(--accent-soft);
+      color:var(--accent);
+      font-weight:900;
+      margin-bottom:14px;
+      font-size:18px;
     }
 
     .notice-item strong{
       display:block;
       font-size:16px;
-      margin-bottom:6px;
-      letter-spacing:-0.01em;
+      margin-bottom:8px;
+      letter-spacing:-.01em;
     }
 
     .notice-item p{
       margin:0;
       color:var(--sub);
       font-size:14px;
-      line-height:1.8;
+      line-height:1.85;
     }
 
-    .eyebrow,
-    .step-kicker{
-      color:var(--accent-2);
+    .eyebrow,.step-kicker{
+      color:var(--accent);
       font-size:12px;
-      font-weight:800;
-      letter-spacing:.08em;
+      font-weight:900;
+      letter-spacing:.14em;
       text-transform:uppercase;
       margin-bottom:12px;
     }
 
-    .notice-title,
-    .step-title{
+    .notice-title,.step-title{
       margin:0 0 10px;
-      font-size:clamp(28px, 4vw, 46px);
-      line-height:1.08;
-      letter-spacing:-0.03em;
-      font-weight:800;
-      max-width:760px;
+      font-size:clamp(30px, 4vw, 54px);
+      line-height:1.04;
+      letter-spacing:-.05em;
+      font-weight:900;
+      max-width:780px;
     }
 
     .step{
       display:none;
       opacity:0;
-      transform:translateY(14px) scale(.995);
-      transform-origin:center top;
+      transform:translateY(18px) scale(.99);
     }
 
     .step.active{
       display:block;
-      animation:stepIn var(--duration) var(--ease) forwards;
+      animation:stepIn .44s var(--ease) forwards;
     }
 
     @keyframes stepIn{
-      from{opacity:0; transform:translateY(14px) scale(.995)}
-      to{opacity:1; transform:translateY(0) scale(1)}
+      from{opacity:0;transform:translateY(18px) scale(.99)}
+      to{opacity:1;transform:translateY(0) scale(1)}
+    }
+
+    @keyframes fadeUp{
+      from{opacity:0; transform:translateY(16px)}
+      to{opacity:1; transform:translateY(0)}
     }
 
     .step-desc{
-      margin:0 0 28px;
-      max-width:680px;
+      margin:0 0 26px;
+      max-width:720px;
       color:var(--sub);
       font-size:15px;
-      line-height:1.8;
+      line-height:1.85;
       white-space:pre-line;
     }
 
-    .field{
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      max-width:680px;
-    }
+    .field{display:flex;flex-direction:column;gap:10px;max-width:720px;}
 
     .field label{
       font-size:14px;
-      font-weight:700;
-      letter-spacing:-0.01em;
+      font-weight:800;
+      letter-spacing:-.01em;
     }
 
-    .required::after{
-      content:" *";
-      color:var(--accent-2);
-    }
+    .required::after{content:" *"; color:var(--accent);}
 
     input[type="text"],
     input[type="email"],
@@ -297,36 +392,31 @@
       width:100%;
       border:1px solid var(--line);
       background:#fff;
-      border-radius:20px;
-      padding:16px 18px;
-      font-size:17px;
+      border-radius:24px;
+      padding:17px 20px;
+      font-size:18px;
       line-height:1.4;
       color:var(--text);
       outline:none;
-      transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease, background .15s ease;
+      transition:border-color .16s ease, box-shadow .16s ease, transform .16s ease, background .16s ease;
       appearance:none;
+      box-shadow:0 4px 18px rgba(0,0,0,.03);
     }
 
     input[type="text"]:focus,
     input[type="email"]:focus,
     input[type="url"]:focus,
     select:focus,
-    textarea:focus{
-      border-color:#c9c9ce;
-      box-shadow:0 0 0 5px rgba(0,0,0,.04);
+    textarea:focus,
+    .search-select-input:focus{
+      border-color:#cfcfd4;
+      box-shadow:0 0 0 6px rgba(0,0,0,.04);
       transform:translateY(-1px);
     }
 
-    textarea{
-      min-height:160px;
-      resize:vertical;
-    }
+    textarea{min-height:160px;resize:vertical;}
 
-    .hint{
-      font-size:12px;
-      color:var(--sub);
-      margin-top:-2px;
-    }
+    .hint{font-size:12px;color:var(--sub);margin-top:-2px;line-height:1.7;}
 
     .choice-list{
       display:grid;
@@ -340,46 +430,137 @@
       align-items:flex-start;
       padding:18px;
       border:1px solid var(--line);
-      border-radius:22px;
+      border-radius:24px;
       background:#fff;
       cursor:pointer;
       transition:transform .18s var(--ease), border-color .18s var(--ease), box-shadow .18s var(--ease), background .18s var(--ease);
       user-select:none;
       position:relative;
       overflow:hidden;
-    }
-
-    .choice-item::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(120deg, rgba(255,255,255,0), rgba(255,255,255,.35), rgba(255,255,255,0));
-      transform:translateX(-120%);
-      transition:transform .6s var(--ease);
-      pointer-events:none;
+      box-shadow:0 10px 20px rgba(0,0,0,.03);
     }
 
     .choice-item:hover{
-      transform:translateY(-1px);
-      border-color:#d0d0d4;
-      box-shadow:0 8px 20px rgba(0,0,0,.04);
-    }
-
-    .choice-item:hover::after{
-      transform:translateX(120%);
+      transform:translateY(-2px);
+      border-color:#d1d1d5;
+      box-shadow:0 14px 30px rgba(0,0,0,.06);
     }
 
     .choice-item input{
       margin-top:4px;
-      accent-color:var(--accent-2);
-      transform:scale(1.15);
+      accent-color:var(--accent);
+      transform:scale(1.16);
       flex:0 0 auto;
     }
 
-    .choice-text{
-      font-size:17px;
-      line-height:1.55;
-      letter-spacing:-0.01em;
+    .choice-text{font-size:17px;line-height:1.6;letter-spacing:-.01em;}
+
+    .demo-panel{
+      margin-top:22px;
+      max-width:860px;
+      border:1px solid var(--line);
+      border-radius:28px;
+      background:linear-gradient(180deg,#fff 0%, #fafafa 100%);
+      padding:18px;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .demo-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:16px;
+      flex-wrap:wrap;
+    }
+
+    .demo-title{
+      font-size:16px;
+      font-weight:900;
+      letter-spacing:.02em;
+    }
+
+    .demo-sub{
+      color:var(--sub);
+      font-size:13px;
+      line-height:1.7;
+    }
+
+    .demo-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:14px;
+    }
+
+    .demo-card{
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:#fff;
+      box-shadow:0 12px 22px rgba(0,0,0,.05);
+      transition:transform .22s var(--ease), box-shadow .22s var(--ease), border-color .22s var(--ease);
+      cursor:pointer;
+      position:relative;
+    }
+
+    .demo-card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 20px 30px rgba(0,0,0,.08);
+      border-color:#d5d5da;
+    }
+
+    .demo-thumb{
+      aspect-ratio:4 / 5;
+      background:#f0f0f2;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .demo-thumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .demo-chip{
+      position:absolute;
+      left:12px;
+      top:12px;
+      z-index:2;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(17,17,17,.82);
+      color:#fff;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.06em;
+      backdrop-filter:blur(6px);
+    }
+
+    .demo-card-body{
+      padding:14px 14px 16px;
+    }
+
+    .demo-card-title{
+      font-size:15px;
+      font-weight:900;
+      letter-spacing:-.02em;
+      margin-bottom:6px;
+    }
+
+    .demo-card-text{
+      font-size:13px;
+      line-height:1.75;
+      color:var(--sub);
+    }
+
+    .demo-card-link{
+      margin-top:10px;
+      color:var(--accent);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.03em;
     }
 
     .actions{
@@ -388,65 +569,41 @@
       justify-content:space-between;
       gap:12px;
       margin-top:28px;
-      padding-top:12px;
+      padding-top:10px;
     }
 
-    .actions-left,
-    .actions-right{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
+    .actions-left,.actions-right{display:flex;gap:12px;align-items:center;}
 
     .btn{
       border:none;
       border-radius:999px;
-      padding:14px 20px;
-      font-size:15px;
-      font-weight:700;
-      letter-spacing:-0.01em;
+      padding:14px 22px;
+      font-size:16px;
+      font-weight:900;
+      letter-spacing:-.01em;
       cursor:pointer;
-      transition:transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease, filter .15s ease;
+      transition:transform .15s ease, opacity .15s ease, background .15s ease, color .15s ease, box-shadow .15s ease;
       white-space:nowrap;
     }
 
-    .btn:hover{
-      transform:translateY(-1px);
-      filter:brightness(1.01);
-    }
-
-    .btn:active{
-      transform:translateY(0) scale(.985);
-    }
-
-    .btn:disabled{
-      opacity:.55;
-      cursor:not-allowed;
-      transform:none;
-      filter:none;
-    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn:active{transform:translateY(0) scale(.985)}
+    .btn:disabled{opacity:.55;cursor:not-allowed;transform:none}
 
     .btn-secondary{
-      background:#ededf0;
+      background:#ececef;
       color:#1d1d1f;
     }
 
     .btn-primary{
       background:#111;
       color:#fff;
-      box-shadow:0 10px 20px rgba(0,0,0,.10);
+      box-shadow:0 14px 24px rgba(0,0,0,.12);
     }
 
-    .status{
-      margin-top:14px;
-      min-height:22px;
-      font-size:14px;
-      font-weight:700;
-      transition:opacity .2s ease, transform .2s ease;
-    }
-
-    .status.success{ color:var(--success); }
-    .status.error{ color:var(--error); }
+    .status{margin-top:12px;min-height:22px;font-size:14px;font-weight:800;}
+    .status.success{color:var(--success)}
+    .status.error{color:var(--error)}
 
     .footer{
       position:fixed;
@@ -454,10 +611,10 @@
       right:0;
       bottom:0;
       padding:16px;
-      background:rgba(245,245,247,.82);
+      background:rgba(244,244,246,.86);
       backdrop-filter:blur(18px);
       border-top:1px solid rgba(0,0,0,.05);
-      box-shadow:0 -8px 30px rgba(0,0,0,.04);
+      z-index:20;
     }
 
     .footer-inner{
@@ -471,15 +628,15 @@
       align-items:center;
       margin-bottom:10px;
       font-size:12px;
-      font-weight:700;
+      font-weight:800;
       color:var(--sub);
-      letter-spacing:.02em;
+      letter-spacing:.03em;
     }
 
     .progress{
       width:100%;
-      height:8px;
-      background:#e9e9ec;
+      height:10px;
+      background:#e8e8eb;
       border-radius:999px;
       overflow:hidden;
       position:relative;
@@ -489,13 +646,12 @@
       content:"";
       position:absolute;
       inset:0;
-      background:linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+      background:linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
       transform:translateX(-100%);
-      animation:progressSheen 3s linear infinite;
-      pointer-events:none;
+      animation:sheen 3s linear infinite;
     }
 
-    @keyframes progressSheen{
+    @keyframes sheen{
       0%{transform:translateX(-100%)}
       100%{transform:translateX(180%)}
     }
@@ -503,45 +659,46 @@
     .progress-bar{
       height:100%;
       width:0%;
-      background:linear-gradient(90deg, #111 0%, #d71920 100%);
+      background:linear-gradient(90deg,#111 0%, #d71920 100%);
       transition:width .32s var(--ease);
-      position:relative;
     }
 
-    .hidden{ display:none !important; }
+    .hidden{display:none !important}
 
     .thankyou{
       text-align:center;
-      padding:48px 12px 18px;
+      padding:50px 12px 18px;
       max-width:700px;
       margin:0 auto;
-      animation:fadeScale .55s var(--ease);
+      animation:fadeUp .55s var(--ease);
     }
 
-    @keyframes fadeScale{
-      from{opacity:0; transform:translateY(12px) scale(.985)}
-      to{opacity:1; transform:translateY(0) scale(1)}
+    .thankyou-bubble{
+      width:92px;
+      height:92px;
+      margin:0 auto 20px;
+      border-radius:30px;
+      display:grid;
+      place-items:center;
+      font-size:34px;
+      background:linear-gradient(135deg, rgba(215,25,32,.14), rgba(0,0,0,.04));
+      box-shadow:var(--shadow-soft);
     }
 
     .thankyou h2{
-      margin:0 0 16px;
-      font-size:clamp(32px, 5vw, 52px);
-      line-height:1.06;
-      letter-spacing:-0.04em;
-      font-weight:800;
+      margin:0 0 14px;
+      font-size:clamp(34px, 5vw, 56px);
+      line-height:1.02;
+      letter-spacing:-.05em;
+      font-weight:900;
     }
 
-    .thankyou p{
-      margin:0;
-      color:var(--sub);
-      font-size:17px;
-      line-height:1.9;
-    }
+    .thankyou p{margin:0;color:var(--sub);font-size:17px;line-height:1.9;}
 
     .modal{
       position:fixed;
       inset:0;
-      background:rgba(0,0,0,.45);
+      background:rgba(0,0,0,.42);
       display:none;
       align-items:center;
       justify-content:center;
@@ -550,92 +707,58 @@
       backdrop-filter:blur(10px);
     }
 
-    .modal.show{ display:flex; }
+    .modal.show{display:flex}
 
     .modal-card{
-      width:min(820px,100%);
+      width:min(860px,100%);
       max-height:88vh;
       overflow:auto;
       background:#fff;
-      border-radius:28px;
+      border-radius:30px;
       padding:28px;
-      box-shadow:var(--shadow-lg);
-      animation:modalIn .28s var(--ease);
+      box-shadow:0 30px 90px rgba(0,0,0,.22);
+      animation:stepIn .24s var(--ease);
     }
 
-    @keyframes modalIn{
-      from{opacity:0; transform:translateY(10px) scale(.985)}
-      to{opacity:1; transform:translateY(0) scale(1)}
-    }
+    .modal-title{margin:0 0 10px;font-size:32px;line-height:1.08;letter-spacing:-.04em;font-weight:900;}
+    .modal-desc{margin:0 0 18px;color:var(--sub);font-size:14px;line-height:1.8;}
 
-    .modal-title{
-      margin:0 0 10px;
-      font-size:30px;
-      line-height:1.1;
-      letter-spacing:-0.03em;
-      font-weight:800;
-    }
-
-    .modal-desc{
-      margin:0 0 18px;
-      color:var(--sub);
-      font-size:14px;
-      line-height:1.8;
-    }
-
-    .summary-list{
-      display:grid;
-      gap:12px;
-      margin-bottom:22px;
-    }
+    .summary-list{display:grid;gap:12px;margin-bottom:22px;}
 
     .summary-item{
       background:#fafafa;
       border:1px solid var(--line);
-      border-radius:18px;
+      border-radius:20px;
       padding:14px 16px;
       font-size:14px;
-      line-height:1.7;
-      transition:transform .15s ease, box-shadow .15s ease;
+      line-height:1.75;
     }
 
     .summary-item strong{
       display:block;
       margin-bottom:4px;
       color:#111;
-      font-size:13px;
-      letter-spacing:.03em;
+      font-size:12px;
+      letter-spacing:.07em;
       text-transform:uppercase;
     }
 
-    .modal-actions{
-      display:flex;
-      gap:12px;
-      justify-content:flex-end;
-    }
+    .modal-actions{display:flex;gap:12px;justify-content:flex-end;}
 
-    .search-select{
-      position:relative;
-      max-width:680px;
-    }
+    .search-select{position:relative;max-width:720px;}
 
     .search-select-input{
       width:100%;
       border:1px solid var(--line);
       background:#fff;
-      border-radius:20px;
-      padding:16px 18px;
-      font-size:17px;
+      border-radius:24px;
+      padding:17px 20px;
+      font-size:18px;
       line-height:1.4;
       color:var(--text);
       outline:none;
       transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease;
-    }
-
-    .search-select-input:focus{
-      border-color:#c9c9ce;
-      box-shadow:0 0 0 5px rgba(0,0,0,.04);
-      transform:translateY(-1px);
+      box-shadow:0 4px 18px rgba(0,0,0,.03);
     }
 
     .search-select-dropdown{
@@ -645,23 +768,15 @@
       right:0;
       background:#fff;
       border:1px solid var(--line);
-      border-radius:20px;
+      border-radius:22px;
       box-shadow:0 18px 40px rgba(0,0,0,.10);
       max-height:280px;
       overflow:auto;
       z-index:20;
       display:none;
-      animation:dropIn .18s ease;
     }
 
-    @keyframes dropIn{
-      from{opacity:0; transform:translateY(-4px)}
-      to{opacity:1; transform:translateY(0)}
-    }
-
-    .search-select.open .search-select-dropdown{
-      display:block;
-    }
+    .search-select.open .search-select-dropdown{display:block}
 
     .search-select-option{
       padding:14px 16px;
@@ -672,138 +787,181 @@
       transition:background .12s ease;
     }
 
-    .search-select-option:last-child{ border-bottom:none; }
+    .search-select-option:last-child{border-bottom:none}
+    .search-select-option:hover,.search-select-option.active{background:#f7f7f8}
+    .search-select-empty{padding:14px 16px;color:var(--sub);font-size:14px;}
 
-    .search-select-option:hover,
-    .search-select-option.active{
-      background:#f7f7f8;
-    }
-
-    .search-select-empty{
-      padding:14px 16px;
-      color:var(--sub);
-      font-size:14px;
-    }
-
-    .phone-wrap{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      max-width:680px;
-    }
+    .phone-wrap{display:flex;align-items:center;gap:12px;max-width:720px;}
 
     .phone-prefix{
       flex:0 0 auto;
-      min-width:72px;
-      padding:16px 18px;
+      min-width:78px;
+      padding:17px 18px;
       border:1px solid var(--line);
       background:#f7f7f8;
-      border-radius:20px;
+      border-radius:24px;
       text-align:center;
       font-size:17px;
-      font-weight:700;
+      font-weight:900;
       color:#111;
+      box-shadow:0 4px 18px rgba(0,0,0,.03);
     }
 
-    .phone-input{
-      flex:1 1 auto;
+    .phone-input{flex:1 1 auto;}
+
+    .demo-modal-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:20px;
+      align-items:start;
+    }
+
+    .demo-modal-visual{
+      border-radius:24px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:#f3f3f5;
+      box-shadow:var(--shadow-soft);
+    }
+
+    .demo-modal-visual img{
+      width:100%;
+      display:block;
+      object-fit:cover;
+      aspect-ratio:4 / 5;
+    }
+
+    .demo-modal-copy{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .demo-modal-copy .mini{
+      display:inline-flex;
+      align-items:center;
+      width:max-content;
+      padding:8px 12px;
+      border-radius:999px;
+      background:#111;
+      color:#fff;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.06em;
+    }
+
+    .demo-modal-copy h4{
+      margin:0;
+      font-size:28px;
+      line-height:1.1;
+      letter-spacing:-.04em;
+      font-weight:900;
+    }
+
+    .demo-modal-copy p{
+      margin:0;
+      color:var(--sub);
+      font-size:14px;
+      line-height:1.85;
+    }
+
+    .demo-points{
+      display:grid;
+      gap:10px;
+      margin-top:6px;
+    }
+
+    .demo-point{
+      border:1px solid var(--line);
+      background:#fafafa;
+      border-radius:18px;
+      padding:12px 14px;
+      font-size:13px;
+      line-height:1.75;
+    }
+
+    @media (max-width:900px){
+      .hero-grid{grid-template-columns:1fr}
+      .notice-grid{grid-template-columns:1fr}
+      .demo-grid{grid-template-columns:1fr 1fr}
+      .demo-modal-grid{grid-template-columns:1fr}
     }
 
     @media (max-width:720px){
-      .shell,
-      .footer-inner{
-        width:calc(100vw - 24px);
-      }
-
-      .shell{
-        padding:18px 0 120px;
-      }
-
-      .hero,
-      .form-card{
-        border-radius:24px;
-      }
-
-      .hero{
-        padding:22px 20px;
-      }
-
-      .form-card{
-        padding:22px 20px 24px;
-        min-height:420px;
-      }
-
-      .hero h1,
-      .notice-title,
-      .step-title,
-      .thankyou h2,
-      .modal-title{
-        font-size:28px;
-      }
-
-      .actions{
-        flex-direction:column;
-        align-items:stretch;
-      }
-
-      .actions-left,
-      .actions-right{
-        width:100%;
-      }
-
-      .actions-left .btn,
-      .actions-right .btn,
-      .modal-actions .btn{
-        width:100%;
-      }
-
-      .modal-actions{
-        flex-direction:column;
-      }
-
-      .phone-wrap{
-        gap:10px;
-      }
-
-      .phone-prefix{
-        min-width:64px;
-      }
+      .shell,.footer-inner{width:calc(100vw - 24px)}
+      .shell{padding:16px 0 124px}
+      .form-card,.hero{border-radius:26px}
+      .form-card{padding:22px 20px 22px;min-height:460px}
+      .hero{padding:24px 20px 22px}
+      .hero h1,.notice-title,.step-title,.thankyou h2,.modal-title{font-size:30px}
+      .hero-mini-stage{min-height:180px}
+      .floating-card.a{width:126px;height:154px}
+      .floating-card.b{width:120px;height:136px}
+      .demo-grid{grid-template-columns:1fr}
+      .actions{flex-direction:column;align-items:stretch}
+      .actions-left,.actions-right,.modal-actions{width:100%;flex-direction:column}
+      .actions-left .btn,.actions-right .btn,.modal-actions .btn{width:100%}
+      .phone-wrap{gap:10px}
+      .phone-prefix{min-width:68px}
     }
   </style>
 </head>
 <body>
+  <div class="floating-orb"></div>
   <div class="app">
     <div class="topbar"></div>
 
     <div class="shell">
-      <form id="form" class="card form-card">
+      <form id="form" class="form-card">
         <div>
           <section class="step active" data-step="0">
             <section class="hero">
-              <div class="hero-tag">ABC-MART INTERNAL FORM</div>
-              <h1>行銷素材拍攝意願調查表</h1>
-              <p>本表單僅提供有意願之同仁填寫，並不代表一定會安排拍攝。
+              <div class="hero-grid">
+                <div>
+                  <div class="hero-tag">ABC-MART INTERNAL FORM</div>
+                  <h1>行銷素材拍攝意願調查表</h1>
+                  <p>本表單僅提供有意願之同仁填寫，並不代表一定會安排拍攝。
 拍攝時間將依每次內容需求及門市營運狀況彈性安排，且不影響既有工作規劃。
 請依自身狀況與配合度審慎評估是否參與。</p>
+                </div>
+                <div class="hero-side">
+                  <div class="hero-mini-stage">
+                    <div class="floating-card a">
+                      <img src="https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=600&q=80" alt="拍攝示意 1">
+                    </div>
+                    <div class="floating-card b">
+                      <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=600&q=80" alt="拍攝示意 2">
+                    </div>
+                    <div class="floating-badge">SHOOT MOOD PREVIEW</div>
+                  </div>
+                </div>
+              </div>
             </section>
 
             <div class="eyebrow">Notice</div>
-            <h2 class="notice-title">拍攝安排說明</h2>
+            <h2 class="notice-title">填寫前先看看</h2>
             <div class="notice-grid">
               <div class="notice-item">
+                <div class="notice-icon">01</div>
                 <strong>休假日拍攝</strong>
                 <p>採自願參與方式，非屬工作指派，且不影響既有排班制度。視專案內容提供適當回饋（非薪資性質）。</p>
               </div>
               <div class="notice-item">
+                <div class="notice-icon">02</div>
+                <strong>服裝說明</strong>
+                <p>拍攝原則上將以同仁自備服飾為主，請依自身可配合之穿搭風格審慎評估是否參與。如遇特殊拍攝需求，將另行由行銷部協助提供服飾或安排說明。</p>
+              </div>
+              <div class="notice-item">
+                <div class="notice-icon">03</div>
                 <strong>個人資料使用說明</strong>
-                <p>本表單所蒐集之個人資料，僅供行銷部內部進行拍攝安排、名單管理及相關業務使用。所蒐集之資料將依公司相關規範妥善保管，並於合理且必要之範圍內使用，不另作其他用途，亦不對外提供。</p>
+                <p>本表單所蒐集之個人資料，僅供行銷部內部進行拍攝安排、名單管理及相關業務使用，不另作其他用途，亦不對外提供。</p>
               </div>
             </div>
           </section>
 
           <section class="step" data-step="1">
             <div class="step-kicker">Step 1</div>
-            <h2 class="step-title">請先告訴我們你的姓名</h2>
+            <h2 class="step-title">先告訴我們你的姓名</h2>
             <p class="step-desc">此表單開放全體門市同仁填寫，包含正職、兼職及工讀人員。</p>
             <div class="field">
               <label class="required" for="name">姓名</label>
@@ -849,7 +1007,6 @@
             <div class="step-kicker">Step 5</div>
             <h2 class="step-title">聯絡方式</h2>
             <p class="step-desc">請填寫電話或 LINE ID，至少提供一項。</p>
-
             <div class="field">
               <label for="contactTail">手機號碼（選填）</label>
               <div class="phone-wrap">
@@ -857,12 +1014,10 @@
                 <input id="contactTail" class="phone-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" placeholder="請輸入後 8 碼">
               </div>
             </div>
-
             <div class="field" style="margin-top:16px;">
               <label for="lineId">LINE ID（選填）</label>
               <input id="lineId" type="text" placeholder="請輸入 LINE ID">
             </div>
-
             <div class="hint">※ 請至少填寫一項聯絡方式</div>
           </section>
 
@@ -878,14 +1033,87 @@
 
           <section class="step" data-step="7">
             <div class="step-kicker">Step 7</div>
-            <h2 class="step-title">你可接受的拍攝形式</h2>
-            <p class="step-desc">可複選，至少選擇一項。</p>
+            <h2 class="step-title">你可接受的拍攝類型</h2>
+            <p class="step-desc">可複選，至少選擇一項。
+下方示範卡片可直接點開預覽，快速理解大概會拍成什麼感覺。</p>
+
             <div class="choice-list">
               <label class="choice-item"><input type="checkbox" name="types" value="平面照片"><span class="choice-text">平面照片</span></label>
               <label class="choice-item"><input type="checkbox" name="types" value="動態影片（無口播）"><span class="choice-text">動態影片（無口播）</span></label>
               <label class="choice-item"><input type="checkbox" name="types" value="動態影片（含口播）"><span class="choice-text">動態影片（含口播）</span></label>
               <label class="choice-item"><input type="checkbox" name="types" value="鞋款穿搭展示"><span class="choice-text">鞋款穿搭展示</span></label>
               <label class="choice-item"><input type="checkbox" name="types" value="門市情境拍攝"><span class="choice-text">門市情境拍攝</span></label>
+            </div>
+
+            <div class="demo-panel">
+              <div class="demo-head">
+                <div>
+                  <div class="demo-title">拍攝風格示範</div>
+                  <div class="demo-sub">不需跳轉 IG。先看示意風格，再決定自己可接受的類型。</div>
+                </div>
+              </div>
+
+              <div class="demo-grid">
+                <article class="demo-card" data-demo="0">
+                  <div class="demo-thumb">
+                    <span class="demo-chip">PHOTO</span>
+                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=80" alt="平面照片示意">
+                  </div>
+                  <div class="demo-card-body">
+                    <div class="demo-card-title">平面照片</div>
+                    <div class="demo-card-text">以單張或組圖呈現鞋款、穿搭與品牌視覺氛圍。</div>
+                    <div class="demo-card-link">點擊查看示意</div>
+                  </div>
+                </article>
+
+                <article class="demo-card" data-demo="1">
+                  <div class="demo-thumb">
+                    <span class="demo-chip">REELS</span>
+                    <img src="https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=900&q=80" alt="動態影片示意">
+                  </div>
+                  <div class="demo-card-body">
+                    <div class="demo-card-title">動態影片（無口播）</div>
+                    <div class="demo-card-text">以步伐、轉場、鏡位與字幕，讓畫面節奏帶出商品特色。</div>
+                    <div class="demo-card-link">點擊查看示意</div>
+                  </div>
+                </article>
+
+                <article class="demo-card" data-demo="2">
+                  <div class="demo-thumb">
+                    <span class="demo-chip">STYLE</span>
+                    <img src="https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=900&q=80" alt="鞋款穿搭展示示意">
+                  </div>
+                  <div class="demo-card-body">
+                    <div class="demo-card-title">鞋款穿搭展示</div>
+                    <div class="demo-card-text">著重鞋款與整體穿搭的搭配感，呈現真實上腳風格。</div>
+                    <div class="demo-card-link">點擊查看示意</div>
+                  </div>
+                </article>
+
+                <article class="demo-card" data-demo="3">
+                  <div class="demo-thumb">
+                    <span class="demo-chip">TALK</span>
+                    <img src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=900&q=80" alt="含口播影片示意">
+                  </div>
+                  <div class="demo-card-body">
+                    <div class="demo-card-title">動態影片（含口播）</div>
+                    <div class="demo-card-text">搭配簡單介紹、情境台詞或自然分享，讓影片更有互動感。</div>
+                    <div class="demo-card-link">點擊查看示意</div>
+                  </div>
+                </article>
+
+                <article class="demo-card" data-demo="4">
+                  <div class="demo-thumb">
+                    <span class="demo-chip">STORE</span>
+                    <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=80" alt="門市情境拍攝示意">
+                  </div>
+                  <div class="demo-card-body">
+                    <div class="demo-card-title">門市情境拍攝</div>
+                    <div class="demo-card-text">以試穿、拿鞋、走動、互動等方式，呈現自然的店內拍攝情境。</div>
+                    <div class="demo-card-link">點擊查看示意</div>
+                  </div>
+                </article>
+              </div>
             </div>
           </section>
 
@@ -904,20 +1132,6 @@
 
           <section class="step" data-step="9">
             <div class="step-kicker">Step 9</div>
-            <h2 class="step-title">是否可配合穿搭拍攝</h2>
-            <div class="field">
-              <label class="required" for="outfit">是否可配合穿搭拍攝</label>
-              <select id="outfit" required>
-                <option value="">請選擇</option>
-                <option value="可以（自備穿搭）">可以（自備穿搭）</option>
-                <option value="可以（需提供服裝）">可以（需提供服裝）</option>
-                <option value="不方便">不方便</option>
-              </select>
-            </div>
-          </section>
-
-          <section class="step" data-step="10">
-            <div class="step-kicker">Step 10</div>
             <h2 class="step-title">是否有拍攝經驗</h2>
             <div class="field">
               <label class="required" for="experience">是否有拍攝經驗</label>
@@ -929,8 +1143,8 @@
             </div>
           </section>
 
-          <section class="step" data-step="11">
-            <div class="step-kicker">Step 11</div>
+          <section class="step" data-step="10">
+            <div class="step-kicker">Step 10</div>
             <h2 class="step-title">拍攝經驗補充</h2>
             <p class="step-desc">若沒有可略過。</p>
             <div class="field">
@@ -939,8 +1153,8 @@
             </div>
           </section>
 
-          <section class="step" data-step="12">
-            <div class="step-kicker">Step 12</div>
+          <section class="step" data-step="11">
+            <div class="step-kicker">Step 11</div>
             <h2 class="step-title">IG 或作品連結</h2>
             <p class="step-desc">若沒有可略過。</p>
             <div class="field">
@@ -949,8 +1163,8 @@
             </div>
           </section>
 
-          <section class="step" data-step="13">
-            <div class="step-kicker">Step 13</div>
+          <section class="step" data-step="12">
+            <div class="step-kicker">Step 12</div>
             <h2 class="step-title">是否願意優先參與未來拍攝</h2>
             <div class="field">
               <label for="priority">是否願意優先參與未來拍攝</label>
@@ -962,12 +1176,12 @@
             </div>
           </section>
 
-          <section class="step" data-step="14">
+          <section class="step" data-step="13">
             <div class="step-kicker">Final Step</div>
             <h2 class="step-title">授權與同意</h2>
             <p class="step-desc">請確認後進入最後資料確認。</p>
             <div class="field">
-              <div style="padding:18px;border:1px solid var(--line);border-radius:20px;background:#fafafa;font-size:14px;color:#444;white-space:pre-line;line-height:1.8;">本人同意參與拍攝活動，並同意公司使用拍攝過程中產出之所有影像素材（包含照片、影片等），
+              <div style="padding:18px;border:1px solid var(--line);border-radius:24px;background:#fafafa;font-size:14px;color:#444;white-space:pre-line;line-height:1.85;">本人同意參與拍攝活動，並同意公司使用拍攝過程中產出之所有影像素材（包含照片、影片等），
 用於品牌行銷、社群媒體、官方網站及店鋪展示等相關用途。
 
 公司得就素材進行剪輯、調整及重製。
@@ -983,11 +1197,12 @@
             </div>
           </section>
 
-          <section class="step" data-step="15">
+          <section class="step" data-step="14">
             <div class="thankyou">
+              <div class="thankyou-bubble">✓</div>
               <div class="step-kicker">Completed</div>
               <h2>感謝填寫</h2>
-              <p>期待與你一同拍攝</p>
+              <p>期待之後有機會一起完成更多有趣的拍攝內容。</p>
             </div>
           </section>
         </div>
@@ -1032,8 +1247,65 @@
     </div>
   </div>
 
+  <div id="demoModal" class="modal">
+    <div class="modal-card">
+      <div class="demo-modal-grid">
+        <div class="demo-modal-visual">
+          <img id="demoModalImage" src="" alt="拍攝示意圖">
+        </div>
+        <div class="demo-modal-copy">
+          <div id="demoModalTag" class="mini"></div>
+          <h4 id="demoModalTitle"></h4>
+          <p id="demoModalDesc"></p>
+          <div id="demoModalPoints" class="demo-points"></div>
+          <div class="modal-actions" style="justify-content:flex-start; margin-top:8px;">
+            <button type="button" id="closeDemoBtn" class="btn btn-secondary">關閉預覽</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxfJS57Zghi6c1ZTU1wsUalab1ssDqs6XSG-BFuMQ7zwkIYPdtrZeOml7piDpkIinJh/exec";
+
+    const demoData = [
+      {
+        tag:"PHOTO",
+        title:"平面照片",
+        image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=1200&q=80",
+        description:"適合呈現鞋款細節、穿搭氛圍、門市視覺或單一主題企劃。通常會以自然站姿、走動、局部特寫或系列圖的方式完成。",
+        points:["可能拍攝腳部特寫、半身、全身或局部細節。","重點在畫面完成度與整體風格感。","若不習慣口播，這類通常最容易配合。"]
+      },
+      {
+        tag:"REELS",
+        title:"動態影片（無口播）",
+        image:"https://images.unsplash.com/photo-1514996937319-344454492b37?auto=format&fit=crop&w=1200&q=80",
+        description:"以畫面節奏、動作、轉場與字幕呈現內容，不需要講話。可能包含走路、穿鞋、轉身、拿鞋、鏡頭互動等簡單動作。",
+        points:["不需開口說話，壓力相對較低。","會依腳本安排簡單動作與鏡位。","適合想參與影片，但不想口播的人。"]
+      },
+      {
+        tag:"STYLE",
+        title:"鞋款穿搭展示",
+        image:"https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?auto=format&fit=crop&w=1200&q=80",
+        description:"著重鞋款與服裝的搭配感，呈現真實上腳效果與日常穿搭氛圍。原則上以同仁自備服飾為主，如有特殊需求會另行安排說明。",
+        points:["以自然穿搭感為主，不需過度正式。","拍攝重點在鞋與整體造型的搭配。","如企劃有特殊需求，將由行銷部另外說明。"]
+      },
+      {
+        tag:"TALK",
+        title:"動態影片（含口播）",
+        image:"https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1200&q=80",
+        description:"需配合簡單介紹、情境台詞或自然分享。內容通常不會太長，會事前提供方向，並盡量以自然表現為主。",
+        points:["可能需要簡短說明商品特色或情境對白。","會先提供腳本方向，不需即興發揮太多。","適合面對鏡頭較自在、願意說話的人。"]
+      },
+      {
+        tag:"STORE",
+        title:"門市情境拍攝",
+        image:"https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1200&q=80",
+        description:"在門市空間中進行自然互動拍攝，例如試穿、挑鞋、拿鞋、走動、與陳列互動等，讓畫面更貼近真實購物情境。",
+        points:["通常會在門市現場完成。","內容會盡量以自然互動為主。","拍攝安排仍以不影響門市營運為原則。"]
+      }
+    ];
 
     const stores = [
       { code: "221125", name: "ABC-GS 漢中", label: "221125｜ABC-GS 漢中" },
@@ -1103,7 +1375,7 @@
     ];
 
     const steps = [...document.querySelectorAll(".step")];
-    const totalQuestionSteps = 14;
+    const totalQuestionSteps = 13;
     let currentStep = 0;
 
     const prevBtn = document.getElementById("prevBtn");
@@ -1118,6 +1390,14 @@
     const summaryList = document.getElementById("summaryList");
     const editBtn = document.getElementById("editBtn");
     const confirmSubmitBtn = document.getElementById("confirmSubmitBtn");
+
+    const demoModal = document.getElementById("demoModal");
+    const demoModalImage = document.getElementById("demoModalImage");
+    const demoModalTag = document.getElementById("demoModalTag");
+    const demoModalTitle = document.getElementById("demoModalTitle");
+    const demoModalDesc = document.getElementById("demoModalDesc");
+    const demoModalPoints = document.getElementById("demoModalPoints");
+    const closeDemoBtn = document.getElementById("closeDemoBtn");
 
     const storeSelectWrap = document.getElementById("storeSelectWrap");
     const storeSearch = document.getElementById("storeSearch");
@@ -1153,7 +1433,6 @@
         ig: document.getElementById("ig").value.trim(),
         types: [...document.querySelectorAll('input[name="types"]:checked')].map(el => el.value),
         face: document.getElementById("face").value,
-        outfit: document.getElementById("outfit").value,
         experience: document.getElementById("experience").value,
         expDetail: document.getElementById("expDetail").value.trim(),
         portfolio: document.getElementById("portfolio").value.trim(),
@@ -1163,9 +1442,7 @@
     }
 
     function showStep(index) {
-      steps.forEach((step, i) => {
-        step.classList.toggle("active", i === index);
-      });
+      steps.forEach((step, i) => step.classList.toggle("active", i === index));
 
       const isNotice = index === 0;
       const isThankYou = index === steps.length - 1;
@@ -1245,7 +1522,6 @@
         case 5: {
           const phoneTail = document.getElementById("contactTail").value.trim();
           const lineId = document.getElementById("lineId").value.trim();
-
           if (!phoneTail && !lineId) {
             setStatus("請至少填寫電話或 LINE ID。", "error");
             return false;
@@ -1258,7 +1534,7 @@
         }
         case 7:
           if (![...document.querySelectorAll('input[name="types"]:checked')].length) {
-            setStatus("請至少選擇一種拍攝形式。", "error");
+            setStatus("請至少選擇一種拍攝類型。", "error");
             return false;
           }
           break;
@@ -1269,18 +1545,12 @@
           }
           break;
         case 9:
-          if (!document.getElementById("outfit").value) {
-            setStatus("請選擇是否可配合穿搭拍攝。", "error");
-            return false;
-          }
-          break;
-        case 10:
           if (!document.getElementById("experience").value) {
             setStatus("請選擇是否有拍攝經驗。", "error");
             return false;
           }
           break;
-        case 14:
+        case 13:
           if (!document.getElementById("authorized").checked) {
             setStatus("請先勾選同意授權內容。", "error");
             return false;
@@ -1300,9 +1570,8 @@
         "手機號碼": payload.contact || "未填寫",
         "LINE ID": payload.lineId || "未填寫",
         "IG": payload.ig || "未填寫",
-        "拍攝形式": payload.types.join("、"),
+        "拍攝類型": payload.types.join("、"),
         "是否可露臉": payload.face,
-        "是否可配合穿搭拍攝": payload.outfit,
         "是否有拍攝經驗": payload.experience,
         "拍攝經驗補充": payload.expDetail || "未填寫",
         "IG 或作品連結": payload.portfolio || "未填寫",
@@ -1328,9 +1597,24 @@
       reviewModal.classList.remove("show");
     }
 
+    function openDemoModal(index) {
+      const item = demoData[index];
+      if (!item) return;
+      demoModalImage.src = item.image;
+      demoModalImage.alt = item.title;
+      demoModalTag.textContent = item.tag;
+      demoModalTitle.textContent = item.title;
+      demoModalDesc.textContent = item.description;
+      demoModalPoints.innerHTML = item.points.map(point => `<div class="demo-point">${point}</div>`).join("");
+      demoModal.classList.add("show");
+    }
+
+    function closeDemoModal() {
+      demoModal.classList.remove("show");
+    }
+
     function renderStoreOptions(keyword = "") {
       const q = keyword.trim().toLowerCase();
-
       const filtered = stores.filter(store =>
         store.code.includes(q) ||
         store.name.toLowerCase().includes(q) ||
@@ -1354,7 +1638,6 @@
           storeSearch.value = label;
           storeHidden.value = label;
           storeSelectWrap.classList.remove("open");
-
           if (currentStep === 4 && validateStep(4)) {
             currentStep = 5;
             showStep(currentStep);
@@ -1362,6 +1645,12 @@
         });
       });
     }
+
+    document.querySelectorAll(".demo-card").forEach(card => {
+      card.addEventListener("click", () => openDemoModal(card.dataset.demo));
+    });
+
+    closeDemoBtn.addEventListener("click", closeDemoModal);
 
     storeSearch.addEventListener("focus", () => {
       storeSelectWrap.classList.add("open");
@@ -1380,7 +1669,6 @@
           storeSearch.value = exactMatch.label;
           storeHidden.value = exactMatch.label;
           storeSelectWrap.classList.remove("open");
-
           if (currentStep === 4 && validateStep(4)) {
             currentStep = 5;
             showStep(currentStep);
@@ -1406,6 +1694,8 @@
       if (!storeSelectWrap.contains(e.target)) {
         storeSelectWrap.classList.remove("open");
       }
+      if (e.target === reviewModal) closeReviewModal();
+      if (e.target === demoModal) closeDemoModal();
     });
 
     document.getElementById("employeeId").addEventListener("input", e => {
@@ -1434,17 +1724,14 @@
     });
 
     reviewBtn.addEventListener("click", () => {
-      if (!validateStep(14)) return;
+      if (!validateStep(13)) return;
       openReviewModal();
     });
 
-    editBtn.addEventListener("click", () => {
-      closeReviewModal();
-    });
+    editBtn.addEventListener("click", closeReviewModal);
 
     confirmSubmitBtn.addEventListener("click", async () => {
       const payload = getPayload();
-
       confirmSubmitBtn.disabled = true;
       confirmSubmitBtn.textContent = "送出中...";
       setStatus("送出中...");
@@ -1461,7 +1748,7 @@
         if (result.ok) {
           closeReviewModal();
           setStatus("送出成功。", "success");
-          currentStep = 15;
+          currentStep = 14;
           showStep(currentStep);
         } else {
           closeReviewModal();
@@ -1479,50 +1766,35 @@
     document.getElementById("name").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         e.preventDefault();
-        if (validateStep(1)) {
-          currentStep = 2;
-          showStep(currentStep);
-        }
+        if (validateStep(1)) { currentStep = 2; showStep(currentStep); }
       }
     });
 
     document.getElementById("employeeId").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         e.preventDefault();
-        if (validateStep(2)) {
-          currentStep = 3;
-          showStep(currentStep);
-        }
+        if (validateStep(2)) { currentStep = 3; showStep(currentStep); }
       }
     });
 
     document.getElementById("email").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         e.preventDefault();
-        if (validateStep(3)) {
-          currentStep = 4;
-          showStep(currentStep);
-        }
+        if (validateStep(3)) { currentStep = 4; showStep(currentStep); }
       }
     });
 
     document.getElementById("contactTail").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         e.preventDefault();
-        if (validateStep(5)) {
-          currentStep = 6;
-          showStep(currentStep);
-        }
+        if (validateStep(5)) { currentStep = 6; showStep(currentStep); }
       }
     });
 
     document.getElementById("lineId").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         e.preventDefault();
-        if (validateStep(5)) {
-          currentStep = 6;
-          showStep(currentStep);
-        }
+        if (validateStep(5)) { currentStep = 6; showStep(currentStep); }
       }
     });
 
@@ -1533,28 +1805,24 @@
       }
     });
 
-    document.getElementById("outfit").addEventListener("change", () => {
+    document.getElementById("experience").addEventListener("change", () => {
       if (currentStep === 9 && validateStep(9)) {
         currentStep = 10;
         showStep(currentStep);
       }
     });
 
-    document.getElementById("experience").addEventListener("change", () => {
-      if (currentStep === 10 && validateStep(10)) {
-        currentStep = 11;
-        showStep(currentStep);
-      }
-    });
-
     document.getElementById("priority").addEventListener("change", () => {
-      if (currentStep === 13) {
-        currentStep = 14;
+      if (currentStep === 12) {
+        currentStep = 13;
         showStep(currentStep);
       }
     });
 
-    showStep(currentStep);
+    window.addEventListener("load", () => {
+      currentStep = 0;
+      showStep(0);
+    });
   </script>
 </body>
 </html>
