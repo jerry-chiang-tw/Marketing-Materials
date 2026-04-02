@@ -961,7 +961,7 @@
             <p class="step-desc">本名 / 綽號皆可</p>
             <div class="field">
               <label class="required" for="name">姓名</label>
-              <input id="name" type="text" required>
+              <input id="name" type="text" required maxlength="20">
             </div>
           </section>
 
@@ -981,7 +981,7 @@
             <h2 class="step-title">請填寫你的 Email</h2>
             <div class="field">
               <label class="required" for="email">Email</label>
-              <input id="email" type="email" required>
+              <input id="email" type="email" required maxlength="100">
             </div>
           </section>
 
@@ -1014,7 +1014,7 @@
 
             <div class="field" style="margin-top:16px;">
               <label for="lineId">LINE ID（選填）</label>
-              <input id="lineId" type="text" placeholder="請輸入 LINE ID">
+              <input id="lineId" type="text" placeholder="請輸入 LINE ID" maxlength="30">
             </div>
 
             <div class="hint">※ 請至少填寫一項聯絡方式</div>
@@ -1026,7 +1026,7 @@
             <p class="step-desc">若沒有可略過。</p>
             <div class="field">
               <label for="ig">IG 帳號</label>
-              <input id="ig" type="text">
+              <input id="ig" type="text" maxlength="30">
             </div>
           </section>
 
@@ -1112,7 +1112,7 @@
             <p class="step-desc">若沒有可略過。</p>
             <div class="field">
               <label for="expDetail">拍攝經驗補充</label>
-              <textarea id="expDetail"></textarea>
+              <textarea id="expDetail" maxlength="120"></textarea>
             </div>
           </section>
 
@@ -1122,7 +1122,7 @@
             <p class="step-desc">若沒有可略過。</p>
             <div class="field">
               <label for="portfolio">IG 或作品連結</label>
-              <input id="portfolio" type="url" placeholder="https://">
+              <input id="portfolio" type="url" placeholder="https://" maxlength="100">
             </div>
           </section>
 
@@ -1348,6 +1348,10 @@
       return /^\d{8}$/.test(value);
     }
 
+    function isValidEmail(value) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    }
+
     function getFullPhone() {
       const tail = document.getElementById("contactTail").value.trim();
       return tail ? `09${tail}` : "";
@@ -1438,12 +1442,18 @@
           }
           break;
         }
-        case 3:
-          if (!document.getElementById("email").value.trim()) {
+        case 3: {
+          const email = document.getElementById("email").value.trim();
+          if (!email) {
             setStatus("請填寫 Email。", "error");
             return false;
           }
+          if (!isValidEmail(email)) {
+            setStatus("Email 格式錯誤，請重新輸入。", "error");
+            return false;
+          }
           break;
+        }
         case 4:
           if (!storeHidden.value.trim()) {
             setStatus("請選擇正確門市。", "error");
@@ -1635,6 +1645,10 @@
 
     document.getElementById("contactTail").addEventListener("input", e => {
       e.target.value = e.target.value.replace(/\D/g, "").slice(0, 8);
+    });
+
+    document.getElementById("expDetail").addEventListener("input", e => {
+      e.target.value = e.target.value.replace(/\n/g, " ").slice(0, 120);
     });
 
     startBtn.addEventListener("click", () => {
