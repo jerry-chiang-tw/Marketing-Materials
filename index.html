@@ -958,7 +958,7 @@
           <section class="step" data-step="1">
             <div class="step-kicker">Step 1</div>
             <h2 class="step-title">你的名字?</h2>
-            <p class="step-desc">本名/綽號皆可</p>
+            <p class="step-desc">本名 / 綽號皆可</p>
             <div class="field">
               <label class="required" for="name">姓名</label>
               <input id="name" type="text" required>
@@ -1003,6 +1003,7 @@
             <div class="step-kicker">Step 5</div>
             <h2 class="step-title">聯絡方式</h2>
             <p class="step-desc">請填寫電話或 LINE ID，至少提供一項。</p>
+
             <div class="field">
               <label for="contactTail">手機號碼（選填）</label>
               <div class="phone-wrap">
@@ -1010,10 +1011,12 @@
                 <input id="contactTail" class="phone-input" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="8" autocomplete="off" placeholder="請輸入後 8 碼">
               </div>
             </div>
+
             <div class="field" style="margin-top:16px;">
               <label for="lineId">LINE ID（選填）</label>
               <input id="lineId" type="text" placeholder="請輸入 LINE ID">
             </div>
+
             <div class="hint">※ 請至少填寫一項聯絡方式</div>
           </section>
 
@@ -1450,10 +1453,14 @@
         case 5: {
           const phoneTail = document.getElementById("contactTail").value.trim();
           const lineId = document.getElementById("lineId").value.trim();
-          if (!phoneTail && !lineId) {
-            setStatus("請至少填寫電話或 LINE ID。", "error");
+          const hasPhone = phoneTail && isValidPhoneTail(phoneTail);
+          const hasLine = lineId.length > 0;
+
+          if (!hasPhone && !hasLine) {
+            setStatus("請至少填寫正確手機或 LINE ID。", "error");
             return false;
           }
+
           if (phoneTail && !isValidPhoneTail(phoneTail)) {
             setStatus("手機號碼格式錯誤，請填寫後 8 碼數字。", "error");
             return false;
@@ -1571,7 +1578,7 @@
     }
 
     document.querySelectorAll(".demo-card").forEach(card => {
-      card.addEventListener("click", () => openDemoModal(card.dataset.demo));
+      card.addEventListener("click", () => openDemoModal(Number(card.dataset.demo)));
     });
 
     closeDemoBtn.addEventListener("click", closeDemoModal);
@@ -1690,35 +1697,50 @@
     document.getElementById("name").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         e.preventDefault();
-        if (validateStep(1)) { currentStep = 2; showStep(currentStep); }
+        if (validateStep(1)) {
+          currentStep = 2;
+          showStep(currentStep);
+        }
       }
     });
 
     document.getElementById("employeeId").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         e.preventDefault();
-        if (validateStep(2)) { currentStep = 3; showStep(currentStep); }
+        if (validateStep(2)) {
+          currentStep = 3;
+          showStep(currentStep);
+        }
       }
     });
 
     document.getElementById("email").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         e.preventDefault();
-        if (validateStep(3)) { currentStep = 4; showStep(currentStep); }
+        if (validateStep(3)) {
+          currentStep = 4;
+          showStep(currentStep);
+        }
       }
     });
 
     document.getElementById("contactTail").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         e.preventDefault();
-        if (validateStep(5)) { currentStep = 6; showStep(currentStep); }
+        if (validateStep(5)) {
+          currentStep = 6;
+          showStep(currentStep);
+        }
       }
     });
 
     document.getElementById("lineId").addEventListener("keydown", e => {
       if (e.key === "Enter") {
         e.preventDefault();
-        if (validateStep(5)) { currentStep = 6; showStep(currentStep); }
+        if (validateStep(5)) {
+          currentStep = 6;
+          showStep(currentStep);
+        }
       }
     });
 
